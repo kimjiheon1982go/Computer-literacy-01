@@ -1,0 +1,957 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>컴활 1급 컴퓨터 일반</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: 교재 펼침면 — 왼쪽 단원 목차(고정), 오른쪽 본문 + 단원 끝 확인문제. 형광펜 = 핵심, 키캡 = 단축키 */
+:root{
+  --bg:#f5f7f8; --paper:#ffffff; --ink:#18232b; --muted:#5b6b75; --line:#dbe2e6;
+  --accent:#1d5a80; --accent-soft:#e3eef5;
+  --marker:#fff1a8; --trap:#b4234a; --trap-soft:#fbe9ee; --ok:#1f7a4d; --ok-soft:#e4f4ea;
+  --new:#6b3fa0; --new-soft:#efe7f8; --key:#eef1f3; --key-edge:#b9c4cb;
+  --f-display:"Nanum Myeongjo","Noto Serif KR",serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --s-1:.8125rem; --s0:1rem; --s1:1.125rem; --s2:1.375rem; --s3:1.875rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f161b; --paper:#151e24; --ink:#e3eaee; --muted:#93a3ad; --line:#26333b;
+  --accent:#7fb8dc; --accent-soft:#1b2d39;
+  --marker:#5a4f12; --trap:#f08aa5; --trap-soft:#3a1b25; --ok:#6fd19f; --ok-soft:#163327;
+  --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161b; --paper:#151e24; --ink:#e3eaee; --muted:#93a3ad; --line:#26333b;
+  --accent:#7fb8dc; --accent-soft:#1b2d39;
+  --marker:#5a4f12; --trap:#f08aa5; --trap-soft:#3a1b25; --ok:#6fd19f; --ok-soft:#163327;
+  --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.75;padding-inline:16px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;padding-block:28px 80px}
+header.top{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:16px}
+.top h1{font-family:var(--f-display);font-weight:800;font-size:var(--s3);line-height:1.2;margin:0;text-wrap:balance}
+.top .meta{font-size:var(--s-1);color:var(--muted);letter-spacing:.04em;margin:0 0 6px}
+.top .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input#q{font:inherit;font-size:var(--s-1);padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:240px;max-width:100%}
+input#q:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.prog{font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums}
+
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;display:flex;flex-direction:column;gap:2px}
+nav.toc a{display:grid;grid-template-columns:28px 1fr auto;gap:6px;align-items:baseline;padding:8px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:.9375rem;line-height:1.4}
+nav.toc a .n{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted)}
+nav.toc a .c{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+nav.toc a:hover{background:var(--accent-soft)}
+nav.toc a[aria-current="true"]{background:var(--accent);color:var(--paper)}
+nav.toc a[aria-current="true"] .n,nav.toc a[aria-current="true"] .c{color:var(--paper)}
+.toc-note{margin-top:14px;font-size:.75rem;color:var(--muted);line-height:1.6;padding:10px;border:1px dashed var(--line);border-radius:6px}
+
+main{min-width:0}
+.chapter{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:28px clamp(16px,4vw,40px) 36px}
+.ch-head{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px}
+.ch-head .no{font-family:var(--f-mono);color:var(--accent);font-size:var(--s1)}
+.ch-head h2{font-family:var(--f-display);font-weight:800;font-size:var(--s3);margin:0;line-height:1.25;text-wrap:balance}
+.ch-intro{color:var(--muted);margin:10px 0 0;max-width:68ch}
+
+section.sec{padding-block:22px;border-bottom:1px solid var(--line)}
+section.sec:last-of-type{border-bottom:0}
+.sec-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.sec-h h3{font-size:var(--s2);margin:0;line-height:1.35;text-wrap:balance}
+.sec-h .right{display:flex;gap:8px;align-items:center}
+.imp{font-size:.75rem;letter-spacing:.06em;color:var(--accent);white-space:nowrap}
+.chk{font:inherit;font-size:.75rem;padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--muted);cursor:pointer}
+.chk[aria-pressed="true"]{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.sec p,.sec li{max-width:70ch}
+.sec ul,.sec ol{padding-left:1.25em;margin:8px 0}
+.sec li{margin:3px 0}
+mark{background:linear-gradient(transparent 45%,var(--marker) 45%);color:inherit;padding:0 1px}
+kbd{font-family:var(--f-mono);font-size:.8125rem;background:var(--key);border:1px solid var(--key-edge);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.9375rem;line-height:1.55}
+th,td{border-top:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+thead th{border-top:0;border-bottom:2px solid var(--ink);font-size:var(--s-1);letter-spacing:.03em;white-space:nowrap}
+td:first-child{font-weight:500;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:.875rem}
+.box{border-radius:6px;padding:12px 14px;margin:12px 0;font-size:.9375rem}
+.box b.t{display:block;font-size:.75rem;letter-spacing:.08em;margin-bottom:2px}
+.trap{background:var(--trap-soft)} .trap b.t{color:var(--trap)}
+.tip{background:var(--accent-soft)} .tip b.t{color:var(--accent)}
+.new{background:var(--new-soft)} .new b.t{color:var(--new)}
+.badge-new{font-size:.6875rem;letter-spacing:.06em;color:var(--new);border:1px solid var(--new);border-radius:4px;padding:0 6px;white-space:nowrap}
+
+.quiz{margin-top:28px;padding-top:20px;border-top:2px solid var(--ink)}
+.quiz h3{font-family:var(--f-display);font-size:var(--s2);margin:0 0 4px}
+.quiz .sub{color:var(--muted);font-size:var(--s-1);margin:0 0 12px}
+.q{padding-block:14px;border-bottom:1px dashed var(--line)}
+.q p.stem{margin:0 0 8px;font-weight:500}
+.opts{display:grid;gap:6px}
+.opts button{font:inherit;font-size:.9375rem;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer;display:grid;grid-template-columns:24px 1fr;gap:4px}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button:disabled{cursor:default}
+.opts button.right{background:var(--ok-soft);border-color:var(--ok)}
+.opts button.wrong{background:var(--trap-soft);border-color:var(--trap)}
+.exp{margin-top:8px;font-size:.9375rem;padding:10px 12px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 6px 6px 0}
+.score{font-variant-numeric:tabular-nums;font-size:var(--s-1);color:var(--muted)}
+.reset{font:inherit;font-size:var(--s-1);padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
+.hitfrom{font-size:.75rem;color:var(--accent);font-family:var(--f-mono)}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:1fr;gap:16px}
+  nav.toc{position:static;flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px}
+  nav.toc a{grid-template-columns:auto auto;white-space:nowrap}
+  nav.toc a .c{display:none}
+  .toc-note{display:none}
+  input#q{width:100%}
+  .top .tools{width:100%}
+}
+.listen{font:inherit;font-size:.75rem;padding:4px 10px;border:1px solid var(--accent);border-radius:99px;background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
+.listen:hover{background:var(--accent-soft)}
+.ch-head .listen{margin-left:auto}
+section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--accent-soft),16px 0 0 var(--accent-soft)}
+.player{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--paper);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.player .in{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.player .now{flex:1 1 220px;min-width:0;font-size:var(--s-1);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player .now b{color:var(--ink);font-weight:500}
+.player button{font:inherit;font-size:var(--s-1);padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer}
+.player button.main{background:var(--accent);border-color:var(--accent);color:var(--paper);min-width:76px}
+.player select{font:inherit;font-size:var(--s-1);padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);max-width:220px}
+.player label{font-size:.75rem;color:var(--muted);display:flex;gap:6px;align-items:center}
+.voice-note{font-size:.75rem;color:var(--trap);flex-basis:100%}
+@media (prefers-reduced-motion:no-preference){.opts button,nav.toc a{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div>
+    <p class="meta">컴퓨터활용능력 1급 필기 · 1과목 · 2027–2029 개정 기준 대비</p>
+    <h1>컴활 1급 컴퓨터 일반</h1>
+  </div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="용어 검색 (예: 스풀, IPv6, 파밍)" aria-label="교재 내용 검색">
+    <span class="prog" id="prog"></span>
+  </div>
+</header>
+
+<nav class="toc" id="toc" aria-label="단원 목차"></nav>
+
+<main id="main">
+
+<!-- ===================== 1. 운영체제 ===================== -->
+<article class="chapter" id="ch1" data-title="운영체제">
+<div class="ch-head"><span class="no">01</span><h2>운영체제 (Windows 11)</h2></div>
+<p class="ch-intro">2027년부터 필기 기준 운영체제가 Windows 11로 바뀝니다. 바로 가기 키, 파일 탐색기, 휴지통, 바로 가기 아이콘은 매회 출제되는 영역입니다.</p>
+
+<section class="sec" id="s1-1"><div class="sec-h"><h3>운영체제의 개념과 Windows 11 특징</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<p>운영체제(OS)는 하드웨어와 사용자 사이에서 자원을 관리하고 인터페이스를 제공하는 시스템 소프트웨어입니다. 부팅 시 주기억장치(RAM)에 상주합니다.</p>
+<div class="tbl"><table><thead><tr><th>운영체제 목적</th><th>뜻</th></tr></thead><tbody>
+<tr><td>처리 능력 향상</td><td>일정 시간 안에 처리하는 작업량 증가</td></tr>
+<tr><td>응답 시간 단축</td><td>작업 의뢰부터 결과를 받기까지 걸리는 시간 감소 (Turnaround Time)</td></tr>
+<tr><td>사용 가능도 향상</td><td>필요할 때 즉시 시스템 자원을 사용할 수 있는 정도</td></tr>
+<tr><td>신뢰도 향상</td><td>주어진 문제를 오류 없이 정확하게 해결하는 정도</td></tr>
+</tbody></table></div>
+<ul>
+<li><mark>선점형 멀티태스킹</mark>: 운영체제가 CPU 사용 시간을 제어해, 한 프로그램이 멈춰도 다른 작업에 영향이 적습니다.</li>
+<li><mark>플러그 앤 플레이(PnP)</mark>: 하드웨어를 연결하면 자동으로 인식·설치합니다.</li>
+<li><b>64비트 전용</b>: Windows 11은 32비트 버전이 없습니다. 설치 요건으로 TPM 2.0과 UEFI 보안 부팅이 필요합니다.</li>
+<li><b>스냅 레이아웃</b>: 창 최대화 버튼에 마우스를 올리거나 <kbd>Win</kbd>+<kbd>Z</kbd>로 화면 분할 배치를 고릅니다.</li>
+<li><b>위젯</b>, <b>가상 데스크톱</b>, <b>클립보드 기록</b>, 기본 백신 <b>Microsoft Defender(Windows 보안)</b>를 제공합니다.</li>
+<li>작업 표시줄 아이콘은 기본적으로 <b>가운데 정렬</b>입니다. 설정에서 왼쪽 정렬로 바꿀 수 있습니다.</li>
+</ul>
+<div class="box tip"><b class="t">처리 방식 정리</b>일괄 처리(모아서 한 번에, 급여 계산) · 실시간 처리(즉시, 좌석 예약) · 시분할(시간을 쪼개 여러 사용자에게 번갈아 할당) · 다중 프로그래밍(여러 프로그램을 주기억에 올려 CPU 하나로 동시 실행처럼) · 다중 처리(CPU 여러 개) · 분산 처리(네트워크로 연결된 여러 컴퓨터가 나눠 처리)</div>
+</section>
+
+<section class="sec" id="s1-2"><div class="sec-h"><h3>바로 가기 키</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>키</th><th>기능</th></tr></thead><tbody>
+<tr><td><kbd>Win</kbd>+<kbd>E</kbd></td><td>파일 탐색기 열기</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>D</kbd></td><td>바탕 화면 표시 / 이전 상태로 복원</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>M</kbd></td><td>열린 창 모두 최소화</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>L</kbd></td><td>PC 잠금 (사용자 전환 화면)</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>I</kbd></td><td>설정 열기</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>R</kbd></td><td>실행 대화상자</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>X</kbd></td><td>빠른 링크 메뉴 (시작 단추 마우스 오른쪽 클릭과 같음)</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>A</kbd></td><td>빠른 설정 (Wi-Fi, 블루투스, 음량 등)</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>N</kbd></td><td>알림 센터와 달력</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>V</kbd></td><td>클립보드 기록</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>화면 영역 캡처 (캡처 도구)</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>Tab</kbd></td><td>작업 보기 (가상 데스크톱 관리)</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>D</kbd></td><td>새 가상 데스크톱 추가</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>F4</kbd></td><td>현재 가상 데스크톱 닫기</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>←</kbd>/<kbd>→</kbd></td><td>가상 데스크톱 전환</td></tr>
+<tr><td><kbd>Win</kbd>+<kbd>.</kbd></td><td>이모지·기호 패널</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>Tab</kbd></td><td>실행 중인 창 전환</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>F4</kbd></td><td>활성 창 닫기 (바탕 화면에서는 Windows 종료 대화상자)</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>Enter</kbd></td><td>선택한 항목의 속성</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Esc</kbd></td><td>작업 관리자 바로 열기</td></tr>
+<tr><td><kbd>Shift</kbd>+<kbd>Delete</kbd></td><td>휴지통을 거치지 않고 영구 삭제</td></tr>
+<tr><td><kbd>F2</kbd> / <kbd>F3</kbd> / <kbd>F5</kbd></td><td>이름 바꾸기 / 검색 / 새로 고침</td></tr>
+<tr><td><kbd>PrtSc</kbd> / <kbd>Alt</kbd>+<kbd>PrtSc</kbd></td><td>전체 화면 / 활성 창을 클립보드로 복사</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b><kbd>Win</kbd>+<kbd>D</kbd>와 <kbd>Win</kbd>+<kbd>M</kbd>은 둘 다 바탕 화면을 보여주지만, 다시 누르면 원래대로 돌아오는 것은 <kbd>Win</kbd>+<kbd>D</kbd>입니다. <kbd>Ctrl</kbd>+<kbd>Esc</kbd>는 시작 메뉴, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Esc</kbd>는 작업 관리자입니다.</div>
+</section>
+
+<section class="sec" id="s1-3"><div class="sec-h"><h3>파일 탐색기와 파일·폴더 관리</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>파일 이름에 쓸 수 없는 문자: <mark><span class="num">\ / : * ? " &lt; &gt; |</span></mark> (9개). 공백과 마침표는 쓸 수 있습니다.</li>
+<li><b>라이브러리</b>: 여러 위치에 흩어진 폴더를 실제로 옮기지 않고 한곳에 모아 보여주는 가상 폴더입니다.</li>
+<li><b>홈(즐겨찾기)</b>: 자주 쓰는 폴더를 고정하고 최근 파일을 보여줍니다.</li>
+<li>검색 상자에서 <b>필터</b>(수정한 날짜, 크기, 종류)로 범위를 좁힐 수 있습니다. 와일드카드 <span class="num">*</span>(여러 글자), <span class="num">?</span>(한 글자)를 씁니다.</li>
+<li>보기 형식: 아주 큰 아이콘 · 큰 아이콘 · 보통 아이콘 · 작은 아이콘 · 목록 · 자세히 · 타일 · 내용. 파일 확장명, 숨긴 항목 표시는 <b>보기 › 표시</b> 메뉴에서 켭니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>마우스 끌기</th><th>같은 드라이브</th><th>다른 드라이브</th></tr></thead><tbody>
+<tr><td>그냥 끌기</td><td><b>이동</b></td><td><b>복사</b></td></tr>
+<tr><td><kbd>Ctrl</kbd>+끌기</td><td colspan="2">항상 복사</td></tr>
+<tr><td><kbd>Shift</kbd>+끌기</td><td colspan="2">항상 이동</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+끌기 (또는 <kbd>Alt</kbd>+끌기)</td><td colspan="2">바로 가기 만들기</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>파일 시스템</th><th>특징</th></tr></thead><tbody>
+<tr><td>NTFS</td><td>Windows 기본. 파일 권한(보안), 압축, 암호화, 대용량 지원</td></tr>
+<tr><td>FAT32</td><td>호환성 높음. <mark>파일 하나 최대 4GB</mark></td></tr>
+<tr><td>exFAT</td><td>USB 메모리·SD 카드용. 4GB 넘는 파일 저장 가능</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s1-4"><div class="sec-h"><h3>휴지통과 바로 가기 아이콘</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>휴지통은 삭제한 파일을 임시로 보관하며, 드라이브마다 따로 존재하고 크기도 드라이브별로 설정합니다. 휴지통 안의 파일은 <b>실행하거나 편집할 수 없고</b>, 복원해야 사용할 수 있습니다. 복원하면 원래 위치로 돌아갑니다.</p>
+<div class="box trap"><b class="t">휴지통에 들어가지 않고 바로 삭제되는 경우</b>
+<kbd>Shift</kbd>+<kbd>Delete</kbd>로 삭제 · <mark>USB 메모리, 네트워크 드라이브</mark>의 파일 삭제 · 휴지통 크기보다 큰 파일 삭제 · 휴지통 속성에서 '파일을 휴지통으로 이동하지 않고 바로 제거'를 선택한 경우 · 명령 프롬프트에서 del 명령으로 삭제</div>
+<ul>
+<li>바로 가기 아이콘은 원본 파일의 위치 정보만 가진 작은 파일입니다. 확장명은 <mark>.lnk</mark>이고, 아이콘 왼쪽 아래에 화살표가 붙습니다.</li>
+<li>바로 가기를 지워도 원본은 그대로입니다. 반대로 원본을 지우면 바로 가기는 실행되지 않습니다.</li>
+<li>원본 하나에 바로 가기를 여러 개 만들 수 있고, 폴더·드라이브·프린터에도 만들 수 있습니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s1-5"><div class="sec-h"><h3>작업 표시줄, 시작 메뉴, 작업 관리자</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li>작업 표시줄: 앱 고정, 정렬(가운데/왼쪽), 자동 숨기기, 시스템 트레이(알림 영역)를 설정합니다. 기본 위치는 화면 아래입니다.</li>
+<li>시작 메뉴: <b>고정됨</b> 영역과 <b>추천</b> 영역으로 구성되고, '모든 앱'에서 설치된 앱 목록을 봅니다.</li>
+<li>작업 관리자: 응답 없는 프로그램 <b>작업 끝내기</b>, CPU·메모리·디스크·네트워크 사용량(성능) 확인, <b>시작 앱</b> 사용/사용 안 함, 사용자별 사용 현황을 봅니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 2. 시스템 설정 ===================== -->
+<article class="chapter" id="ch2" data-title="시스템 설정" hidden>
+<div class="ch-head"><span class="no">02</span><h2>컴퓨터 시스템 설정</h2></div>
+<p class="ch-intro">Windows 11은 대부분의 설정을 '설정' 앱에서 합니다. 어떤 기능이 어느 메뉴에 있는지 묻는 문제가 나옵니다.</p>
+
+<section class="sec" id="s2-1"><div class="sec-h"><h3>설정 앱의 구성</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>메뉴</th><th>주요 항목</th></tr></thead><tbody>
+<tr><td>시스템</td><td>디스플레이(해상도, 배율, 야간 모드), 소리, 알림, 전원, 저장소(저장소 센스), 정보(PC 이름, 사양), 복구</td></tr>
+<tr><td>Bluetooth 및 장치</td><td>블루투스 기기, 프린터 및 스캐너, 마우스, 터치패드</td></tr>
+<tr><td>네트워크 및 인터넷</td><td>Wi-Fi, 이더넷, VPN, 모바일 핫스팟, 비행기 모드, 프록시</td></tr>
+<tr><td>개인 설정</td><td>배경, 색, 테마, 잠금 화면, 시작, 작업 표시줄, 글꼴</td></tr>
+<tr><td>앱</td><td>설치된 앱(제거·수정), 기본 앱, 시작 프로그램</td></tr>
+<tr><td>계정</td><td>사용자 정보, 로그인 옵션(PIN, Windows Hello), 가족 및 기타 사용자</td></tr>
+<tr><td>시간 및 언어</td><td>날짜 및 시간, 언어 및 지역, 입력</td></tr>
+<tr><td>접근성</td><td>텍스트 크기, 돋보기, 고대비 테마, 내레이터, 자막, 고정 키·필터 키</td></tr>
+<tr><td>개인 정보 및 보안</td><td>Windows 보안, 위치·카메라·마이크 앱 권한</td></tr>
+<tr><td>Windows 업데이트</td><td>업데이트 확인, 일시 중지, 업데이트 기록</td></tr>
+</tbody></table></div>
+<div class="box tip"><b class="t">접근성 용어</b>고정 키: <kbd>Shift</kbd>, <kbd>Ctrl</kbd>, <kbd>Alt</kbd> 같은 조합 키를 한 번에 하나씩 눌러도 동시에 누른 것처럼 처리 · 필터 키: 짧게 반복 입력된 키를 무시 · 내레이터: 화면 내용을 소리로 읽기 · 돋보기: 화면 일부 확대</div>
+</section>
+
+<section class="sec" id="s2-2"><div class="sec-h"><h3>사용자 계정</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>관리자</b>: 모든 설정 변경, 프로그램 설치·제거, 다른 계정 관리가 가능합니다.</li>
+<li><b>표준 사용자</b>: 일상 작업은 가능하지만, 시스템 전체에 영향을 주는 변경에는 관리자 암호가 필요합니다.</li>
+<li><mark>사용자 계정 컨트롤(UAC)</mark>: 프로그램이 관리자 권한이 필요한 변경을 할 때 확인 창을 띄워 무단 변경을 막습니다.</li>
+<li>로그인 방식: 암호, PIN, Windows Hello(얼굴·지문), 보안 키.</li>
+</ul>
+</section>
+
+<section class="sec" id="s2-3"><div class="sec-h"><h3>프린터 설정과 인쇄</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li><b>기본 프린터</b>는 한 대만 지정할 수 있고, 인쇄 시 프린터를 고르지 않으면 기본 프린터로 출력됩니다. 네트워크 프린터도 기본 프린터로 지정할 수 있습니다.</li>
+<li>인쇄 대기열에서 문서의 인쇄를 <b>일시 중지, 다시 시작, 취소</b>할 수 있습니다. 이미 인쇄가 시작된 문서도 취소할 수 있습니다.</li>
+<li>인쇄 중인 문서는 대기열에서 순서를 바꿀 수 없지만, 대기 중인 문서는 순서를 조정할 수 있습니다.</li>
+</ul>
+<div class="box trap"><b class="t">스풀(SPOOL) 함정</b>스풀은 인쇄할 데이터를 디스크에 잠시 저장해 두고, 프린터가 처리하는 동안 CPU가 다른 작업을 하게 하는 기능입니다. <mark>컴퓨터 전체의 작업 효율은 좋아지지만, 인쇄 속도 자체가 빨라지는 것은 아닙니다.</mark> 스풀을 쓰면 오히려 인쇄 시간은 조금 늘 수 있습니다.</div>
+</section>
+
+<section class="sec" id="s2-4"><div class="sec-h"><h3>네트워크 연결 설정</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>항목</th><th>설명</th></tr></thead><tbody>
+<tr><td>IP 주소</td><td>네트워크에서 컴퓨터를 구별하는 주소. 수동 입력 또는 DHCP 자동 할당</td></tr>
+<tr><td>서브넷 마스크</td><td>IP 주소에서 네트워크 부분과 호스트 부분을 구분 (예: 255.255.255.0)</td></tr>
+<tr><td>기본 게이트웨이</td><td>다른 네트워크로 나갈 때 거치는 장비(라우터)의 주소</td></tr>
+<tr><td>DNS 서버</td><td>도메인 이름을 IP 주소로 바꿔주는 서버의 주소</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>명령어</th><th>용도</th></tr></thead><tbody>
+<tr><td class="num">ipconfig</td><td>현재 IP 설정 확인 (/all 은 MAC 주소까지)</td></tr>
+<tr><td class="num">ping</td><td>상대 컴퓨터와 연결되는지, 응답 시간 확인</td></tr>
+<tr><td class="num">tracert</td><td>목적지까지 거치는 경로(라우터) 추적</td></tr>
+<tr><td class="num">nslookup</td><td>도메인과 IP 주소 조회</td></tr>
+<tr><td class="num">netstat</td><td>현재 네트워크 연결 상태와 포트 확인</td></tr>
+</tbody></table></div>
+</section>
+</article>
+
+<!-- ===================== 3. 시스템 관리 ===================== -->
+<article class="chapter" id="ch3" data-title="PC 활용·유지보수" hidden>
+<div class="ch-head"><span class="no">03</span><h2>PC 활용 및 유지보수</h2></div>
+<p class="ch-intro">하드웨어, 소프트웨어, 자료 표현, 유지보수를 다룹니다. 1과목에서 가장 분량이 많고 기억장치·CPU 문제가 자주 나옵니다.</p>
+
+<section class="sec" id="s3-1"><div class="sec-h"><h3>컴퓨터의 분류</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>구분</th><th>디지털 컴퓨터</th><th>아날로그 컴퓨터</th></tr></thead><tbody>
+<tr><td>입력 형태</td><td>숫자, 문자 (이산 데이터)</td><td>전압, 온도, 속도 (연속 데이터)</td></tr>
+<tr><td>출력 형태</td><td>숫자, 문자</td><td>곡선, 그래프</td></tr>
+<tr><td>구성 회로</td><td><mark>논리 회로</mark></td><td><mark>증폭 회로</mark></td></tr>
+<tr><td>연산</td><td>사칙 연산</td><td>미적분 연산</td></tr>
+<tr><td>정밀도</td><td>필요한 만큼 높일 수 있음</td><td>제한적</td></tr>
+<tr><td>프로그램</td><td>필요</td><td>불필요</td></tr>
+<tr><td>용도</td><td>범용</td><td>특수 목적</td></tr>
+</tbody></table></div>
+<p>두 방식의 장점을 합친 것이 <b>하이브리드 컴퓨터</b>입니다. 세대별 소자: 1세대 진공관 → 2세대 트랜지스터 → 3세대 집적 회로(IC) → 4세대 고밀도 집적 회로(LSI) → 5세대 초고밀도 집적 회로(VLSI).</p>
+<p>처리 능력 순: 슈퍼컴퓨터 &gt; 메인프레임 &gt; 미니컴퓨터 &gt; 마이크로컴퓨터(PC). 휴대형으로 노트북, 태블릿, 웨어러블 기기가 있습니다.</p>
+</section>
+
+<section class="sec" id="s3-2"><div class="sec-h"><h3>자료의 표현과 단위</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>비트(bit) → 니블(4비트) → <b>바이트(8비트, 문자 표현 최소 단위)</b> → 워드(CPU가 한 번에 처리하는 단위) → 필드 → 레코드 → 파일 → 데이터베이스</p>
+<div class="tbl"><table><thead><tr><th>기억 용량</th><th>크기</th><th>처리 속도</th><th>크기</th></tr></thead><tbody>
+<tr><td>KB</td><td class="num">2^10 Byte</td><td>ms (밀리초)</td><td class="num">10^-3 초</td></tr>
+<tr><td>MB</td><td class="num">2^20 Byte</td><td>μs (마이크로초)</td><td class="num">10^-6 초</td></tr>
+<tr><td>GB</td><td class="num">2^30 Byte</td><td>ns (나노초)</td><td class="num">10^-9 초</td></tr>
+<tr><td>TB</td><td class="num">2^40 Byte</td><td>ps (피코초)</td><td class="num">10^-12 초</td></tr>
+<tr><td>PB</td><td class="num">2^50 Byte</td><td>fs (펨토초)</td><td class="num">10^-15 초</td></tr>
+<tr><td>EB</td><td class="num">2^60 Byte</td><td>as (아토초)</td><td class="num">10^-18 초</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>코드</th><th>비트</th><th>표현 문자 수</th><th>특징</th></tr></thead><tbody>
+<tr><td>BCD</td><td class="num">6</td><td class="num">64</td><td>2진화 10진 코드. 영문 소문자 표현 불가</td></tr>
+<tr><td>ASCII</td><td class="num">7</td><td class="num">128</td><td>데이터 통신, PC에서 사용. 패리티 1비트를 더해 8비트로 씀</td></tr>
+<tr><td>EBCDIC</td><td class="num">8</td><td class="num">256</td><td>확장 2진화 10진 코드. 대형 컴퓨터용</td></tr>
+<tr><td>유니코드</td><td class="num">16 (기본)</td><td class="num">65,536</td><td>전 세계 문자를 하나의 체계로. 한글 완성형·조합형 모두 표현</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>패리티 비트</b>: 오류를 <mark>검출만</mark> 합니다. <b>해밍 코드</b>: 오류를 <mark>검출하고 정정</mark>까지 합니다.</li>
+<li>음수 표현에는 주로 <b>2의 보수</b>를 씁니다. 부동 소수점은 실수를 지수부와 가수부로 나누어 표현합니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s3-3"><div class="sec-h"><h3>중앙 처리 장치 (CPU)</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>장치</th><th>구성 요소</th><th>역할</th></tr></thead><tbody>
+<tr><td rowspan="5">제어 장치</td><td>프로그램 카운터 (PC)</td><td><mark>다음에 실행할 명령어의 주소</mark> 기억</td></tr>
+<tr><td>명령 레지스터 (IR)</td><td>현재 실행 중인 명령어 기억</td></tr>
+<tr><td>명령 해독기 (Decoder)</td><td>명령어를 해독해 제어 신호 발생</td></tr>
+<tr><td>메모리 주소 레지스터 (MAR)</td><td>읽거나 쓸 기억 장소의 주소 기억</td></tr>
+<tr><td>메모리 버퍼 레지스터 (MBR)</td><td>기억 장치에서 읽거나 쓸 데이터를 잠시 기억</td></tr>
+<tr><td rowspan="4">연산 장치</td><td>가산기</td><td>2진수 덧셈</td></tr>
+<tr><td>보수기</td><td>뺄셈을 위해 보수로 변환</td></tr>
+<tr><td>누산기 (AC)</td><td>연산 결과를 일시 기억</td></tr>
+<tr><td>상태 레지스터</td><td>연산 결과의 상태(부호, 자리올림, 오버플로) 기억</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>레지스터</b>는 CPU 내부의 임시 기억 장소로, 기억 장치 중 가장 빠릅니다.</li>
+<li>성능 단위: 클럭 속도(Hz), MIPS(초당 백만 개 명령어), FLOPS(초당 부동 소수점 연산 수).</li>
+<li><b>CISC</b>: 명령어가 많고 복잡, 가변 길이, 전력 소모 큼, 일반 PC. <b>RISC</b>: 명령어가 적고 단순, 고정 길이, 처리 빠름, 모바일·서버.</li>
+<li><b>멀티 코어</b>: CPU 하나에 연산 코어를 여러 개 넣어 병렬 처리합니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s3-4"><div class="sec-h"><h3>기억 장치</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>속도 순서: <mark>레지스터 &gt; 캐시 메모리 &gt; 주기억 장치(RAM) &gt; 보조 기억 장치(SSD &gt; HDD)</mark>. 용량은 반대 순서입니다.</p>
+<div class="tbl"><table><thead><tr><th>종류</th><th>특징</th></tr></thead><tbody>
+<tr><td>ROM</td><td>비휘발성. 바이오스(BIOS)·UEFI 같은 펌웨어 저장. Mask ROM(제조 시 기록) · PROM(한 번 기록) · EPROM(자외선으로 지움) · EEPROM(전기로 지움)</td></tr>
+<tr><td>DRAM</td><td>휘발성. 콘덴서 사용, <mark>주기적 재충전(refresh) 필요</mark>. 주기억 장치에 사용</td></tr>
+<tr><td>SRAM</td><td>휘발성. 플립플롭 사용, 재충전 불필요, DRAM보다 빠르고 비쌈. <mark>캐시 메모리</mark>에 사용</td></tr>
+<tr><td>캐시 메모리</td><td>CPU와 주기억 장치의 <b>속도 차이</b>를 줄이는 고속 메모리</td></tr>
+<tr><td>가상 메모리</td><td>보조 기억 장치 일부를 주기억 장치처럼 사용. 주기억 장치의 <b>용량 부족</b> 해결</td></tr>
+<tr><td>연관 메모리</td><td>주소가 아니라 <b>저장된 내용</b>으로 데이터를 찾는 메모리 (CAM)</td></tr>
+<tr><td>버퍼 메모리</td><td>속도가 다른 두 장치 사이에서 데이터를 임시 보관</td></tr>
+<tr><td>플래시 메모리</td><td>EEPROM의 일종. 비휘발성이며 전기로 지우고 다시 씀. USB 메모리, SSD, 메모리 카드</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>캐시 메모리는 '속도' 문제, 가상 메모리는 '용량' 문제를 해결합니다. 보기에서 둘을 바꿔 놓는 문제가 많습니다.</div>
+<ul>
+<li><b>HDD</b>: 트랙(동심원) · 섹터(트랙을 나눈 최소 단위) · 실린더(같은 위치의 트랙 묶음) · 클러스터(파일 저장 단위). <mark>접근 시간 = 탐색 시간 + 회전 지연 시간 + 전송 시간</mark></li>
+<li><b>SSD</b>: 반도체 기반. HDD보다 빠르고 소음·발열·전력 소모가 적고 충격에 강합니다. 기계적 탐색이 없어 조각 모음이 필요 없습니다.</li>
+<li><b>RAID</b>: 여러 디스크를 하나처럼 사용합니다. RAID 0(스트라이핑, 속도↑, 안정성 없음) · RAID 1(미러링, 같은 데이터를 복제해 안정성↑).</li>
+</ul>
+</section>
+
+<section class="sec" id="s3-5"><div class="sec-h"><h3>입출력 장치와 인터페이스</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>인터페이스</th><th>특징</th></tr></thead><tbody>
+<tr><td>USB</td><td>직렬 범용 포트. 핫 플러그(켜진 상태에서 연결) 지원. 최대 127개 장치 연결</td></tr>
+<tr><td>HDMI</td><td>영상과 음성을 하나의 케이블로 전송하는 디지털 인터페이스</td></tr>
+<tr><td>디스플레이포트(DP)</td><td>고해상도 모니터용 디지털 영상·음성 인터페이스</td></tr>
+<tr><td>썬더볼트</td><td>데이터·영상·전원을 고속으로 전송. USB-C 형태 커넥터</td></tr>
+<tr><td>SATA</td><td>하드디스크·SSD 연결용 직렬 인터페이스</td></tr>
+<tr><td>NVMe (M.2)</td><td>PCIe 기반 고속 SSD 연결 규격</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>DMA</b>: CPU를 거치지 않고 주변 장치와 메모리가 직접 데이터를 주고받습니다.</li>
+<li><b>채널</b>: 입출력 전용 처리기로 CPU 대신 입출력을 제어합니다.</li>
+<li><b>인터럽트</b>: 프로그램 실행 중 예외 상황이 생기면 실행을 잠시 멈추고 그 상황을 먼저 처리한 뒤 돌아옵니다. 외부(전원, 입출력) · 내부(0으로 나누기, 오버플로) · 소프트웨어(SVC) 인터럽트.</li>
+<li>모니터: 해상도(픽셀 수), 화면 주사율(Hz), 픽셀 피치(작을수록 선명), 재생률. 프린터: PPM(분당 페이지), DPI(인치당 점), CPS(초당 글자).</li>
+</ul>
+</section>
+
+<section class="sec" id="s3-6"><div class="sec-h"><h3>소프트웨어</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>분류</th><th>설명</th></tr></thead><tbody>
+<tr><td>상용 소프트웨어</td><td>정식으로 구입해 사용</td></tr>
+<tr><td>셰어웨어</td><td>무료로 쓰되 <mark>기능이나 사용 기간에 제한</mark>이 있음</td></tr>
+<tr><td>프리웨어</td><td>무료로 사용·배포 가능</td></tr>
+<tr><td>오픈 소스</td><td>소스 코드를 공개해 누구나 수정·배포 가능</td></tr>
+<tr><td>데모 버전</td><td>홍보용으로 일부 기능만 제공</td></tr>
+<tr><td>트라이얼 버전</td><td>일정 기간 체험용</td></tr>
+<tr><td>알파 버전</td><td>개발사 내부 테스트용</td></tr>
+<tr><td>베타 버전</td><td>정식 출시 전 일반 사용자 대상 테스트용</td></tr>
+<tr><td>패치 버전</td><td>이미 배포한 프로그램의 오류 수정·기능 개선</td></tr>
+<tr><td>번들</td><td>하드웨어나 다른 소프트웨어를 살 때 함께 제공</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>번역 방식</th><th>컴파일러</th><th>인터프리터</th></tr></thead><tbody>
+<tr><td>번역 단위</td><td>프로그램 전체</td><td>한 줄씩</td></tr>
+<tr><td>목적 프로그램</td><td>생성함</td><td>생성하지 않음</td></tr>
+<tr><td>실행 속도</td><td>빠름</td><td>느림</td></tr>
+<tr><td>언어 예</td><td>C, C++, 포트란, 코볼</td><td>파이썬, 베이직, 자바스크립트</td></tr>
+</tbody></table></div>
+<p>프로그램 실행 순서: 원시 프로그램 → (컴파일) → 목적 프로그램 → (링커) → 로드 모듈 → (로더) → 실행</p>
+</section>
+
+<section class="sec" id="s3-7"><div class="sec-h"><h3>PC 유지보수와 문제 해결</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>도구</th><th>효과</th></tr></thead><tbody>
+<tr><td>디스크 정리 / 저장소 센스</td><td>임시 파일, 휴지통 등 불필요한 파일 삭제로 <b>공간 확보</b></td></tr>
+<tr><td>드라이브 조각 모음 및 최적화</td><td>흩어진 파일 조각을 모아 <b>접근 속도 향상</b>. SSD는 TRIM 최적화 수행</td></tr>
+<tr><td>오류 검사 (chkdsk)</td><td>디스크의 논리적·물리적 오류 검사와 복구</td></tr>
+<tr><td>시스템 복원</td><td>시스템 파일·설정을 이전 복원 지점으로 되돌림. <mark>개인 파일은 영향 없음</mark></td></tr>
+<tr><td>파일 히스토리 / 백업</td><td>개인 파일을 다른 드라이브에 주기적으로 복사</td></tr>
+<tr><td>리소스 모니터</td><td>CPU, 메모리, 디스크, 네트워크 사용을 프로세스별로 자세히 확인</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>조각 모음은 디스크 공간을 늘리지 않습니다. 공간 확보는 디스크 정리입니다. 또한 네트워크 드라이브나 CD·DVD 드라이브에서는 조각 모음을 할 수 없습니다.</div>
+<div class="tbl"><table><thead><tr><th>증상</th><th>해결</th></tr></thead><tbody>
+<tr><td>메모리 부족</td><td>불필요한 프로그램 종료, 시작 앱 정리, 가상 메모리 늘리기, RAM 증설</td></tr>
+<tr><td>디스크 공간 부족</td><td>디스크 정리, 사용하지 않는 앱 제거, 휴지통 비우기</td></tr>
+<tr><td>속도 저하</td><td>조각 모음 및 최적화, 악성 코드 검사, 시작 프로그램 줄이기</td></tr>
+<tr><td>부팅 문제</td><td><b>안전 모드</b>로 부팅해 원인 확인. 설정 › 시스템 › 복구 › 고급 시작, 또는 <kbd>Shift</kbd>를 누른 채 '다시 시작'</td></tr>
+<tr><td>장치 인식 안 됨</td><td>장치 관리자에서 드라이버 업데이트·재설치</td></tr>
+</tbody></table></div>
+</section>
+</article>
+
+<!-- ===================== 4. 멀티미디어 ===================== -->
+<article class="chapter" id="ch4" data-title="멀티미디어" hidden>
+<div class="ch-head"><span class="no">04</span><h2>멀티미디어</h2></div>
+<p class="ch-intro">이미지 파일 형식과 그래픽 용어가 꾸준히 나옵니다. 편집 디자인 실무에서 쓰는 개념이 많아 익숙하게 보실 수 있는 단원입니다.</p>
+<div class="box new"><b class="t">2027 개정</b>공개 보도에 따르면 이 단원의 오래된 내용 일부가 삭제됩니다. 어떤 항목인지 세부 목록은 확인하지 못했습니다. 아래에서 오래된 기술로 보이는 항목은 '삭제 가능' 표시를 달았으니, 공식 출제기준표가 나오면 대조하세요.</div>
+
+<section class="sec" id="s4-1"><div class="sec-h"><h3>멀티미디어의 특징</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>디지털화</b>: 모든 정보를 디지털 데이터로 바꿔 처리합니다.</li>
+<li><b>쌍방향성</b>: 사용자와 정보를 주고받습니다.</li>
+<li><b>비선형성</b>: 순서와 상관없이 원하는 부분으로 이동합니다.</li>
+<li><b>정보의 통합성</b>: 텍스트, 이미지, 소리, 영상을 하나로 통합합니다.</li>
+<li><b>하이퍼텍스트</b>: 문서 안의 링크로 다른 문서로 이동합니다. 여기에 이미지·소리·영상까지 연결한 것이 <b>하이퍼미디어</b>입니다.</li>
+<li><b>스트리밍</b>: 파일을 다 받기 전에 받는 즉시 재생합니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s4-2"><div class="sec-h"><h3>그래픽: 비트맵과 벡터</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>구분</th><th>비트맵 (래스터)</th><th>벡터</th></tr></thead><tbody>
+<tr><td>구성</td><td>픽셀(점)</td><td>점·선·면의 좌표와 수식</td></tr>
+<tr><td>확대 시</td><td><mark>계단 현상(앨리어싱) 발생</mark></td><td>화질 손상 없음</td></tr>
+<tr><td>표현</td><td>사진처럼 사실적 표현에 유리</td><td>로고, 일러스트, 글꼴</td></tr>
+<tr><td>용량</td><td>해상도·색상 수에 비례해 큼</td><td>비교적 작음</td></tr>
+<tr><td>형식</td><td>BMP, JPG, GIF, PNG, TIF, WebP</td><td>AI, SVG, WMF, EPS, CDR</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>형식</th><th>특징</th></tr></thead><tbody>
+<tr><td>JPEG (JPG)</td><td><mark>손실 압축</mark>, 압축률 조절 가능, 사진에 적합</td></tr>
+<tr><td>GIF</td><td>최대 <mark>256색</mark>, 무손실 압축, 애니메이션과 투명 배경 지원</td></tr>
+<tr><td>PNG</td><td>무손실 압축, 트루컬러와 알파 채널(투명도) 지원, 웹용</td></tr>
+<tr><td>BMP</td><td>Windows 기본 비트맵. 압축하지 않아 용량이 큼</td></tr>
+<tr><td>TIFF</td><td>무손실, 고품질 인쇄·출판용</td></tr>
+<tr><td>WebP</td><td>웹용 형식. 손실·무손실 압축, 투명도, 애니메이션 지원</td></tr>
+<tr><td>SVG</td><td>XML 기반 벡터 형식, 웹에서 확대해도 선명</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>용어</th><th>뜻</th></tr></thead><tbody>
+<tr><td>안티앨리어싱</td><td>경계의 계단 현상을 주변 색과 섞어 부드럽게</td></tr>
+<tr><td>디더링</td><td>표현할 수 없는 색을 비슷한 색의 점을 섞어 표현</td></tr>
+<tr><td>모핑</td><td>한 이미지가 다른 이미지로 자연스럽게 변하는 기법</td></tr>
+<tr><td>렌더링</td><td>3D 모델에 색, 질감, 그림자를 넣어 사실감 부여</td></tr>
+<tr><td>모델링</td><td>3D 물체의 형태를 만드는 과정</td></tr>
+<tr><td>인터레이싱</td><td>이미지를 처음엔 흐리게, 점차 선명하게 표시</td></tr>
+<tr><td>필터링</td><td>이미지에 효과를 적용해 새로운 이미지로 바꿈</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s4-3"><div class="sec-h"><h3>사운드</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>형식</th><th>특징</th></tr></thead><tbody>
+<tr><td>WAV</td><td>실제 소리를 디지털로 저장. 무압축이라 음질 좋고 용량 큼</td></tr>
+<tr><td>MP3</td><td>MPEG 오디오 계층 3. 사람이 잘 듣지 못하는 부분을 제거한 손실 압축</td></tr>
+<tr><td>MIDI <span class="badge-new">삭제 가능</span></td><td>전자 악기 간 <mark>연주 정보</mark>를 저장. 용량이 매우 작고, 사람 음성은 저장 못함</td></tr>
+<tr><td>FLAC</td><td>무손실 압축 오디오</td></tr>
+</tbody></table></div>
+<p>디지털 변환 과정: <b>표본화(샘플링)</b> → <b>양자화</b> → <b>부호화</b>. 샘플링 주파수(Hz)와 양자화 비트 수가 클수록 원음에 가깝고 용량이 커집니다.</p>
+<div class="box tip"><b class="t">용량 공식 (무압축)</b>샘플링 주파수(Hz) × 양자화 비트 수 × 채널 수 × 시간(초) ÷ 8 = 바이트<br>예: 44,100Hz, 16비트, 스테레오, 10초 → 44,100 × 16 × 2 × 10 ÷ 8 = <span class="num">1,764,000</span> 바이트 (약 1.7MB)</div>
+</section>
+
+<section class="sec" id="s4-4"><div class="sec-h"><h3>동영상과 압축 표준</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>표준</th><th>용도</th></tr></thead><tbody>
+<tr><td>MPEG-1</td><td>CD 수준 동영상</td></tr>
+<tr><td>MPEG-2</td><td>DVD, 디지털 방송(HDTV)</td></tr>
+<tr><td>MPEG-4</td><td>저대역 통신, 모바일·인터넷 동영상</td></tr>
+<tr><td>MPEG-7 <span class="badge-new">삭제 가능</span></td><td>멀티미디어 데이터 검색을 위한 정보(메타데이터) 표준</td></tr>
+<tr><td>MPEG-21 <span class="badge-new">삭제 가능</span></td><td>콘텐츠 생성부터 소비까지 전 과정을 통합하는 표준</td></tr>
+<tr><td>H.264 / H.265</td><td>고압축 동영상 코덱. H.265(HEVC)는 4K 이상에 사용</td></tr>
+</tbody></table></div>
+<ul>
+<li>파일 형식: MP4, AVI(Windows), MOV(애플 퀵타임), MKV, WMV.</li>
+<li><b>코덱</b>: 영상·음성 데이터를 압축(인코딩)하고 푸는(디코딩) 기술 또는 프로그램입니다.</li>
+<li><b>VR</b>(가상 현실): 완전히 만든 가상 공간. <b>AR</b>(증강 현실): 실제 화면 위에 가상 정보를 겹쳐 보여줌. <b>MR</b>(혼합 현실): 둘을 결합.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 5. 인터넷과 정보통신 ===================== -->
+<article class="chapter" id="ch5" data-title="인터넷·정보통신" hidden>
+<div class="ch-head"><span class="no">05</span><h2>인터넷과 정보 통신</h2></div>
+<p class="ch-intro">네트워크 장비, 프로토콜, IP 주소, 신기술 용어가 나옵니다. 포트 번호와 IPv6 특징은 거의 매회 확인되는 내용입니다.</p>
+
+<section class="sec" id="s5-1"><div class="sec-h"><h3>통신망과 네트워크 형태</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<p>범위: <b>LAN</b>(근거리, 건물 내) &lt; <b>MAN</b>(도시권) &lt; <b>WAN</b>(광역, 국가 간). <b>VAN</b>은 통신 회선에 부가 가치를 더한 통신망입니다.</p>
+<div class="tbl"><table><thead><tr><th>형태</th><th>특징</th></tr></thead><tbody>
+<tr><td>성형 (Star)</td><td>중앙 컴퓨터에 모든 단말 연결. 중앙이 고장 나면 전체 마비</td></tr>
+<tr><td>링형 (Ring)</td><td>이웃끼리 원형 연결. 한 곳이 고장 나면 전체에 영향</td></tr>
+<tr><td>버스형 (Bus)</td><td>한 회선에 여러 단말 연결. 추가·제거 쉬움, 한 단말 고장이 전체에 영향 적음</td></tr>
+<tr><td>계층형 (Tree)</td><td>중앙에서 단계적으로 가지치기. 분산 처리에 적합</td></tr>
+<tr><td>망형 (Mesh)</td><td>모든 단말을 서로 연결. 신뢰성 가장 높음. 회선 수 <span class="num">n(n−1)/2</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s5-2"><div class="sec-h"><h3>네트워크 장비와 OSI 7계층</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>계층</th><th>역할</th><th>장비·프로토콜</th></tr></thead><tbody>
+<tr><td>7 응용</td><td>사용자와 직접 연결되는 서비스</td><td>HTTP, FTP, SMTP, DNS</td></tr>
+<tr><td>6 표현</td><td>데이터 형식 변환, 암호화, 압축</td><td>JPEG, MPEG</td></tr>
+<tr><td>5 세션</td><td>통신 연결 설정·유지·종료</td><td></td></tr>
+<tr><td>4 전송</td><td>종단 간 신뢰성 있는 전송, 오류 제어</td><td>TCP, UDP</td></tr>
+<tr><td>3 네트워크</td><td>경로 설정(라우팅), 주소 지정</td><td>IP, <mark>라우터</mark></td></tr>
+<tr><td>2 데이터 링크</td><td>인접 장비 간 전송, 흐름·오류 제어</td><td><mark>브리지, 스위치</mark></td></tr>
+<tr><td>1 물리</td><td>전기 신호 전송</td><td><mark>허브, 리피터</mark></td></tr>
+</tbody></table></div>
+<ul>
+<li><b>리피터</b>: 약해진 신호를 증폭해 거리를 늘립니다.</li>
+<li><b>허브</b>: 여러 컴퓨터를 하나로 묶는 집선 장치입니다.</li>
+<li><b>스위치</b>: 목적지 MAC 주소를 보고 해당 포트로만 데이터를 보냅니다.</li>
+<li><b>라우터</b>: 서로 다른 네트워크를 연결하고 <mark>최적 경로</mark>를 정합니다.</li>
+<li><b>게이트웨이</b>: 프로토콜이 서로 다른 네트워크를 연결하는 출입구입니다.</li>
+</ul>
+<p>TCP/IP 4계층: 네트워크 액세스 → 인터넷(IP, ARP, ICMP) → 전송(TCP, UDP) → 응용. <b>TCP</b>는 연결형으로 신뢰성 있게 전송하고, <b>UDP</b>는 비연결형으로 빠르지만 신뢰성이 낮습니다(실시간 방송, 게임).</p>
+</section>
+
+<section class="sec" id="s5-3"><div class="sec-h"><h3>IP 주소와 도메인</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>구분</th><th>IPv4</th><th>IPv6</th></tr></thead><tbody>
+<tr><td>길이</td><td class="num">32비트</td><td class="num">128비트</td></tr>
+<tr><td>표기</td><td>8비트씩 4부분, 10진수, 점(.) 구분</td><td>16비트씩 8부분, 16진수, 콜론(:) 구분</td></tr>
+<tr><td>예</td><td class="num">192.168.0.1</td><td class="num">2001:0db8::1</td></tr>
+<tr><td>주소 체계</td><td>A~E 클래스 / 유니캐스트·멀티캐스트·브로드캐스트</td><td>유니캐스트·멀티캐스트·<mark>애니캐스트</mark> (브로드캐스트 없음)</td></tr>
+<tr><td>그 밖</td><td>주소 부족</td><td>주소 자동 설정, 보안(IPSec) 기본, QoS 향상, IPv4와 호환</td></tr>
+</tbody></table></div>
+<ul>
+<li>IPv4 클래스: A(대규모) · B(중대규모) · C(소규모) · D(멀티캐스트) · E(실험용).</li>
+<li>IPv6에서 연속된 0 블록은 <span class="num">::</span>로 <b>한 번만</b> 줄여 쓸 수 있습니다.</li>
+<li><b>도메인 네임</b>: 숫자 IP를 기억하기 쉬운 문자로 표현한 주소입니다. <b>DNS</b>가 도메인을 IP로 바꿉니다.</li>
+<li><b>DHCP</b>: IP 주소를 자동으로 할당합니다. <b>NAT</b>: 사설 IP를 공인 IP로 변환합니다.</li>
+<li>URL 형식: <span class="num">프로토콜://호스트 주소:포트 번호/경로/파일명</span></li>
+</ul>
+</section>
+
+<section class="sec" id="s5-4"><div class="sec-h"><h3>인터넷 서비스와 프로토콜</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>프로토콜</th><th>기본 포트</th><th>용도</th></tr></thead><tbody>
+<tr><td>HTTP / HTTPS</td><td class="num">80 / 443</td><td>웹 문서 전송 / 암호화된 웹 전송</td></tr>
+<tr><td>FTP</td><td class="num">21</td><td>파일 송수신</td></tr>
+<tr><td>SSH</td><td class="num">22</td><td>암호화된 원격 접속</td></tr>
+<tr><td>Telnet</td><td class="num">23</td><td>원격 접속 (암호화 없음)</td></tr>
+<tr><td>SMTP</td><td class="num">25</td><td>메일 <mark>보내기</mark></td></tr>
+<tr><td>DNS</td><td class="num">53</td><td>도메인 이름 변환</td></tr>
+<tr><td>POP3</td><td class="num">110</td><td>메일 <mark>받기</mark> (내 컴퓨터로 내려받음)</td></tr>
+<tr><td>IMAP</td><td class="num">143</td><td>메일 받기 (서버에 보관, 여러 기기에서 동기화)</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>MIME</b>: 메일로 멀티미디어 파일을 주고받기 위한 규약입니다.</li>
+<li>웹 언어: <b>HTML</b>(웹 문서 구조), <b>CSS</b>(디자인), <b>자바스크립트</b>(동작), <b>XML</b>(사용자 정의 태그로 데이터 구조화), <b>PHP·ASP·JSP</b>(서버에서 실행).</li>
+<li><b>쿠키</b>: 웹 사이트가 사용자 컴퓨터에 남기는 작은 정보 파일(로그인 상태, 방문 기록).</li>
+<li><b>캐시</b>(웹 브라우저): 방문한 웹 페이지 내용을 저장해 다시 열 때 빠르게 표시합니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s5-5"><div class="sec-h"><h3>무선 통신과 정보 통신 신기술</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>용어</th><th>뜻</th></tr></thead><tbody>
+<tr><td>IoT (사물 인터넷)</td><td>사물에 센서와 통신 기능을 넣어 인터넷으로 정보를 주고받음</td></tr>
+<tr><td>클라우드 컴퓨팅</td><td>인터넷 서버의 자원을 빌려 씀. IaaS(인프라) · PaaS(개발 플랫폼) · SaaS(소프트웨어)</td></tr>
+<tr><td>빅데이터</td><td>기존 방식으로 처리하기 어려운 대량 데이터. 특징 3V: 크기·속도·다양성</td></tr>
+<tr><td>엣지 컴퓨팅</td><td>데이터를 중앙 서버가 아니라 발생 지점 가까이에서 처리</td></tr>
+<tr><td>블록체인</td><td>거래 기록을 여러 컴퓨터에 분산 저장해 위·변조를 막는 기술</td></tr>
+<tr><td>디지털 트윈</td><td>현실의 사물·공간을 가상 공간에 똑같이 구현해 시뮬레이션</td></tr>
+<tr><td>메타버스</td><td>현실과 가상이 결합된 3차원 가상 세계</td></tr>
+<tr><td>RFID</td><td>전자 태그를 무선으로 인식 (교통카드, 물류)</td></tr>
+<tr><td>NFC</td><td>약 10cm 이내 근거리 무선 통신 (모바일 결제)</td></tr>
+<tr><td>블루투스</td><td>근거리 기기 간 무선 연결 (이어폰, 키보드)</td></tr>
+<tr><td>Wi-Fi</td><td>무선 랜. 무선 접속 장치(AP)를 통해 인터넷 연결</td></tr>
+<tr><td>테더링</td><td>스마트폰을 모뎀처럼 써서 다른 기기를 인터넷에 연결</td></tr>
+<tr><td>VoIP</td><td>인터넷으로 음성 통화 (인터넷 전화)</td></tr>
+<tr><td>5G</td><td>초고속·초저지연·초연결 이동 통신</td></tr>
+</tbody></table></div>
+</section>
+</article>
+
+<!-- ===================== 6. 정보보안 ===================== -->
+<article class="chapter" id="ch6" data-title="정보보안" hidden>
+<div class="ch-head"><span class="no">06</span><h2>정보 보안</h2></div>
+<p class="ch-intro">보안 위협 유형과 공격 기법 이름을 구별하는 문제가 대부분입니다. 비슷한 이름(피싱·파밍·스미싱, 스니핑·스푸핑)을 정확히 나누어 기억하세요.</p>
+
+<section class="sec" id="s6-1"><div class="sec-h"><h3>정보 보안 요건과 위협 유형</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>보안 요건</th><th>뜻</th></tr></thead><tbody>
+<tr><td>기밀성</td><td>허락된 사람만 정보를 볼 수 있음</td></tr>
+<tr><td>무결성</td><td>허락된 사람만 정보를 수정할 수 있음</td></tr>
+<tr><td>가용성</td><td>허락된 사람이 필요할 때 언제든 사용할 수 있음</td></tr>
+<tr><td>인증</td><td>사용자가 본인이 맞는지 확인</td></tr>
+<tr><td>부인 방지</td><td>송수신 사실을 나중에 부인하지 못하게 함</td></tr>
+<tr><td>접근 통제</td><td>권한에 따라 자원 접근을 제한</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>위협 유형</th><th>내용</th><th>침해 요건</th></tr></thead><tbody>
+<tr><td>가로막기 (Interruption)</td><td>데이터 전달을 막음</td><td>가용성</td></tr>
+<tr><td>가로채기 (Interception)</td><td>데이터를 몰래 엿봄</td><td>기밀성</td></tr>
+<tr><td>수정 (Modification)</td><td>데이터를 바꿔서 전달</td><td>무결성</td></tr>
+<tr><td>위조 (Fabrication)</td><td>다른 사람인 척 데이터를 만들어 보냄</td><td>무결성(인증)</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s6-2"><div class="sec-h"><h3>악성 코드</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>종류</th><th>특징</th></tr></thead><tbody>
+<tr><td>바이러스</td><td>다른 파일에 붙어 감염시키며 <mark>자기 복제</mark></td></tr>
+<tr><td>웜</td><td>다른 파일 없이 스스로 실행되고, 네트워크로 자기 복제하며 확산</td></tr>
+<tr><td>트로이 목마</td><td>유용한 프로그램으로 위장. <mark>자기 복제 안 함</mark></td></tr>
+<tr><td>랜섬웨어</td><td>파일을 암호화하고 풀어주는 대가로 돈을 요구</td></tr>
+<tr><td>스파이웨어</td><td>사용자 몰래 정보를 수집해 외부로 전송</td></tr>
+<tr><td>애드웨어</td><td>광고를 강제로 띄움</td></tr>
+<tr><td>키로거</td><td>키보드 입력을 기록해 암호 등을 빼냄</td></tr>
+<tr><td>백도어 (트랩 도어)</td><td>정상 인증을 거치지 않고 들어올 수 있는 비밀 통로</td></tr>
+<tr><td>루트킷</td><td>관리자 권한을 얻고 자신의 존재를 숨기는 도구 모음</td></tr>
+<tr><td>혹스 (Hoax)</td><td>실제로는 없는 가짜 바이러스 경고로 불안감 조성</td></tr>
+</tbody></table></div>
+<p>예방: 백신 실시간 감시와 최신 업데이트 · 운영체제 보안 업데이트 · 출처 불명 파일과 메일 첨부 열지 않기 · 중요 자료 정기 백업.</p>
+</section>
+
+<section class="sec" id="s6-3"><div class="sec-h"><h3>공격 기법</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>기법</th><th>뜻</th></tr></thead><tbody>
+<tr><td>DoS</td><td>대량의 요청으로 서버를 마비시켜 정상 서비스를 못 하게 함</td></tr>
+<tr><td>DDoS</td><td>감염된 여러 대의 <mark>좀비 PC</mark>로 동시에 DoS 공격</td></tr>
+<tr><td>스니핑</td><td>네트워크 패킷을 <mark>엿보아</mark> 정보를 빼냄 (수동적 공격)</td></tr>
+<tr><td>스푸핑</td><td>IP·MAC·DNS 주소 등을 <mark>속여</mark> 다른 사람인 척 함</td></tr>
+<tr><td>피싱</td><td>가짜 사이트나 메일로 개인 정보를 낚음</td></tr>
+<tr><td>파밍</td><td>DNS나 hosts 파일을 조작해 <mark>정상 주소를 입력해도</mark> 가짜 사이트로 유도</td></tr>
+<tr><td>스미싱</td><td>문자 메시지(SMS) 링크로 악성 앱 설치·소액 결제 유도</td></tr>
+<tr><td>사회 공학</td><td>기술이 아니라 사람의 신뢰·심리를 이용해 정보를 빼냄</td></tr>
+<tr><td>제로데이 공격</td><td>보안 패치가 나오기 전의 취약점을 노림</td></tr>
+<tr><td>크리덴셜 스터핑</td><td>다른 곳에서 유출된 아이디·암호를 여러 사이트에 대입</td></tr>
+<tr><td>딥페이크</td><td>AI로 얼굴·음성을 합성해 가짜 영상·음성 제작</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">구별 포인트</b>피싱은 '가짜 주소로 유인', 파밍은 '진짜 주소를 쳐도 가짜로 감'. 스니핑은 '엿보기', 스푸핑은 '속이기'.</div>
+</section>
+
+<section class="sec" id="s6-4"><div class="sec-h"><h3>암호화와 보안 기술</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>구분</th><th>대칭키 (비밀키)</th><th>비대칭키 (공개키)</th></tr></thead><tbody>
+<tr><td>키</td><td>암호화와 복호화 키가 같음</td><td><mark>공개키로 암호화, 개인키로 복호화</mark></td></tr>
+<tr><td>속도</td><td>빠름</td><td>느림</td></tr>
+<tr><td>알고리즘</td><td>DES, AES, SEED</td><td>RSA, ECC</td></tr>
+<tr><td>필요한 키 수 (n명)</td><td class="num">n(n−1)/2</td><td class="num">2n</td></tr>
+<tr><td>그 밖</td><td>키 배분·관리가 어려움</td><td>전자 서명에 사용</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>방화벽</b>: 외부에서 들어오는 접근을 허용 규칙에 따라 차단합니다. <mark>내부에서 일어나는 해킹은 막지 못합니다.</mark></li>
+<li><b>VPN</b>: 공용 인터넷 위에 암호화된 전용 통로를 만듭니다.</li>
+<li><b>프록시 서버</b>: 사용자 대신 인터넷에 접속해 주며, 캐시로 속도를 높이고 방화벽 역할도 합니다.</li>
+<li><b>인증 수단</b>: OTP(일회용 비밀번호), 생체 인증, 다중 요소 인증(MFA), 공동·금융 인증서.</li>
+<li><b>Windows 보안</b>: 바이러스 및 위협 방지, 방화벽, 앱·브라우저 컨트롤. <b>BitLocker</b>로 드라이브 전체를 암호화합니다.</li>
+<li><b>저작권</b>은 창작과 동시에 생기며 등록이 필요 없고, 원칙적으로 저작자 사후 70년까지 보호됩니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 7. AI 기초 ===================== -->
+<article class="chapter" id="ch7" data-title="AI 기초" hidden>
+<div class="ch-head"><span class="no">07</span><h2>AI 기초 <span class="badge-new">2027 신설</span></h2></div>
+<p class="ch-intro">2027년부터 1과목에 추가되는 영역입니다. 공개 보도에서 확인된 범위는 '생성형 AI의 개념과 활용'이며, 아래 내용은 그 범위에서 나올 만한 기본 개념을 정리한 것입니다. 공식 세부 기준이 나오면 대조해 보세요.</p>
+
+<section class="sec" id="s7-1"><div class="sec-h"><h3>인공지능, 머신러닝, 딥러닝</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>포함 관계: <mark>인공지능(AI) ⊃ 머신러닝 ⊃ 딥러닝</mark></p>
+<ul>
+<li><b>인공지능</b>: 사람의 학습·추론·인식 능력을 컴퓨터로 구현하는 기술 전반입니다.</li>
+<li><b>머신러닝</b>: 규칙을 직접 짜는 대신 데이터에서 패턴을 학습합니다.</li>
+<li><b>딥러닝</b>: 여러 층의 인공 신경망을 사용하는 머신러닝입니다. 이미지·음성 인식에서 성능이 높습니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>학습 방식</th><th>뜻</th><th>예</th></tr></thead><tbody>
+<tr><td>지도 학습</td><td>정답(레이블)이 있는 데이터로 학습</td><td>스팸 메일 분류, 집값 예측</td></tr>
+<tr><td>비지도 학습</td><td>정답 없이 데이터의 구조·군집을 찾음</td><td>고객 그룹 나누기</td></tr>
+<tr><td>강화 학습</td><td>행동에 대한 보상을 최대화하도록 학습</td><td>바둑 AI, 로봇 제어</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s7-2"><div class="sec-h"><h3>생성형 AI의 개념</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>용어</th><th>뜻</th></tr></thead><tbody>
+<tr><td>생성형 AI</td><td>학습한 데이터를 바탕으로 글, 이미지, 음성, 영상, 코드 등 <mark>새로운 콘텐츠를 만들어 내는</mark> AI</td></tr>
+<tr><td>대규모 언어 모델 (LLM)</td><td>방대한 텍스트로 학습해 문장을 이해하고 생성하는 모델</td></tr>
+<tr><td>트랜스포머</td><td>문장 속 단어들의 관계(어텐션)를 계산하는 신경망 구조. 대부분의 LLM이 사용</td></tr>
+<tr><td>프롬프트</td><td>AI에게 주는 지시문이나 질문</td></tr>
+<tr><td>프롬프트 엔지니어링</td><td>원하는 결과를 얻도록 프롬프트를 설계하는 기법 (역할 지정, 예시 제공, 형식 지정)</td></tr>
+<tr><td>토큰</td><td>언어 모델이 텍스트를 처리하는 단위 (단어나 단어 조각)</td></tr>
+<tr><td>할루시네이션 (환각)</td><td>사실이 아닌 내용을 그럴듯하게 만들어 내는 현상</td></tr>
+<tr><td>멀티모달</td><td>텍스트, 이미지, 음성 등 여러 형태의 데이터를 함께 이해·생성</td></tr>
+<tr><td>파인 튜닝</td><td>이미 학습된 모델을 특정 목적의 데이터로 추가 학습</td></tr>
+<tr><td>챗봇</td><td>대화 형식으로 질문에 답하는 프로그램</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s7-3"><div class="sec-h"><h3>생성형 AI의 활용과 주의점</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>활용</b>: 문서 초안·요약·번역, 이미지 생성, 코드 작성 보조, 데이터 분석 보조, 회의록 정리. Windows 11과 MS 오피스에도 AI 도우미(Copilot)가 들어가 있습니다.</li>
+<li><b>사실 확인</b>: 할루시네이션이 있으므로 결과를 원 자료와 대조해야 합니다.</li>
+<li><b>개인 정보·기밀</b>: 주민등록번호, 회사 기밀 같은 민감 정보를 프롬프트에 넣지 않습니다.</li>
+<li><b>저작권</b>: 생성물이 기존 저작물과 비슷할 수 있고, 학습 데이터의 저작권 문제가 논의되고 있습니다. 출처와 이용 조건을 확인합니다.</li>
+<li><b>편향</b>: 학습 데이터의 편향이 결과에 반영될 수 있습니다.</li>
+<li><b>딥페이크</b>: 생성 기술을 악용한 가짜 영상·음성에 주의합니다.</li>
+</ul>
+</section>
+</article>
+
+<div class="chapter" id="results" hidden></div>
+</main>
+</div>
+
+<div class="player" id="player" hidden>
+  <div class="in">
+    <button type="button" class="main" id="pPlay">▶ 듣기</button>
+    <button type="button" id="pStop">■ 정지</button>
+    <span class="now" id="pNow">절마다 있는 '듣기'를 누르거나, ▶로 현재 단원을 처음부터 들을 수 있습니다.</span>
+    <label for="pVoice">음성 <select id="pVoice"></select></label>
+    <label for="pRate">속도 <select id="pRate"><option value="0.8">0.8배</option><option value="0.9">0.9배</option><option value="1" selected>1.0배</option><option value="1.15">1.15배</option><option value="1.3">1.3배</option></select></label>
+    <span class="voice-note" id="pNote" hidden></span>
+  </div>
+</div>
+
+<script>
+const QUIZ = {
+ch1:[
+ {q:"Windows 11에서 바탕 화면을 표시하고, 다시 누르면 이전 창 상태로 복원하는 바로 가기 키는?",o:["Win+M","Win+D","Win+L","Win+Tab"],a:1,e:"Win+D는 바탕 화면 표시와 복원을 번갈아 합니다. Win+M은 모두 최소화만 합니다."},
+ {q:"휴지통에 대한 설명으로 옳지 않은 것은?",o:["휴지통 크기는 드라이브마다 따로 설정할 수 있다","USB 메모리에서 삭제한 파일은 휴지통에 들어가지 않는다","휴지통 안의 파일은 더블클릭으로 바로 실행할 수 있다","Shift+Delete로 삭제한 파일은 휴지통을 거치지 않는다"],a:2,e:"휴지통 안의 파일은 실행이나 편집이 안 되고, 복원한 뒤에 사용할 수 있습니다."},
+ {q:"같은 드라이브 안에서 파일을 마우스로 끌어 놓았을 때의 결과는?",o:["복사","이동","바로 가기 생성","아무 일도 일어나지 않음"],a:1,e:"같은 드라이브는 이동, 다른 드라이브는 복사입니다. Ctrl을 누르면 항상 복사됩니다."},
+ {q:"바로 가기 아이콘에 대한 설명으로 옳은 것은?",o:["확장명은 .exe이다","바로 가기를 삭제하면 원본도 삭제된다","원본 하나에 바로 가기를 여러 개 만들 수 있다","폴더에는 바로 가기를 만들 수 없다"],a:2,e:"바로 가기의 확장명은 .lnk이고, 지워도 원본은 남습니다. 폴더·드라이브·프린터에도 만들 수 있습니다."},
+ {q:"파일 하나의 최대 크기가 4GB로 제한되는 파일 시스템은?",o:["NTFS","exFAT","FAT32","ReFS"],a:2,e:"FAT32는 파일 하나가 4GB를 넘을 수 없습니다. 큰 파일은 NTFS나 exFAT를 씁니다."}
+],
+ch2:[
+ {q:"인쇄 스풀(SPOOL)에 대한 설명으로 옳은 것은?",o:["인쇄 속도를 빠르게 한다","인쇄 데이터를 디스크에 임시 저장해 CPU가 다른 작업을 할 수 있게 한다","프린터 메모리를 늘려 준다","네트워크 프린터에서만 사용한다"],a:1,e:"스풀은 시스템 전체 효율을 높이지만 인쇄 속도 자체를 빠르게 하지는 않습니다."},
+ {q:"프로그램이 관리자 권한이 필요한 변경을 하려 할 때 확인 창을 띄우는 Windows 기능은?",o:["BitLocker","사용자 계정 컨트롤(UAC)","Windows Hello","시스템 복원"],a:1,e:"UAC는 허락 없는 시스템 변경을 막기 위해 확인을 요청합니다."},
+ {q:"다른 네트워크로 나가기 위해 거치는 라우터의 주소를 입력하는 항목은?",o:["서브넷 마스크","DNS 서버","기본 게이트웨이","MAC 주소"],a:2,e:"기본 게이트웨이는 외부 네트워크로 나가는 출입구 장비의 주소입니다."},
+ {q:"목적지까지 패킷이 거치는 경로를 확인하는 명령어는?",o:["ping","ipconfig","tracert","nslookup"],a:2,e:"tracert는 경로를, ping은 연결 여부를, nslookup은 도메인과 IP를 확인합니다."},
+ {q:"조합 키(Shift, Ctrl, Alt)를 동시에 누르지 않고 하나씩 눌러도 동시에 누른 것처럼 처리하는 접근성 기능은?",o:["필터 키","고정 키","토글 키","내레이터"],a:1,e:"고정 키 설명입니다. 필터 키는 짧게 반복된 입력을 무시합니다."}
+],
+ch3:[
+ {q:"다음에 실행할 명령어의 주소를 기억하는 레지스터는?",o:["명령 레지스터(IR)","프로그램 카운터(PC)","누산기(AC)","메모리 버퍼 레지스터(MBR)"],a:1,e:"PC는 다음 명령어 주소, IR은 현재 실행 중인 명령어를 기억합니다."},
+ {q:"주기억 장치의 용량 부족 문제를 해결하기 위해 보조 기억 장치 일부를 주기억 장치처럼 쓰는 것은?",o:["캐시 메모리","가상 메모리","연관 메모리","버퍼 메모리"],a:1,e:"가상 메모리는 용량, 캐시 메모리는 속도 문제를 해결합니다."},
+ {q:"SRAM에 대한 설명으로 옳은 것은?",o:["주기적인 재충전이 필요하다","콘덴서로 구성된다","DRAM보다 느리고 저렴하다","캐시 메모리에 주로 사용된다"],a:3,e:"SRAM은 플립플롭으로 구성되어 재충전이 필요 없고, 빠르고 비싸서 캐시에 씁니다."},
+ {q:"오류를 검출할 뿐 아니라 정정까지 할 수 있는 코드는?",o:["패리티 비트","해밍 코드","ASCII 코드","BCD 코드"],a:1,e:"패리티 비트는 검출만, 해밍 코드는 검출과 정정을 합니다."},
+ {q:"무료로 사용할 수 있지만 기능이나 사용 기간에 제한이 있는 소프트웨어는?",o:["프리웨어","셰어웨어","번들","패치"],a:1,e:"셰어웨어 설명입니다. 프리웨어는 제한 없이 무료로 씁니다."},
+ {q:"'드라이브 조각 모음 및 최적화'를 실행했을 때의 효과로 옳은 것은?",o:["디스크 여유 공간이 늘어난다","파일 접근 속도가 향상된다","바이러스가 제거된다","손상된 섹터가 물리적으로 수리된다"],a:1,e:"조각 모음은 속도 향상용입니다. 공간 확보는 디스크 정리입니다."}
+],
+ch4:[
+ {q:"비트맵 이미지에 대한 설명으로 옳지 않은 것은?",o:["픽셀로 구성된다","확대하면 계단 현상이 생길 수 있다","사실적인 사진 표현에 적합하다","확대·축소해도 화질이 전혀 변하지 않는다"],a:3,e:"확대해도 화질이 그대로인 것은 벡터 방식입니다."},
+ {q:"최대 256색을 표현하고, 애니메이션과 투명 배경을 지원하는 형식은?",o:["JPEG","GIF","BMP","TIFF"],a:1,e:"GIF는 256색 제한, 무손실 압축, 애니메이션을 지원합니다."},
+ {q:"표현할 수 없는 색을 비슷한 색의 점을 섞어 표현하는 기법은?",o:["디더링","모핑","렌더링","인터레이싱"],a:0,e:"디더링 설명입니다. 모핑은 형태 변환, 렌더링은 3D 질감·명암 처리입니다."},
+ {q:"44,100Hz, 16비트, 모노(1채널)로 1초 녹음한 무압축 오디오의 용량은?",o:["44,100바이트","88,200바이트","176,400바이트","705,600바이트"],a:1,e:"44,100 × 16 × 1 × 1 ÷ 8 = 88,200바이트입니다."},
+ {q:"DVD와 디지털 방송(HDTV)에 사용되는 동영상 압축 표준은?",o:["MPEG-1","MPEG-2","MPEG-4","MPEG-7"],a:1,e:"MPEG-2는 DVD·HDTV, MPEG-4는 모바일·인터넷용입니다."}
+],
+ch5:[
+ {q:"IPv6에 대한 설명으로 옳지 않은 것은?",o:["128비트로 구성된다","16진수를 콜론(:)으로 구분한다","브로드캐스트 주소를 사용한다","애니캐스트 주소를 사용한다"],a:2,e:"IPv6는 유니캐스트, 멀티캐스트, 애니캐스트를 쓰고 브로드캐스트는 없습니다."},
+ {q:"서로 다른 네트워크를 연결하고 데이터 전송의 최적 경로를 결정하는 장비는?",o:["허브","리피터","라우터","브리지"],a:2,e:"라우터는 OSI 3계층(네트워크) 장비로 경로를 설정합니다."},
+ {q:"전자 메일을 보낼 때 사용하는 프로토콜은?",o:["POP3","IMAP","SMTP","FTP"],a:2,e:"SMTP는 송신, POP3와 IMAP은 수신용입니다."},
+ {q:"HTTPS의 기본 포트 번호는?",o:["21","80","110","443"],a:3,e:"HTTP 80, HTTPS 443, FTP 21, POP3 110입니다."},
+ {q:"모든 단말을 서로 연결해 신뢰성이 가장 높은 네트워크 형태는?",o:["성형","버스형","링형","망형"],a:3,e:"망형(Mesh)은 회선 수가 n(n−1)/2로 많지만 신뢰성이 가장 높습니다."},
+ {q:"인터넷 서버의 소프트웨어를 빌려 쓰는 클라우드 서비스 유형은?",o:["IaaS","PaaS","SaaS","DaaS"],a:2,e:"SaaS는 소프트웨어, PaaS는 개발 플랫폼, IaaS는 서버·저장소 같은 인프라를 제공합니다."}
+],
+ch6:[
+ {q:"정상적인 주소를 입력해도 DNS나 hosts 파일 조작으로 가짜 사이트에 접속되게 하는 공격은?",o:["피싱","파밍","스미싱","스니핑"],a:1,e:"파밍 설명입니다. 피싱은 가짜 링크로 유인하고, 스미싱은 문자 메시지를 이용합니다."},
+ {q:"유용한 프로그램으로 위장하며 자기 복제를 하지 않는 악성 코드는?",o:["웜","바이러스","트로이 목마","랜섬웨어"],a:2,e:"트로이 목마는 자기 복제를 하지 않습니다. 바이러스와 웜은 자기 복제를 합니다."},
+ {q:"데이터를 전달 도중에 몰래 엿보는 '가로채기'가 침해하는 보안 요건은?",o:["기밀성","무결성","가용성","부인 방지"],a:0,e:"가로채기는 기밀성, 가로막기는 가용성, 수정·위조는 무결성을 침해합니다."},
+ {q:"비대칭키(공개키) 암호화에 대한 설명으로 옳은 것은?",o:["암호화와 복호화에 같은 키를 쓴다","대표 알고리즘은 DES이다","대칭키 방식보다 처리 속도가 빠르다","공개키로 암호화하고 개인키로 복호화한다"],a:3,e:"비대칭키는 RSA가 대표적이며 대칭키보다 느립니다. DES는 대칭키입니다."},
+ {q:"방화벽에 대한 설명으로 옳지 않은 것은?",o:["외부의 불법 접근을 막는다","허용 규칙에 따라 패킷을 걸러 낸다","내부에서 일어나는 해킹까지 완벽히 막는다","로그를 남겨 접근 기록을 추적할 수 있다"],a:2,e:"방화벽은 내부에서 일어나는 공격은 막지 못합니다."}
+],
+ch7:[
+ {q:"인공지능, 머신러닝, 딥러닝의 관계로 옳은 것은?",o:["딥러닝 ⊃ 머신러닝 ⊃ 인공지능","인공지능 ⊃ 머신러닝 ⊃ 딥러닝","머신러닝 ⊃ 인공지능 ⊃ 딥러닝","세 개념은 서로 무관하다"],a:1,e:"딥러닝은 머신러닝의 한 방법이고, 머신러닝은 인공지능의 한 분야입니다."},
+ {q:"생성형 AI가 사실이 아닌 내용을 그럴듯하게 만들어 내는 현상은?",o:["오버피팅","할루시네이션","딥페이크","파인 튜닝"],a:1,e:"할루시네이션(환각) 설명입니다. 그래서 결과를 원 자료와 대조해야 합니다."},
+ {q:"정답(레이블)이 있는 데이터로 학습하는 방식은?",o:["지도 학습","비지도 학습","강화 학습","전이 학습"],a:0,e:"지도 학습은 정답이 있는 데이터로, 비지도 학습은 정답 없이 구조를 찾습니다."},
+ {q:"생성형 AI를 업무에 활용할 때의 태도로 적절하지 않은 것은?",o:["결과물의 사실 여부를 확인한다","회사 기밀과 개인 정보를 프롬프트에 넣지 않는다","생성물은 저작권 문제가 전혀 없으므로 그대로 배포한다","원하는 형식과 조건을 프롬프트에 구체적으로 적는다"],a:2,e:"생성물도 저작권 문제가 생길 수 있어 이용 조건을 확인해야 합니다."}
+]};
+
+const LS = {get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const done = LS.get("ch1-done",{});
+const chapters=[...document.querySelectorAll("article.chapter")];
+const toc=document.getElementById("toc");
+
+// 확인문제 렌더링
+chapters.forEach(ch=>{
+  const qs=QUIZ[ch.id]; if(!qs) return;
+  const box=document.createElement("div"); box.className="quiz";
+  box.innerHTML=`<div class="sec-h"><h3>확인 문제</h3><div class="right"><span class="score" data-score></span><button class="reset" type="button">다시 풀기</button></div></div><p class="sub">보기를 누르면 바로 채점되고 해설이 나옵니다.</p>`;
+  qs.forEach((it,i)=>{
+    const d=document.createElement("div"); d.className="q";
+    d.innerHTML=`<p class="stem">${i+1}. ${it.q}</p><div class="opts">${it.o.map((t,j)=>`<button type="button" data-j="${j}"><span>${"①②③④"[j]}</span><span>${t}</span></button>`).join("")}</div><div class="exp" hidden></div>`;
+    d.querySelectorAll(".opts button").forEach(b=>b.addEventListener("click",()=>{
+      const j=+b.dataset.j; const all=d.querySelectorAll(".opts button");
+      all.forEach(x=>x.disabled=true); all[it.a].classList.add("right"); if(j!==it.a) b.classList.add("wrong");
+      d.dataset.res = j===it.a?"o":"x";
+      const ex=d.querySelector(".exp"); ex.hidden=false; ex.innerHTML=`<b>${j===it.a?"정답":"오답"}</b> · 정답 ${"①②③④"[it.a]} — ${it.e}`;
+      updScore(box,qs.length);
+    }));
+    box.appendChild(d);
+  });
+  box.querySelector(".reset").addEventListener("click",()=>{
+    box.querySelectorAll(".q").forEach(d=>{delete d.dataset.res;d.querySelector(".exp").hidden=true;d.querySelectorAll(".opts button").forEach(x=>{x.disabled=false;x.classList.remove("right","wrong")})});
+    updScore(box,qs.length);
+  });
+  ch.appendChild(box); updScore(box,qs.length);
+});
+function updScore(box,n){const r=[...box.querySelectorAll(".q")].filter(d=>d.dataset.res);const o=r.filter(d=>d.dataset.res==="o").length;box.querySelector("[data-score]").textContent=r.length?`${o} / ${n} 정답 (${r.length}문항 풀이)`:`${n}문항`;}
+
+// 학습 완료 체크
+document.querySelectorAll("section.sec").forEach(s=>{
+  const b=document.createElement("button"); b.type="button"; b.className="chk";
+  const set=v=>{b.setAttribute("aria-pressed",v?"true":"false");b.textContent=v?"✓ 학습 완료":"학습 완료 표시"};
+  set(!!done[s.id]);
+  b.addEventListener("click",()=>{done[s.id]=!done[s.id];set(done[s.id]);LS.set("ch1-done",done);renderToc()});
+  s.querySelector(".sec-h .right").appendChild(b);
+});
+
+function renderToc(){
+  const cur=location.hash.replace("#","")||"ch1";
+  toc.innerHTML=chapters.map((c,i)=>{const secs=c.querySelectorAll("section.sec");const d=[...secs].filter(s=>done[s.id]).length;
+    return `<a href="#${c.id}" aria-current="${c.id===cur&&!q.value?"true":"false"}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${c.dataset.title}</span><span class="c">${d}/${secs.length}</span></a>`}).join("")
+   +`<p class="toc-note">중요도 별점은 기출 경향을 바탕으로 한 학습 우선순위입니다. 보라색 표시는 2027년 개정 관련 내용입니다.</p>`;
+  const all=document.querySelectorAll("section.sec").length;const d=Object.values(done).filter(Boolean).length;
+  document.getElementById("prog").textContent=`학습 완료 ${d} / ${all}`;
+}
+function show(id){
+  if(!document.getElementById(id)||!id.startsWith("ch")) id="ch1";
+  chapters.forEach(c=>{c.hidden=c.id!==id; c.querySelectorAll("section.sec").forEach(s=>s.hidden=false); const qz=c.querySelector(".quiz"); if(qz) qz.hidden=false});
+  document.getElementById("results").hidden=true;
+  renderToc();
+}
+const q=document.getElementById("q");
+q.addEventListener("input",()=>{
+  const t=q.value.trim().toLowerCase();
+  if(!t){show(location.hash.replace("#","")||"ch1");return}
+  let hits=0;
+  chapters.forEach(c=>{let any=false;
+    c.querySelectorAll("section.sec").forEach(s=>{const m=s.textContent.toLowerCase().includes(t);s.hidden=!m;if(m){any=true;hits++}});
+    const qz=c.querySelector(".quiz"); if(qz) qz.hidden=true;
+    c.hidden=!any;
+  });
+  const r=document.getElementById("results");
+  r.hidden=hits>0; r.innerHTML=`<p class="empty">'${q.value.replace(/[<>&]/g,"")}'에 해당하는 내용이 없습니다. 다른 낱말로 검색해 보세요.</p>`;
+  renderToc();
+});
+window.addEventListener("hashchange",()=>{q.value="";show(location.hash.replace("#",""));window.scrollTo({top:0})});
+show(location.hash.replace("#","")||"ch1");
+
+// ===== 음성 듣기 (Web Speech API) =====
+(function(){
+  const S=window.speechSynthesis; if(!S||!window.SpeechSynthesisUtterance) return;
+  const player=document.getElementById("player"); player.hidden=false;
+  document.body.style.paddingBottom="88px";
+  const $=id=>document.getElementById(id);
+  const vSel=$("pVoice"), rSel=$("pRate"), playB=$("pPlay"), now=$("pNow"), note=$("pNote");
+  const FEMALE=/sunhi|heami|yuna|sora|jimin|seoyeon|yujin|google\s*한국|female|여성/i;
+  const MALE=/injoon|hyunsu|bongjin|gookmin|\bmale\b/i;
+  let voices=[], queue=[], qi=0, state="idle", curSec=null;
+  const pref=LS.get("ch1-voice",{});
+  if(pref.rate) rSel.value=pref.rate;
+
+  function rank(v){let s=0; if(FEMALE.test(v.name)) s+=10; if(MALE.test(v.name)) s-=20; if(/natural|online|neural/i.test(v.name)) s+=5; if(v.localService===false) s+=1; return s;}
+  function loadVoices(){
+    voices=S.getVoices().filter(v=>/^ko/i.test(v.lang)).sort((a,b)=>rank(b)-rank(a));
+    vSel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name.replace(/Microsoft |Online |\(Natural\)| - Korean \(Korea\)|Korean/gi," ").replace(/\s+/g," ").trim()}${FEMALE.test(v.name)?" · 여성":""}</option>`).join("");
+    const saved=voices.findIndex(v=>v.name===pref.voice); vSel.value=String(saved>=0?saved:0);
+    if(!voices.length){note.hidden=false;note.textContent="이 기기에 한국어 음성이 없습니다. Windows는 설정 › 시간 및 언어 › 음성에서 한국어 음성을 추가하거나, Edge·Chrome 브라우저에서 열어 주세요.";}
+    else if(!voices.some(v=>FEMALE.test(v.name))){note.hidden=false;note.textContent="이 기기에서 여성 한국어 음성을 찾지 못해 기본 음성으로 읽습니다. Edge 브라우저에서는 부드러운 여성 음성(SunHi)을 쓸 수 있습니다.";}
+    else note.hidden=true;
+  }
+  loadVoices(); S.addEventListener?S.addEventListener("voiceschanged",loadVoices):(S.onvoiceschanged=loadVoices);
+  vSel.addEventListener("change",()=>{pref.voice=voices[+vSel.value]?.name;LS.set("ch1-voice",pref)});
+  rSel.addEventListener("change",()=>{pref.rate=rSel.value;LS.set("ch1-voice",pref)});
+
+  // 화면 글자를 읽기 좋은 문장으로 바꾸기
+  function speakable(t){
+    return t.replace(/[★☆✓]/g,"").replace(/C\+\+/g,"씨 플러스 플러스")
+      .replace(/\bWin\b/g,"윈도우 키").replace(/\bCtrl\b/g,"컨트롤").replace(/\bShift\b/g,"시프트").replace(/\bAlt\b/g,"알트").replace(/\bEsc\b/g,"이에스씨").replace(/\bPrtSc\b/g,"프린트 스크린").replace(/\bDelete\b/g,"딜리트").replace(/\bTab\b/g,"탭").replace(/\bEnter\b/g,"엔터")
+      .replace(/(\d+)\^-(\d+)/g,"$1의 마이너스 $2승").replace(/(\d+)\^(\d+)/g,"$1의 $2승")
+      .replace(/\s*\+\s*/g," 더하기 ").replace(/×/g," 곱하기 ").replace(/÷/g," 나누기 ")
+      .replace(/\s*→\s*/g,", 다음은 ").replace(/\s*⊃\s*/g,", 그 안에 ").replace(/\s*[>＞]\s*/g,", 그다음 ").replace(/\s*[<＜]\s*/g,", 그다음 ")
+      .replace(/[←]/g," 왼쪽 화살표").replace(/[→]/g," 오른쪽 화살표").replace(/·/g,", ").replace(/\s\/\s/g,", ").replace(/↑/g," 증가").replace(/−/g," 빼기 ")
+      .replace(/\s+/g," ").trim();
+  }
+  function textOf(sec){
+    const parts=[sec.querySelector("h3").textContent+"."];
+    [...sec.children].forEach(el=>{
+      if(el.classList.contains("sec-h")) return;
+      if(el.classList.contains("tbl")){
+        const heads=[...el.querySelectorAll("thead th")].map(th=>th.textContent.trim());
+        el.querySelectorAll("tbody tr").forEach(tr=>{
+          const cells=[...tr.children].map(td=>td.textContent.trim()).filter(Boolean);
+          parts.push(cells.join(", ")+".");
+        });
+        return;
+      }
+      if(el.tagName==="UL"||el.tagName==="OL"){el.querySelectorAll("li").forEach(li=>parts.push(li.textContent.trim().replace(/[.。]?$/,".")));return;}
+      parts.push(el.textContent.trim().replace(/[.。]?$/,"."));
+    });
+    return speakable(parts.join(" "));
+  }
+  function chunks(t){ // 긴 문장은 브라우저가 중간에 끊으므로 짧게 나눔
+    const out=[]; t.split(/(?<=[.?!다요])\s+/).forEach(s=>{
+      while(s.length>160){const cut=s.lastIndexOf(",",160);const k=cut>40?cut+1:160;out.push(s.slice(0,k));s=s.slice(k).trim();}
+      if(s) out.push(s);
+    }); return out;
+  }
+  function mark(sec){document.querySelectorAll("section.sec.reading").forEach(s=>s.classList.remove("reading")); if(sec){sec.classList.add("reading");}}
+  function setState(s){state=s; playB.textContent=s==="playing"?"❚❚ 일시정지":s==="paused"?"▶ 이어 듣기":"▶ 듣기";}
+
+  function playList(secs){
+    S.cancel(); queue=[]; qi=0;
+    secs.forEach(sec=>chunks(textOf(sec)).forEach(c=>queue.push({sec,text:c})));
+    if(!queue.length) return; next();
+  }
+  function next(){
+    if(qi>=queue.length){setState("idle");mark(null);now.textContent="다 들었습니다.";return}
+    const it=queue[qi]; const u=new SpeechSynthesisUtterance(it.text);
+    const v=voices[+vSel.value]; if(v){u.voice=v;u.lang=v.lang}else u.lang="ko-KR";
+    u.rate=+rSel.value; u.pitch=1.05; // 약간 높은 음높이로 부드럽게
+    if(it.sec!==curSec){curSec=it.sec;mark(it.sec);it.sec.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+      now.innerHTML=`<b>${it.sec.querySelector("h3").textContent}</b> 읽는 중`;}
+    u.onend=()=>{if(state==="playing"){qi++;next()}};
+    u.onerror=e=>{if(e.error!=="interrupted"&&e.error!=="canceled"&&state==="playing"){qi++;next()}};
+    setState("playing"); S.speak(u);
+  }
+  function stop(){setState("idle");S.cancel();mark(null);curSec=null;now.textContent="정지했습니다.";}
+
+  playB.addEventListener("click",()=>{
+    // 크롬의 Google 음성은 pause/resume이 불안정해서, 일시정지 시 현재 문장 위치를 기억했다가 그 문장부터 다시 읽음
+    if(state==="playing"){setState("paused");S.cancel();return}
+    if(state==="paused"){next();return}
+    const ch=chapters.find(c=>!c.hidden)||chapters[0];
+    playList([...ch.querySelectorAll("section.sec")].filter(s=>!s.hidden));
+  });
+  $("pStop").addEventListener("click",stop);
+  window.addEventListener("hashchange",stop);
+
+  document.querySelectorAll("section.sec").forEach(sec=>{
+    const b=document.createElement("button");b.type="button";b.className="listen";b.textContent="▷ 듣기";
+    b.setAttribute("aria-label",sec.querySelector("h3").textContent+" 듣기");
+    b.addEventListener("click",()=>playList([sec]));
+    sec.querySelector(".sec-h .right").prepend(b);
+  });
+  chapters.forEach(ch=>{
+    const b=document.createElement("button");b.type="button";b.className="listen";b.textContent="▷ 단원 전체 듣기";
+    b.addEventListener("click",()=>playList([...ch.querySelectorAll("section.sec")]));
+    ch.querySelector(".ch-head").appendChild(b);
+  });
+})();
+</script>
+
+</body></html>
