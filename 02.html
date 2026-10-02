@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>컴활 1급 스프레드시트 일반</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +31,10 @@
   --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}
 
 *{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+.home{font-size:var(--s-1);color:var(--accent);text-decoration:none;display:inline-block;margin-bottom:6px}
+.home:hover{text-decoration:underline}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.75;padding-inline:16px}
 .wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;padding-block:28px 80px}
 header.top{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:16px}
@@ -121,10 +130,14 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 .voice-note{font-size:.75rem;color:var(--trap);flex-basis:100%}
 @media (prefers-reduced-motion:no-preference){.opts button,nav.toc a{transition:background .15s,border-color .15s}}
 </style>
+</head>
+<body>
+
 
 <div class="wrap">
 <header class="top">
   <div>
+    <a class="home" href="./">← 전체 목차</a>
     <p class="meta">컴퓨터활용능력 1급 필기 · 2과목 · 2027–2029 개정 기준 대비</p>
     <h1>컴활 1급 스프레드시트 일반</h1>
   </div>
@@ -914,3 +927,6 @@ show(location.hash.replace("#","")||"ch1");
   });
 })();
 </script>
+
+</body>
+</html>
