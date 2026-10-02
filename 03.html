@@ -1,0 +1,888 @@
+<title>컴활 1급 데이터베이스 일반</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: 교재 펼침면 — 왼쪽 단원 목차(고정), 오른쪽 본문 + 단원 끝 확인문제. 형광펜 = 핵심, 키캡 = 단축키 */
+:root{
+  --bg:#f5f7f8; --paper:#ffffff; --ink:#18232b; --muted:#5b6b75; --line:#dbe2e6;
+  --accent:#1d5a80; --accent-soft:#e3eef5;
+  --marker:#fff1a8; --trap:#b4234a; --trap-soft:#fbe9ee; --ok:#1f7a4d; --ok-soft:#e4f4ea;
+  --new:#6b3fa0; --new-soft:#efe7f8; --key:#eef1f3; --key-edge:#b9c4cb;
+  --f-display:"Nanum Myeongjo","Noto Serif KR",serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --s-1:.8125rem; --s0:1rem; --s1:1.125rem; --s2:1.375rem; --s3:1.875rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f161b; --paper:#151e24; --ink:#e3eaee; --muted:#93a3ad; --line:#26333b;
+  --accent:#7fb8dc; --accent-soft:#1b2d39;
+  --marker:#5a4f12; --trap:#f08aa5; --trap-soft:#3a1b25; --ok:#6fd19f; --ok-soft:#163327;
+  --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161b; --paper:#151e24; --ink:#e3eaee; --muted:#93a3ad; --line:#26333b;
+  --accent:#7fb8dc; --accent-soft:#1b2d39;
+  --marker:#5a4f12; --trap:#f08aa5; --trap-soft:#3a1b25; --ok:#6fd19f; --ok-soft:#163327;
+  --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.75;padding-inline:16px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;padding-block:28px 80px}
+header.top{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:16px}
+.top h1{font-family:var(--f-display);font-weight:800;font-size:var(--s3);line-height:1.2;margin:0;text-wrap:balance}
+.top .meta{font-size:var(--s-1);color:var(--muted);letter-spacing:.04em;margin:0 0 6px}
+.top .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input#q{font:inherit;font-size:var(--s-1);padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:240px;max-width:100%}
+input#q:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.prog{font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums}
+
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;display:flex;flex-direction:column;gap:2px}
+nav.toc a{display:grid;grid-template-columns:28px 1fr auto;gap:6px;align-items:baseline;padding:8px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:.9375rem;line-height:1.4}
+nav.toc a .n{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted)}
+nav.toc a .c{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+nav.toc a:hover{background:var(--accent-soft)}
+nav.toc a[aria-current="true"]{background:var(--accent);color:var(--paper)}
+nav.toc a[aria-current="true"] .n,nav.toc a[aria-current="true"] .c{color:var(--paper)}
+.toc-note{margin-top:14px;font-size:.75rem;color:var(--muted);line-height:1.6;padding:10px;border:1px dashed var(--line);border-radius:6px}
+
+main{min-width:0}
+.chapter{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:28px clamp(16px,4vw,40px) 36px}
+.ch-head{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px}
+.ch-head .no{font-family:var(--f-mono);color:var(--accent);font-size:var(--s1)}
+.ch-head h2{font-family:var(--f-display);font-weight:800;font-size:var(--s3);margin:0;line-height:1.25;text-wrap:balance}
+.ch-intro{color:var(--muted);margin:10px 0 0;max-width:68ch}
+
+section.sec{padding-block:22px;border-bottom:1px solid var(--line)}
+section.sec:last-of-type{border-bottom:0}
+.sec-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.sec-h h3{font-size:var(--s2);margin:0;line-height:1.35;text-wrap:balance}
+.sec-h .right{display:flex;gap:8px;align-items:center}
+.imp{font-size:.75rem;letter-spacing:.06em;color:var(--accent);white-space:nowrap}
+.chk{font:inherit;font-size:.75rem;padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--muted);cursor:pointer}
+.chk[aria-pressed="true"]{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.sec p,.sec li{max-width:70ch}
+.sec ul,.sec ol{padding-left:1.25em;margin:8px 0}
+.sec li{margin:3px 0}
+mark{background:linear-gradient(transparent 45%,var(--marker) 45%);color:inherit;padding:0 1px}
+kbd{font-family:var(--f-mono);font-size:.8125rem;background:var(--key);border:1px solid var(--key-edge);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
+code.f{font-family:var(--f-mono);font-size:.8125rem;background:var(--key);border-radius:4px;padding:1px 5px;overflow-wrap:anywhere}
+pre.code{font-family:var(--f-mono);font-size:.8125rem;line-height:1.6;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;margin:8px 0}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.9375rem;line-height:1.55}
+th,td{border-top:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+thead th{border-top:0;border-bottom:2px solid var(--ink);font-size:var(--s-1);letter-spacing:.03em;white-space:nowrap}
+td:first-child{font-weight:500;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:.875rem}
+.box{border-radius:6px;padding:12px 14px;margin:12px 0;font-size:.9375rem}
+.box b.t{display:block;font-size:.75rem;letter-spacing:.08em;margin-bottom:2px}
+.trap{background:var(--trap-soft)} .trap b.t{color:var(--trap)}
+.tip{background:var(--accent-soft)} .tip b.t{color:var(--accent)}
+.new{background:var(--new-soft)} .new b.t{color:var(--new)}
+.badge-new{font-size:.6875rem;letter-spacing:.06em;color:var(--new);border:1px solid var(--new);border-radius:4px;padding:0 6px;white-space:nowrap}
+
+.quiz{margin-top:28px;padding-top:20px;border-top:2px solid var(--ink)}
+.quiz h3{font-family:var(--f-display);font-size:var(--s2);margin:0 0 4px}
+.quiz .sub{color:var(--muted);font-size:var(--s-1);margin:0 0 12px}
+.q{padding-block:14px;border-bottom:1px dashed var(--line)}
+.q p.stem{margin:0 0 8px;font-weight:500}
+.opts{display:grid;gap:6px}
+.opts button{font:inherit;font-size:.9375rem;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer;display:grid;grid-template-columns:24px 1fr;gap:4px}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button:disabled{cursor:default}
+.opts button.right{background:var(--ok-soft);border-color:var(--ok)}
+.opts button.wrong{background:var(--trap-soft);border-color:var(--trap)}
+.exp{margin-top:8px;font-size:.9375rem;padding:10px 12px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 6px 6px 0}
+.score{font-variant-numeric:tabular-nums;font-size:var(--s-1);color:var(--muted)}
+.reset{font:inherit;font-size:var(--s-1);padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
+.hitfrom{font-size:.75rem;color:var(--accent);font-family:var(--f-mono)}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:1fr;gap:16px}
+  nav.toc{position:static;flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px}
+  nav.toc a{grid-template-columns:auto auto;white-space:nowrap}
+  nav.toc a .c{display:none}
+  .toc-note{display:none}
+  input#q{width:100%}
+  .top .tools{width:100%}
+}
+.listen{font:inherit;font-size:.75rem;padding:4px 10px;border:1px solid var(--accent);border-radius:99px;background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
+.listen:hover{background:var(--accent-soft)}
+.ch-head .listen{margin-left:auto}
+section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--accent-soft),16px 0 0 var(--accent-soft)}
+.player{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--paper);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.player .in{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.player .now{flex:1 1 220px;min-width:0;font-size:var(--s-1);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player .now b{color:var(--ink);font-weight:500}
+.player button{font:inherit;font-size:var(--s-1);padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer}
+.player button.main{background:var(--accent);border-color:var(--accent);color:var(--paper);min-width:76px}
+.player select{font:inherit;font-size:var(--s-1);padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);max-width:220px}
+.player label{font-size:.75rem;color:var(--muted);display:flex;gap:6px;align-items:center}
+.voice-note{font-size:.75rem;color:var(--trap);flex-basis:100%}
+@media (prefers-reduced-motion:no-preference){.opts button,nav.toc a{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div>
+    <p class="meta">컴퓨터활용능력 1급 필기 · 3과목 · 2027–2029 개정 기준 대비</p>
+    <h1>컴활 1급 데이터베이스 일반</h1>
+  </div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="용어·SQL 검색 (예: 정규화, HAVING)" aria-label="교재 내용 검색">
+    <span class="prog" id="prog"></span>
+  </div>
+</header>
+
+<nav class="toc" id="toc" aria-label="단원 목차"></nav>
+
+<main id="main">
+<!-- ===================== 1. DB 개념 ===================== -->
+<article class="chapter" id="ch1" data-title="데이터베이스 개념">
+<div class="ch-head"><span class="no">01</span><h2>데이터베이스 개념</h2></div>
+<p class="ch-intro">데이터베이스 정의, DBMS 기능, 스키마, SQL 언어 분류가 나옵니다. 1급에서만 보는 과목이라 생소하지만 범위가 일정해 기출 반복 효과가 큽니다.</p>
+<div class="box new"><b class="t">2027 개정</b>2027년부터 오피스 버전과 활용 방식의 변화가 반영됩니다. 세부 내용은 공식 기준표로 확인하세요. 이 교재는 현재 시험 버전(Access 2021)에서도 바뀌지 않는 기본 개념과 기능 위주로 정리했습니다.</div>
+
+<section class="sec" id="u1-1"><div class="sec-h"><h3>데이터베이스의 정의와 특징</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>정의</th><th>뜻</th></tr></thead><tbody>
+<tr><td>통합 데이터</td><td>중복을 최소화해 통합한 데이터</td></tr>
+<tr><td>저장 데이터</td><td>컴퓨터가 접근할 수 있는 저장 매체에 저장된 데이터</td></tr>
+<tr><td>운영 데이터</td><td>조직의 업무에 꼭 필요한 데이터</td></tr>
+<tr><td>공용 데이터</td><td>여러 사용자와 응용 프로그램이 함께 쓰는 데이터</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>실시간 접근</b>: 요청에 즉시 응답합니다.</li>
+<li><b>계속적인 변화</b>: 삽입, 삭제, 갱신으로 항상 최신 상태를 유지합니다.</li>
+<li><b>동시 공유</b>: 여러 사용자가 동시에 같은 데이터를 씁니다.</li>
+<li><b>내용에 의한 참조</b>: 주소가 아니라 <mark>데이터의 내용(값)</mark>으로 찾습니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="u1-2"><div class="sec-h"><h3>DBMS</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>DBMS(데이터베이스 관리 시스템)는 기존 파일 시스템의 <b>데이터 중복</b>과 <b>데이터 종속</b> 문제를 해결하기 위한 소프트웨어입니다.</p>
+<div class="tbl"><table><thead><tr><th>필수 기능</th><th>뜻</th></tr></thead><tbody>
+<tr><td>정의 기능</td><td>데이터의 형태, 구조, 제약 조건을 정함</td></tr>
+<tr><td>조작 기능</td><td>데이터 검색, 삽입, 삭제, 갱신</td></tr>
+<tr><td>제어 기능</td><td><mark>무결성 유지, 보안, 권한 검사, 병행 수행 제어</mark></td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>장점</th><th>단점</th></tr></thead><tbody>
+<tr><td>중복 최소화, 데이터 공유, 일관성·무결성·보안 유지, 표준화, 데이터 독립성</td><td>운영비 증가, 전문 인력 필요, 백업·회복이 복잡, 시스템이 복잡</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u1-3"><div class="sec-h"><h3>스키마와 데이터 독립성</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>스키마</th><th>뜻</th></tr></thead><tbody>
+<tr><td>외부 스키마</td><td>사용자나 응용 프로그램이 보는 <b>개인적 관점</b>의 구조. 서브 스키마라고도 함. 여러 개 존재</td></tr>
+<tr><td>개념 스키마</td><td>조직 전체의 관점에서 본 <mark>데이터베이스 전체의 논리적 구조</mark>. 하나만 존재. 무결성 규칙과 접근 권한 포함</td></tr>
+<tr><td>내부 스키마</td><td>저장 장치 관점의 <b>물리적 저장 구조</b> (레코드 형식, 인덱스, 저장 순서)</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>논리적 독립성</b>: 개념 스키마가 바뀌어도 외부 스키마(응용 프로그램)에 영향이 없습니다.</li>
+<li><b>물리적 독립성</b>: 내부 스키마(저장 구조)가 바뀌어도 개념 스키마에 영향이 없습니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="u1-4"><div class="sec-h"><h3>데이터베이스 언어와 사용자</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>언어</th><th>명령</th><th>용도</th></tr></thead><tbody>
+<tr><td>DDL (정의어)</td><td class="num">CREATE, ALTER, DROP</td><td>테이블 등 구조를 만들고, 바꾸고, 삭제</td></tr>
+<tr><td>DML (조작어)</td><td class="num">SELECT, INSERT, UPDATE, DELETE</td><td>데이터 검색, 삽입, 수정, 삭제</td></tr>
+<tr><td>DCL (제어어)</td><td class="num">GRANT, REVOKE, COMMIT, ROLLBACK</td><td>권한 부여·회수, 작업 확정·취소</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>DROP은 구조(테이블 자체)를 지우는 DDL, DELETE는 레코드를 지우는 DML입니다. ALTER(구조 변경)와 UPDATE(값 수정)도 같은 관계입니다.</div>
+<ul>
+<li><b>데이터베이스 관리자(DBA)</b>: 스키마 정의, 저장 구조와 접근 방법 결정, 보안·권한 관리, 백업·회복 절차 수립, 성능 감시를 맡습니다.</li>
+<li><b>응용 프로그래머</b>: 호스트 언어에 DML을 넣어 프로그램을 만듭니다. <b>일반 사용자</b>: 질의어로 데이터를 조회합니다.</li>
+<li><b>트랜잭션</b>: 하나의 논리적 작업 단위. 원자성(전부 실행 또는 전부 취소), 일관성, 독립성(격리성), 지속성(영속성)을 가집니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 2. 모델과 설계 ===================== -->
+<article class="chapter" id="ch2" data-title="모델·설계·정규화" hidden>
+<div class="ch-head"><span class="no">02</span><h2>데이터 모델, 키, 정규화</h2></div>
+<p class="ch-intro">관계형 데이터베이스 용어, 키의 종류, 무결성, 정규화 단계가 매회 나옵니다.</p>
+
+<section class="sec" id="u2-1"><div class="sec-h"><h3>데이터 모델과 설계 단계</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<p>설계 순서: <mark>요구 조건 분석 → 개념적 설계 → 논리적 설계 → 물리적 설계 → 구현</mark></p>
+<ul>
+<li><b>개념적 설계</b>: 현실 세계를 E-R 다이어그램 같은 개념적 모델로 표현합니다. DBMS와 무관합니다.</li>
+<li><b>논리적 설계</b>: 특정 DBMS(관계형 등)에 맞는 스키마로 바꾸고 정규화합니다.</li>
+<li><b>물리적 설계</b>: 저장 구조, 인덱스, 접근 경로를 정합니다.</li>
+<li>논리적 데이터 모델: <b>관계형</b>(표 형태, 가장 널리 사용) · <b>계층형</b>(트리 구조) · <b>네트워크형</b>(그래프 구조).</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>E-R 다이어그램 기호</th><th>뜻</th></tr></thead><tbody>
+<tr><td>사각형</td><td>개체 (Entity)</td></tr>
+<tr><td>마름모</td><td>관계 (Relationship)</td></tr>
+<tr><td>타원</td><td>속성 (Attribute)</td></tr>
+<tr><td>밑줄 친 타원</td><td>기본키 속성</td></tr>
+<tr><td>이중 타원</td><td>다중값 속성</td></tr>
+<tr><td>선</td><td>개체와 속성, 개체와 관계를 연결</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u2-2"><div class="sec-h"><h3>관계형 데이터베이스 용어</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>용어</th><th>Access에서</th><th>뜻</th></tr></thead><tbody>
+<tr><td>릴레이션</td><td>테이블</td><td>데이터를 행과 열로 표현한 표</td></tr>
+<tr><td>튜플</td><td>레코드(행)</td><td>릴레이션의 한 행</td></tr>
+<tr><td>속성 (애트리뷰트)</td><td>필드(열)</td><td>데이터의 가장 작은 논리적 단위</td></tr>
+<tr><td>도메인</td><td></td><td>한 속성이 가질 수 있는 <b>값의 범위</b></td></tr>
+<tr><td>차수 (Degree)</td><td></td><td><mark>속성(열)의 개수</mark></td></tr>
+<tr><td>카디널리티</td><td></td><td><mark>튜플(행)의 개수</mark></td></tr>
+</tbody></table></div>
+<p>릴레이션의 특징: 튜플은 모두 달라야 하고(중복 없음), 튜플과 속성 사이에 <b>순서가 없으며</b>, 속성 값은 더 나눌 수 없는 <b>원자값</b>입니다.</p>
+</section>
+
+<section class="sec" id="u2-3"><div class="sec-h"><h3>키와 무결성</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>키</th><th>뜻</th></tr></thead><tbody>
+<tr><td>슈퍼키</td><td>튜플을 구별할 수 있는 속성 집합. <b>유일성</b>만 만족</td></tr>
+<tr><td>후보키</td><td><mark>유일성과 최소성</mark>을 모두 만족하는 키</td></tr>
+<tr><td>기본키</td><td>후보키 중 선택한 대표 키. <b>NULL 불가, 중복 불가</b></td></tr>
+<tr><td>대체키</td><td>후보키 중 기본키로 선택되지 않은 나머지</td></tr>
+<tr><td>외래키</td><td>다른 테이블의 <b>기본키를 참조</b>하는 속성. 테이블 간 관계를 만듦</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>무결성</th><th>규칙</th></tr></thead><tbody>
+<tr><td>개체 무결성</td><td>기본키는 NULL이나 중복 값을 가질 수 없음</td></tr>
+<tr><td>참조 무결성</td><td>외래키 값은 참조하는 테이블의 <mark>기본키 값이거나 NULL</mark>이어야 함</td></tr>
+<tr><td>도메인 무결성</td><td>속성 값은 정의된 도메인 범위 안의 값이어야 함</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u2-4"><div class="sec-h"><h3>정규화</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>정규화는 테이블을 나누어 <b>중복을 줄이고 이상 현상을 없애는</b> 과정입니다. 정보 손실 없이 분해(무손실 분해)해야 합니다.</p>
+<ul>
+<li><b>이상 현상</b>: 삽입 이상(원치 않는 값까지 넣어야 함), 삭제 이상(필요한 정보까지 지워짐), 갱신 이상(일부만 바뀌어 불일치).</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>단계</th><th>조건</th></tr></thead><tbody>
+<tr><td>1NF</td><td>모든 속성 값이 <b>원자값</b></td></tr>
+<tr><td>2NF</td><td>1NF + <mark>부분 함수 종속 제거</mark> (기본키 전체에 완전 함수 종속)</td></tr>
+<tr><td>3NF</td><td>2NF + <mark>이행적 함수 종속 제거</mark> (A→B, B→C일 때 A→C 제거)</td></tr>
+<tr><td>BCNF</td><td>3NF + 모든 결정자가 후보키</td></tr>
+<tr><td>4NF</td><td>BCNF + 다치 종속 제거</td></tr>
+<tr><td>5NF</td><td>4NF + 조인 종속 제거</td></tr>
+</tbody></table></div>
+<div class="box tip"><b class="t">외우는 법</b>"도부이결다조" — 도메인 원자값 · 부분 종속 · 이행 종속 · 결정자 · 다치 종속 · 조인 종속</div>
+<p>정규화를 많이 할수록 테이블이 늘어나 조인이 많아지므로 검색 속도가 느려질 수 있습니다.</p>
+</section>
+</article>
+
+<!-- ===================== 3. 테이블 ===================== -->
+<article class="chapter" id="ch3" data-title="Access와 테이블" hidden>
+<div class="ch-head"><span class="no">03</span><h2>Access와 테이블</h2></div>
+<p class="ch-intro">데이터 형식, 필드 속성, 입력 마스크, 기본키와 인덱스가 나옵니다. 입력 마스크 기호는 실기에도 나오니 확실히 외우세요.</p>
+
+<section class="sec" id="u3-1"><div class="sec-h"><h3>Access 개체</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>개체</th><th>역할</th></tr></thead><tbody>
+<tr><td>테이블</td><td>데이터를 실제로 저장하는 기본 개체</td></tr>
+<tr><td>쿼리</td><td>조건에 맞는 데이터를 검색하거나 추가·수정·삭제</td></tr>
+<tr><td>폼</td><td>데이터를 입력·편집하는 화면</td></tr>
+<tr><td>보고서</td><td>데이터를 요약해 인쇄하는 출력물</td></tr>
+<tr><td>매크로</td><td>작업을 자동화하는 명령 모음</td></tr>
+<tr><td>모듈</td><td>VBA로 작성한 프로그램</td></tr>
+</tbody></table></div>
+<p>파일 확장명은 <b>.accdb</b>입니다. 데이터는 테이블 단위로 저장되고 별도 저장 없이 레코드를 옮기는 순간 자동 저장됩니다.</p>
+</section>
+
+<section class="sec" id="u3-2"><div class="sec-h"><h3>데이터 형식</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>형식</th><th>특징</th></tr></thead><tbody>
+<tr><td>짧은 텍스트</td><td>문자·숫자. 최대 <mark>255자</mark>. 계산하지 않는 숫자(전화번호)도 여기에</td></tr>
+<tr><td>긴 텍스트</td><td>255자를 넘는 긴 문장</td></tr>
+<tr><td>숫자</td><td>계산에 쓰는 숫자. 필드 크기로 바이트, 정수, 정수(Long), 실수(Single·Double), 10진수 등 선택</td></tr>
+<tr><td>날짜/시간</td><td>날짜와 시간. 8바이트</td></tr>
+<tr><td>통화</td><td>금액. 계산 시 반올림 오차가 적음. 8바이트</td></tr>
+<tr><td>일련번호</td><td>레코드 추가 시 <mark>자동으로 1씩 증가</mark>. 직접 입력·수정 불가. 삭제된 번호는 다시 쓰지 않음</td></tr>
+<tr><td>Yes/No</td><td>예/아니요, True/False, On/Off 중 하나</td></tr>
+<tr><td>OLE 개체</td><td>그림, 엑셀 시트 같은 외부 개체 연결·포함</td></tr>
+<tr><td>하이퍼링크</td><td>웹 주소, 파일 경로</td></tr>
+<tr><td>첨부 파일</td><td>여러 파일을 한 필드에 첨부</td></tr>
+<tr><td>계산</td><td>같은 테이블의 다른 필드로 계산한 값</td></tr>
+<tr><td>조회 마법사</td><td>다른 테이블이나 값 목록에서 골라 입력하도록 콤보 상자 만들기</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>OLE 개체, 첨부 파일, 계산 형식은 기본키나 인덱스로 지정할 수 없습니다. 이미 데이터가 있는 필드를 일련번호로 바꿀 수 없습니다.</div>
+</section>
+
+<section class="sec" id="u3-3"><div class="sec-h"><h3>필드 속성</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>속성</th><th>뜻</th></tr></thead><tbody>
+<tr><td>필드 크기</td><td>짧은 텍스트의 글자 수, 숫자의 범위</td></tr>
+<tr><td>형식</td><td>데이터를 <b>표시하는</b> 방식 (저장값은 그대로)</td></tr>
+<tr><td>입력 마스크</td><td>데이터를 <b>입력하는</b> 틀</td></tr>
+<tr><td>캡션</td><td>데이터시트·폼에 필드 이름 대신 보여줄 이름</td></tr>
+<tr><td>기본값</td><td>새 레코드에 자동으로 들어갈 값</td></tr>
+<tr><td>유효성 검사 규칙</td><td>입력 가능한 값의 조건. 예: <code class="f">Between 0 And 100</code>, <code class="f">In ("남","여")</code>, <code class="f">&gt;=#2026-01-01#</code></td></tr>
+<tr><td>유효성 검사 텍스트</td><td>규칙에 맞지 않을 때 표시할 메시지</td></tr>
+<tr><td>필수</td><td>'예'면 반드시 입력해야 함</td></tr>
+<tr><td>빈 문자열 허용</td><td>길이가 0인 문자열("") 입력 허용 여부</td></tr>
+<tr><td>인덱스</td><td>아니요 / 예(중복 가능) / <mark>예(중복 불가능)</mark></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u3-4"><div class="sec-h"><h3>입력 마스크</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>기호</th><th>입력할 수 있는 것</th><th>필수 여부</th></tr></thead><tbody>
+<tr><td class="num">0</td><td>숫자 (0~9), 더하기·빼기 기호 불가</td><td><b>필수</b></td></tr>
+<tr><td class="num">9</td><td>숫자 또는 공백</td><td>선택</td></tr>
+<tr><td class="num">#</td><td>숫자, 공백, 더하기·빼기 기호</td><td>선택</td></tr>
+<tr><td class="num">L</td><td>영문자, 한글</td><td><b>필수</b></td></tr>
+<tr><td class="num">?</td><td>영문자, 한글</td><td>선택</td></tr>
+<tr><td class="num">A</td><td>영문자, 한글, 숫자</td><td><b>필수</b></td></tr>
+<tr><td class="num">a</td><td>영문자, 한글, 숫자</td><td>선택</td></tr>
+<tr><td class="num">&amp;</td><td>모든 문자, 공백</td><td><b>필수</b></td></tr>
+<tr><td class="num">C</td><td>모든 문자, 공백</td><td>선택</td></tr>
+<tr><td class="num">&gt; / &lt;</td><td>뒤의 문자를 대문자 / 소문자로 변환</td><td></td></tr>
+<tr><td class="num">\</td><td>바로 뒤 문자를 그대로 표시</td><td></td></tr>
+<tr><td class="num">Password</td><td>입력 내용을 * 로 표시</td><td></td></tr>
+</tbody></table></div>
+<p>입력 마스크는 세 구역으로 씁니다: <code class="f">마스크;저장 방식;자리 표시자</code>. 두 번째 구역이 <b>0이면 서식 문자(하이픈 등)까지 저장</b>, 1이거나 생략하면 입력한 값만 저장합니다. 자리 표시자 기본값은 밑줄(_)입니다.</p>
+<p>예: 전화번호 <code class="f">000-0000-0000;0;#</code></p>
+</section>
+
+<section class="sec" id="u3-5"><div class="sec-h"><h3>기본키와 인덱스</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>기본키는 필드 여러 개를 묶어 지정할 수 있습니다(<b>복합키</b>). 행 선택기에서 <kbd>Ctrl</kbd>을 누른 채 여러 필드를 고르고 지정합니다.</li>
+<li>기본키를 지정하면 <mark>자동으로 인덱스(중복 불가능)</mark>가 설정됩니다.</li>
+<li>기본키 없이도 테이블을 저장할 수 있습니다. 저장할 때 기본키를 만들지 묻고, '예'를 누르면 일련번호 필드가 추가됩니다.</li>
+<li>이미 중복 값이나 빈 값이 있는 필드는 기본키로 지정할 수 없습니다.</li>
+<li><b>인덱스</b>는 검색과 정렬을 빠르게 하지만, 데이터를 추가·수정할 때는 인덱스도 갱신해야 해서 느려집니다. 자주 검색·정렬하는 필드에만 설정합니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 4. 관계 ===================== -->
+<article class="chapter" id="ch4" data-title="관계와 조인" hidden>
+<div class="ch-head"><span class="no">04</span><h2>관계, 조인, 외부 데이터</h2></div>
+<p class="ch-intro">참조 무결성 옵션과 조인 종류의 차이가 자주 나옵니다.</p>
+
+<section class="sec" id="u4-1"><div class="sec-h"><h3>관계 설정과 참조 무결성</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>관계 종류: <b>일대일(1:1)</b>, <b>일대다(1:N)</b>, <b>다대다(M:N)</b>. 다대다는 Access에서 직접 만들 수 없고, 가운데에 <mark>연결 테이블</mark>을 두어 일대다 관계 두 개로 만듭니다.</li>
+<li>관계를 맺는 두 필드는 <b>데이터 형식이 같아야</b> 합니다. 예외로 일련번호 필드는 숫자(정수 Long) 필드와 연결할 수 있습니다.</li>
+<li>'일' 쪽 필드는 기본키이거나 고유 인덱스여야 참조 무결성을 설정할 수 있습니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>참조 무결성 옵션</th><th>효과</th></tr></thead><tbody>
+<tr><td>항상 참조 무결성 유지</td><td>'다' 쪽에 '일' 쪽에 없는 값을 입력할 수 없음. 관련 레코드가 있는 '일' 쪽 레코드는 삭제·수정 불가</td></tr>
+<tr><td>관련 필드 모두 업데이트</td><td>'일' 쪽 기본키 값을 바꾸면 '다' 쪽 외래키 값도 <b>자동으로 바뀜</b></td></tr>
+<tr><td>관련 레코드 모두 삭제</td><td>'일' 쪽 레코드를 지우면 '다' 쪽 관련 레코드도 <b>함께 삭제</b></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u4-2"><div class="sec-h"><h3>조인</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>조인</th><th>결과</th></tr></thead><tbody>
+<tr><td>내부 조인 (INNER JOIN)</td><td>두 테이블에서 <mark>조인 필드 값이 일치하는 레코드만</mark></td></tr>
+<tr><td>왼쪽 외부 조인 (LEFT JOIN)</td><td>왼쪽 테이블의 <b>모든 레코드</b> + 오른쪽에서 일치하는 레코드</td></tr>
+<tr><td>오른쪽 외부 조인 (RIGHT JOIN)</td><td>오른쪽 테이블의 <b>모든 레코드</b> + 왼쪽에서 일치하는 레코드</td></tr>
+</tbody></table></div>
+<p>예: <code class="f">SELECT 학생.이름, 성적.점수 FROM 학생 INNER JOIN 성적 ON 학생.학번 = 성적.학번;</code></p>
+</section>
+
+<section class="sec" id="u4-3"><div class="sec-h"><h3>외부 데이터 가져오기·연결·내보내기</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>가져오기</b>: 엑셀, 텍스트, 다른 Access 파일의 데이터를 <mark>복사해</mark> 새 테이블로 만듭니다. 원본과 연결되지 않습니다.</li>
+<li><b>연결</b>: 원본 데이터는 그대로 두고 연결만 합니다. 원본이 바뀌면 반영됩니다. <mark>연결 테이블을 삭제해도 원본은 삭제되지 않습니다.</mark></li>
+<li>엑셀에서 가져올 때 시트 단위나 이름 정의된 범위 단위로 가져오고, 첫 행을 필드 이름으로 쓸 수 있습니다. 가져오지 않을 필드를 고를 수도 있습니다.</li>
+<li><b>내보내기</b>: 테이블, 쿼리, 폼, 보고서를 엑셀, 텍스트, PDF, 다른 Access 파일 등으로 저장합니다. 테이블을 다른 Access 파일로 내보낼 때는 구조만 또는 구조와 데이터를 고를 수 있습니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 5. 쿼리 ===================== -->
+<article class="chapter" id="ch5" data-title="쿼리와 SQL" hidden>
+<div class="ch-head"><span class="no">05</span><h2>쿼리와 SQL</h2></div>
+<p class="ch-intro">3과목에서 가장 많이 나오는 단원입니다. SQL 문의 결과를 묻는 문제가 매회 여러 문항 나옵니다.</p>
+
+<section class="sec" id="u5-1"><div class="sec-h"><h3>쿼리의 종류</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>쿼리</th><th>특징</th></tr></thead><tbody>
+<tr><td>선택 쿼리</td><td>조건에 맞는 레코드 검색. 가장 기본</td></tr>
+<tr><td>매개 변수 쿼리</td><td>실행할 때 값을 입력받음. 조건에 <code class="f">[검색할 이름을 입력하세요]</code>처럼 <mark>대괄호</mark> 사용</td></tr>
+<tr><td>요약 쿼리</td><td>그룹별 합계·평균·개수 (요약 행 사용)</td></tr>
+<tr><td>크로스탭 쿼리</td><td>엑셀 피벗처럼 행·열로 요약. <mark>행 머리글은 최대 3개, 열 머리글은 1개, 값은 1개</mark></td></tr>
+<tr><td>테이블 만들기</td><td>쿼리 결과로 새 테이블 생성</td></tr>
+<tr><td>추가 쿼리</td><td>다른 테이블에 레코드 추가</td></tr>
+<tr><td>업데이트 쿼리</td><td>조건에 맞는 레코드의 값을 한꺼번에 수정</td></tr>
+<tr><td>삭제 쿼리</td><td>조건에 맞는 레코드 삭제</td></tr>
+<tr><td>중복 데이터 검색</td><td>필드 값이 같은 레코드 찾기 (마법사)</td></tr>
+<tr><td>불일치 검색</td><td>한 테이블에는 있고 다른 테이블에는 관련 레코드가 없는 것 찾기 (마법사)</td></tr>
+</tbody></table></div>
+<p>테이블 만들기·추가·업데이트·삭제 쿼리를 <b>실행 쿼리</b>라고 하며, 실행하면 데이터가 실제로 바뀝니다. 실행 쿼리는 되돌릴 수 없습니다.</p>
+<p>쿼리 디자인의 조건 행: 같은 행에 쓴 조건은 AND, 다른 행('또는')에 쓴 조건은 OR입니다.</p>
+</section>
+
+<section class="sec" id="u5-2"><div class="sec-h"><h3>SELECT 문</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<pre class="code">SELECT [DISTINCT] 필드1, 필드2, 집계함수(필드) AS 별칭
+FROM 테이블
+WHERE 조건
+GROUP BY 필드
+HAVING 그룹 조건
+ORDER BY 필드 [ASC | DESC];</pre>
+<ul>
+<li><b>DISTINCT</b>: 중복된 결과를 하나만 표시합니다. <code class="f">SELECT *</code>는 모든 필드입니다.</li>
+<li><b>WHERE</b>는 그룹으로 묶기 전의 레코드 조건, <mark>HAVING은 GROUP BY로 묶은 그룹의 조건</mark>입니다. 집계 함수 조건은 HAVING에 씁니다.</li>
+<li><b>ORDER BY</b>는 생략하면 오름차순(ASC)입니다. 여러 필드로 정렬하면 앞의 필드가 먼저 기준이 됩니다.</li>
+<li>집계 함수: COUNT, SUM, AVG, MAX, MIN. <code class="f">COUNT(*)</code>는 전체 레코드 수, <code class="f">COUNT(필드)</code>는 그 필드가 NULL이 아닌 레코드 수입니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>조건 연산자</th><th>예</th></tr></thead><tbody>
+<tr><td class="num">BETWEEN a AND b</td><td class="num">점수 BETWEEN 70 AND 80 (70 이상 80 이하)</td></tr>
+<tr><td class="num">IN (…)</td><td class="num">부서 IN ("영업","기획")</td></tr>
+<tr><td class="num">LIKE</td><td class="num">이름 LIKE "김*" (김으로 시작) · "*수" (수로 끝남) · "*영*" (영 포함)</td></tr>
+<tr><td class="num">IS NULL / IS NOT NULL</td><td class="num">전화 IS NULL (값이 없음)</td></tr>
+<tr><td class="num">AND / OR / NOT</td><td class="num">NOT 부서 = "영업"</td></tr>
+</tbody></table></div>
+<p>Access 와일드카드: <span class="num">*</span>(여러 글자), <span class="num">?</span>(한 글자), <span class="num">#</span>(숫자 한 자리), <span class="num">[ ]</span>(괄호 안의 문자 중 하나), <span class="num">[! ]</span>(괄호 안 문자 제외). 날짜는 <span class="num">#2026-10-02#</span>처럼 #로 감쌉니다.</p>
+</section>
+
+<section class="sec" id="u5-3"><div class="sec-h"><h3>SQL 예제로 결과 구하기</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>[사원] 테이블</p>
+<div class="tbl"><table><thead><tr><th>사번</th><th>이름</th><th>부서</th><th>급여</th></tr></thead><tbody>
+<tr><td class="num">1</td><td>김민지</td><td>영업</td><td class="num">300</td></tr>
+<tr><td class="num">2</td><td>이서준</td><td>기획</td><td class="num">350</td></tr>
+<tr><td class="num">3</td><td>박하늘</td><td>영업</td><td class="num">280</td></tr>
+<tr><td class="num">4</td><td>최유나</td><td>총무</td><td class="num">320</td></tr>
+<tr><td class="num">5</td><td>김도윤</td><td>기획</td><td class="num">400</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>SQL</th><th>결과</th></tr></thead><tbody>
+<tr><td class="num">SELECT COUNT(*) FROM 사원 WHERE 급여 &gt;= 300;</td><td class="num">4</td></tr>
+<tr><td class="num">SELECT 이름 FROM 사원 WHERE 이름 LIKE "김*";</td><td>김민지, 김도윤</td></tr>
+<tr><td class="num">SELECT DISTINCT 부서 FROM 사원;</td><td>영업, 기획, 총무 (3개 행)</td></tr>
+<tr><td class="num">SELECT 부서, AVG(급여) FROM 사원 GROUP BY 부서;</td><td>기획 375 · 영업 290 · 총무 320</td></tr>
+<tr><td class="num">SELECT 부서 FROM 사원 GROUP BY 부서 HAVING COUNT(*) &gt;= 2;</td><td>기획, 영업</td></tr>
+<tr><td class="num">SELECT TOP 2 이름 FROM 사원 ORDER BY 급여 DESC;</td><td>김도윤, 이서준</td></tr>
+<tr><td class="num">SELECT SUM(급여) FROM 사원 WHERE 부서 IN ("영업","총무");</td><td class="num">900</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u5-4"><div class="sec-h"><h3>INSERT, UPDATE, DELETE와 하위 쿼리</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>명령</th><th>형식</th></tr></thead><tbody>
+<tr><td>삽입</td><td class="num">INSERT INTO 사원 (사번, 이름) VALUES (6, "정다은");</td></tr>
+<tr><td>수정</td><td class="num">UPDATE 사원 SET 급여 = 급여 * 1.1 WHERE 부서 = "영업";</td></tr>
+<tr><td>삭제</td><td class="num">DELETE FROM 사원 WHERE 사번 = 3;</td></tr>
+<tr><td>테이블 만들기</td><td class="num">SELECT * INTO 영업부 FROM 사원 WHERE 부서 = "영업";</td></tr>
+<tr><td>하위 쿼리</td><td class="num">SELECT 이름 FROM 사원 WHERE 급여 &gt; (SELECT AVG(급여) FROM 사원);</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>UPDATE와 DELETE에서 <b>WHERE를 빼면 모든 레코드</b>가 바뀌거나 삭제됩니다. 위 하위 쿼리의 결과는 평균 330보다 큰 이서준(350), 김도윤(400)입니다.</div>
+</section>
+
+<section class="sec" id="u5-5"><div class="sec-h"><h3>Access 함수</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>함수</th><th>뜻 / 예</th></tr></thead><tbody>
+<tr><td class="num">IIf(조건,참,거짓)</td><td class="num">IIf([점수]&gt;=60,"합격","불합격")</td></tr>
+<tr><td class="num">Nz(값,대체값)</td><td>NULL이면 대체값(보통 0)으로</td></tr>
+<tr><td class="num">Date() / Now() / Year() / Month() / Day()</td><td>오늘 날짜 / 현재 날짜·시간 / 연·월·일 추출</td></tr>
+<tr><td class="num">DateDiff("단위",시작,끝)</td><td class="num">DateDiff("yyyy",#2000-03-01#,#2026-10-02#) → 26</td></tr>
+<tr><td class="num">DateAdd("단위",수,날짜)</td><td class="num">DateAdd("m",1,#2026-10-02#) → 2026-11-02</td></tr>
+<tr><td class="num">DatePart("단위",날짜)</td><td>날짜의 지정 부분. "q"는 분기</td></tr>
+<tr><td class="num">Format(값,"형식")</td><td class="num">Format(#2026-10-02#,"yyyy년 mm월") → 2026년 10월</td></tr>
+<tr><td class="num">Left / Right / Mid / Len</td><td>엑셀과 같음</td></tr>
+<tr><td class="num">InStr(문자열,찾을 문자)</td><td class="num">InStr("Access","c") → 2 (위치)</td></tr>
+<tr><td class="num">DSum / DAvg / DCount / DLookup("필드","테이블","조건")</td><td>도메인 함수. 테이블·쿼리에서 조건에 맞는 값을 계산하거나 찾음</td></tr>
+</tbody></table></div>
+<p>날짜 단위: <span class="num">yyyy</span>(년), <span class="num">q</span>(분기), <span class="num">m</span>(월), <span class="num">d</span>(일), <span class="num">ww</span>(주), <span class="num">h</span>(시), <span class="num">n</span>(분), <span class="num">s</span>(초). 분은 m이 아니라 <mark>n</mark>입니다.</p>
+</section>
+</article>
+
+<!-- ===================== 6. 폼 ===================== -->
+<article class="chapter" id="ch6" data-title="폼" hidden>
+<div class="ch-head"><span class="no">06</span><h2>폼</h2></div>
+<p class="ch-intro">컨트롤 종류, 폼·컨트롤 속성, 하위 폼이 나옵니다.</p>
+
+<section class="sec" id="u6-1"><div class="sec-h"><h3>폼의 기본</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>폼은 테이블·쿼리의 데이터를 입력·수정·조회하는 화면입니다. 폼에서 입력한 데이터는 <b>원본 테이블에 저장</b>됩니다.</li>
+<li><b>레코드 원본</b>: 폼이 사용할 테이블, 쿼리, SQL 문.</li>
+<li>보기: <b>폼 보기</b>(데이터 입력) · <b>데이터시트 보기</b> · <b>레이아웃 보기</b>(데이터를 보면서 크기·위치 조정) · <b>디자인 보기</b>(구조 편집, 데이터는 보이지 않음).</li>
+<li>폼 형식: 단일 폼(한 번에 레코드 하나), 연속 폼(여러 레코드), 데이터시트, <b>분할 폼</b>(위는 폼, 아래는 데이터시트가 동기화), 여러 항목.</li>
+<li>구역: 폼 머리글, 페이지 머리글, 본문, 페이지 바닥글, 폼 바닥글. 페이지 머리글·바닥글은 <b>인쇄할 때만</b> 나타납니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="u6-2"><div class="sec-h"><h3>컨트롤</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>구분</th><th>뜻</th></tr></thead><tbody>
+<tr><td>바운드 컨트롤</td><td>테이블·쿼리의 <b>필드와 연결</b>된 컨트롤</td></tr>
+<tr><td>언바운드 컨트롤</td><td>필드와 연결되지 않은 컨트롤 (레이블, 선, 그림)</td></tr>
+<tr><td>계산 컨트롤</td><td>컨트롤 원본이 <mark>= 로 시작하는 식</mark>. 예: <code class="f">=[단가]*[수량]</code></td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>컨트롤</th><th>특징</th></tr></thead><tbody>
+<tr><td>텍스트 상자</td><td>값 입력·표시. 계산 결과 표시</td></tr>
+<tr><td>레이블</td><td>제목·설명 문자 표시 (언바운드)</td></tr>
+<tr><td>콤보 상자</td><td>목록에서 고르거나 <mark>직접 입력</mark>도 가능. 공간을 적게 차지</td></tr>
+<tr><td>목록 상자</td><td>목록에서 고르기만 가능. 목록이 항상 펼쳐져 있음</td></tr>
+<tr><td>확인란 / 옵션 단추 / 토글 단추</td><td>Yes/No 값 표시</td></tr>
+<tr><td>옵션 그룹</td><td>여러 옵션 중 <b>하나만</b> 선택. 그룹 값은 숫자</td></tr>
+<tr><td>명령 단추</td><td>클릭으로 매크로나 이벤트 프로시저 실행</td></tr>
+<tr><td>하위 폼</td><td>폼 안에 다른 폼 넣기</td></tr>
+<tr><td>탭 컨트롤</td><td>여러 페이지를 탭으로 나눠 표시</td></tr>
+</tbody></table></div>
+<p>계산 컨트롤 예: <code class="f">=Count(*)</code>(레코드 수), <code class="f">=Sum([금액])</code>, <code class="f">=Avg([점수])</code>, <code class="f">=DSum("금액","주문","고객='김민지'")</code></p>
+</section>
+
+<section class="sec" id="u6-3"><div class="sec-h"><h3>폼과 컨트롤 속성</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>폼 속성</th><th>뜻</th></tr></thead><tbody>
+<tr><td>기본 보기</td><td>단일 폼, 연속 폼, 데이터시트, 분할 표시 폼</td></tr>
+<tr><td>편집 / 추가 / 삭제 가능</td><td>레코드 수정 / 새 레코드 추가 / 레코드 삭제 허용 여부</td></tr>
+<tr><td>데이터 입력</td><td>'예'면 기존 레코드는 보이지 않고 <mark>새 레코드 입력만</mark> 가능</td></tr>
+<tr><td>탐색 단추 / 레코드 선택기 / 구분선</td><td>아래쪽 레코드 이동 단추 / 왼쪽 선택 막대 / 구역 사이 선 표시 여부</td></tr>
+<tr><td>팝업 / 모달</td><td>다른 창 위에 표시 / 닫기 전에는 다른 창 사용 불가</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>컨트롤 속성</th><th>뜻</th></tr></thead><tbody>
+<tr><td>컨트롤 원본</td><td>연결할 필드나 계산식</td></tr>
+<tr><td>사용 가능 (Enabled)</td><td>'아니요'면 포커스를 받을 수 없고 흐리게 표시</td></tr>
+<tr><td>잠금 (Locked)</td><td>'예'면 값을 볼 수는 있지만 수정할 수 없음</td></tr>
+<tr><td>표시 (Visible)</td><td>화면에 보일지 여부</td></tr>
+<tr><td>탭 정지 / 탭 인덱스</td><td><kbd>Tab</kbd> 키로 이동할지 / 이동 순서 (0부터 시작)</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u6-4"><div class="sec-h"><h3>하위 폼</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li>일대다 관계의 데이터를 함께 보여줍니다. <b>기본 폼은 '일' 쪽</b>, <b>하위 폼은 '다' 쪽</b>입니다.</li>
+<li><mark>기본 필드 연결</mark>(기본 폼의 필드)과 <mark>하위 필드 연결</mark>(하위 폼의 필드)로 두 폼을 연결합니다. 두 필드의 데이터 형식이 같아야 합니다.</li>
+<li>기본 폼은 <b>단일 폼</b>으로만 표시하고, 하위 폼은 연속 폼이나 데이터시트로 표시할 수 있습니다.</li>
+<li>하위 폼은 여러 단계로 중첩할 수 있습니다(최대 7수준).</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 7. 보고서 ===================== -->
+<article class="chapter" id="ch7" data-title="보고서" hidden>
+<div class="ch-head"><span class="no">07</span><h2>보고서</h2></div>
+<p class="ch-intro">구역별로 어디에 인쇄되는지, 그룹화와 페이지 번호 식이 나옵니다.</p>
+
+<section class="sec" id="u7-1"><div class="sec-h"><h3>보고서 구역</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>구역</th><th>인쇄 위치</th></tr></thead><tbody>
+<tr><td>보고서 머리글</td><td>보고서 <mark>첫 페이지 맨 위에 한 번</mark> (제목, 로고, 날짜)</td></tr>
+<tr><td>페이지 머리글</td><td>모든 페이지의 위쪽 (첫 페이지는 보고서 머리글 아래)</td></tr>
+<tr><td>그룹 머리글</td><td>각 그룹의 시작 부분 (그룹 이름)</td></tr>
+<tr><td>본문</td><td>레코드마다 반복</td></tr>
+<tr><td>그룹 바닥글</td><td>각 그룹의 끝 부분 (그룹별 합계)</td></tr>
+<tr><td>페이지 바닥글</td><td>모든 페이지의 아래쪽 (페이지 번호)</td></tr>
+<tr><td>보고서 바닥글</td><td>보고서 <mark>마지막 페이지에 한 번</mark>. 마지막 페이지 바닥글 <b>위</b>에 인쇄 (전체 합계)</td></tr>
+</tbody></table></div>
+<ul>
+<li>보고서에서는 데이터를 <b>입력·수정할 수 없습니다</b>.</li>
+<li>보기: 보고서 보기, 인쇄 미리 보기, 레이아웃 보기, 디자인 보기.</li>
+</ul>
+</section>
+
+<section class="sec" id="u7-2"><div class="sec-h"><h3>그룹화, 정렬, 계산</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>'그룹화 및 정렬'에서 그룹·정렬 기준을 최대 <b>10개 수준</b>까지 지정합니다.</li>
+<li>그룹 속성: 머리글·바닥글 표시, 그룹 간격(첫 글자, 월, 분기 등), <b>같은 페이지에 표시</b>(그룹 전체를 한 페이지에).</li>
+<li><b>누적 합계</b> 속성: '그룹'은 그룹 안에서만 누적, '모두'는 보고서 전체 누적. 컨트롤 원본을 <code class="f">=1</code>로 하고 누적 합계를 쓰면 일련번호가 됩니다.</li>
+<li><b>중복 내용 숨기기</b>: 바로 위 레코드와 값이 같으면 표시하지 않습니다.</li>
+<li>그룹 바닥글에 <code class="f">=Sum([금액])</code>을 넣으면 그룹별 합계, 보고서 바닥글에 넣으면 전체 합계입니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>페이지 번호 식</th><th>결과 (전체 5쪽 중 2쪽)</th></tr></thead><tbody>
+<tr><td class="num">=[Page]</td><td class="num">2</td></tr>
+<tr><td class="num">=[Page] &amp; " / " &amp; [Pages]</td><td class="num">2 / 5</td></tr>
+<tr><td class="num">="전체 " &amp; [Pages] &amp; "쪽 중 " &amp; [Page] &amp; "쪽"</td><td class="num">전체 5쪽 중 2쪽</td></tr>
+<tr><td class="num">=Format([Page],"000")</td><td class="num">002</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="u7-3"><div class="sec-h"><h3>보고서 만들기 도구</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>보고서</b>: 선택한 테이블·쿼리로 바로 만듭니다.</li>
+<li><b>보고서 마법사</b>: 필드, 그룹, 정렬, 요약 옵션, 모양을 단계별로 선택합니다.</li>
+<li><b>레이블</b>: 우편물 주소 라벨 같은 표준 크기 라벨을 만듭니다.</li>
+<li><b>업무 문서 양식 마법사</b>: 거래명세서, 세금계산서 같은 양식을 만듭니다.</li>
+<li>보고서의 레코드 원본도 테이블, 쿼리, SQL 문을 쓸 수 있습니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 8. 매크로 ===================== -->
+<article class="chapter" id="ch8" data-title="매크로와 모듈" hidden>
+<div class="ch-head"><span class="no">08</span><h2>매크로와 모듈</h2></div>
+<p class="ch-intro">매크로 함수 이름과 AutoExec, VBA의 DoCmd 문이 나옵니다.</p>
+
+<section class="sec" id="u8-1"><div class="sec-h"><h3>Access 매크로</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>매크로 함수</th><th>기능</th></tr></thead><tbody>
+<tr><td class="num">OpenForm / OpenReport / OpenQuery / OpenTable</td><td>폼 / 보고서 / 쿼리 / 테이블 열기</td></tr>
+<tr><td class="num">CloseWindow</td><td>개체 닫기</td></tr>
+<tr><td class="num">MessageBox</td><td>메시지 상자 표시</td></tr>
+<tr><td class="num">GoToRecord</td><td>특정 레코드(처음, 마지막, 다음, 새 레코드)로 이동</td></tr>
+<tr><td class="num">FindRecord</td><td>조건에 맞는 첫 레코드 찾기</td></tr>
+<tr><td class="num">ApplyFilter</td><td>필터 적용</td></tr>
+<tr><td class="num">RunMacro / RunCode</td><td>다른 매크로 실행 / VBA 함수 실행</td></tr>
+<tr><td class="num">ExportWithFormatting</td><td>개체를 엑셀, PDF 등으로 내보내기</td></tr>
+<tr><td class="num">QuitAccess</td><td>Access 종료</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>AutoExec</b>라는 이름으로 저장한 매크로는 <mark>데이터베이스를 열 때 자동으로 실행</mark>됩니다. <kbd>Shift</kbd>를 누른 채 열면 실행되지 않습니다.</li>
+<li>매크로를 명령 단추나 이벤트(On Click 등)에 연결해 실행합니다.</li>
+<li>매크로에 조건(If)을 넣어 조건에 맞을 때만 실행할 수 있습니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="u8-2"><div class="sec-h"><h3>VBA 모듈과 이벤트</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>코드</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">DoCmd.OpenForm "주문입력"</td><td>주문입력 폼 열기</td></tr>
+<tr><td class="num">DoCmd.OpenReport "매출", acViewPreview</td><td>매출 보고서를 인쇄 미리 보기로 열기 (acViewNormal이면 바로 인쇄)</td></tr>
+<tr><td class="num">DoCmd.Close</td><td>현재 개체 닫기</td></tr>
+<tr><td class="num">DoCmd.RunSQL "DELETE …"</td><td>실행 쿼리 SQL 실행</td></tr>
+<tr><td class="num">Me.Filter = "부서='영업'" : Me.FilterOn = True</td><td>현재 폼에 필터 적용</td></tr>
+<tr><td class="num">Me.RecordSource = "사원"</td><td>폼의 레코드 원본 변경</td></tr>
+<tr><td class="num">Me.txt이름.SetFocus</td><td>컨트롤로 포커스 이동</td></tr>
+<tr><td class="num">MsgBox "저장했습니다"</td><td>메시지 표시</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>이벤트</th><th>발생 시점</th></tr></thead><tbody>
+<tr><td>On Click (클릭 시)</td><td>컨트롤을 클릭할 때</td></tr>
+<tr><td>On Load (로드 시)</td><td>폼이 열리고 레코드가 표시될 때</td></tr>
+<tr><td>On Current (현재 레코드)</td><td>다른 레코드로 이동할 때마다</td></tr>
+<tr><td>Before Update (업데이트 전)</td><td>변경된 데이터가 저장되기 직전. 유효성 검사에 사용</td></tr>
+<tr><td>After Update (업데이트 후)</td><td>데이터가 저장된 직후</td></tr>
+<tr><td>On Dbl Click (두 번 클릭 시)</td><td>두 번 클릭할 때</td></tr>
+</tbody></table></div>
+</section>
+</article>
+
+<div class="chapter" id="results" hidden></div>
+</main>
+</div>
+
+<div class="player" id="player" hidden>
+  <div class="in">
+    <button type="button" class="main" id="pPlay">▶ 듣기</button>
+    <button type="button" id="pStop">■ 정지</button>
+    <span class="now" id="pNow">절마다 있는 '듣기'를 누르거나, ▶로 현재 단원을 처음부터 들을 수 있습니다.</span>
+    <label for="pVoice">음성 <select id="pVoice"></select></label>
+    <label for="pRate">속도 <select id="pRate"><option value="0.8">0.8배</option><option value="0.9">0.9배</option><option value="1" selected>1.0배</option><option value="1.15">1.15배</option><option value="1.3">1.3배</option></select></label>
+    <label for="pPitch">음높이 <select id="pPitch"><option value="0.75">낮게</option><option value="0.85" selected>약간 낮게</option><option value="1">보통</option><option value="1.1">약간 높게</option></select></label>
+    <span class="voice-note" id="pNote" hidden></span>
+  </div>
+</div>
+
+<script>
+const QUIZ = {
+ch1:[
+ {q:"데이터베이스의 특징으로 옳지 않은 것은?",o:["실시간 접근","계속적인 변화","동시 공유","주소에 의한 참조"],a:3,e:"데이터베이스는 주소가 아니라 내용(값)으로 참조합니다."},
+ {q:"DBMS의 필수 기능 중 무결성 유지, 보안, 병행 수행 제어를 담당하는 기능은?",o:["정의 기능","조작 기능","제어 기능","관리 기능"],a:2,e:"제어 기능입니다. 정의는 구조, 조작은 검색·갱신입니다."},
+ {q:"조직 전체의 관점에서 데이터베이스의 논리적 구조를 정의한 것은?",o:["외부 스키마","개념 스키마","내부 스키마","서브 스키마"],a:1,e:"개념 스키마는 전체 논리 구조이며 하나만 존재합니다. 서브 스키마는 외부 스키마의 다른 이름입니다."},
+ {q:"다음 중 DDL(데이터 정의어)에 해당하는 명령은?",o:["SELECT","UPDATE","ALTER","GRANT"],a:2,e:"DDL은 CREATE, ALTER, DROP입니다. SELECT·UPDATE는 DML, GRANT는 DCL입니다."},
+ {q:"트랜잭션의 연산이 전부 실행되거나 전부 취소되어야 한다는 성질은?",o:["원자성","일관성","독립성","지속성"],a:0,e:"원자성(Atomicity)입니다."}
+],
+ch2:[
+ {q:"릴레이션에서 속성(열)의 개수를 뜻하는 용어는?",o:["카디널리티","차수","도메인","튜플"],a:1,e:"차수(Degree)는 속성 수, 카디널리티는 튜플(행) 수입니다."},
+ {q:"유일성과 최소성을 모두 만족하는 키는?",o:["슈퍼키","후보키","외래키","대체키"],a:1,e:"후보키입니다. 슈퍼키는 유일성만 만족합니다."},
+ {q:"외래키 값은 참조하는 테이블의 기본키 값이거나 NULL이어야 한다는 규칙은?",o:["개체 무결성","참조 무결성","도메인 무결성","키 무결성"],a:1,e:"참조 무결성입니다. 개체 무결성은 기본키가 NULL·중복이 될 수 없다는 규칙입니다."},
+ {q:"제2정규형(2NF)을 만족하기 위해 제거해야 하는 것은?",o:["다치 종속","이행적 함수 종속","부분 함수 종속","조인 종속"],a:2,e:"2NF는 부분 함수 종속 제거, 3NF는 이행적 함수 종속 제거입니다."},
+ {q:"E-R 다이어그램에서 관계를 나타내는 기호는?",o:["사각형","타원","마름모","이중 타원"],a:2,e:"사각형은 개체, 타원은 속성, 마름모는 관계입니다."},
+ {q:"데이터베이스 설계 순서로 옳은 것은?",o:["개념적 → 논리적 → 물리적","논리적 → 개념적 → 물리적","물리적 → 논리적 → 개념적","개념적 → 물리적 → 논리적"],a:0,e:"요구 조건 분석 → 개념적 설계 → 논리적 설계 → 물리적 설계 → 구현 순서입니다."}
+],
+ch3:[
+ {q:"레코드를 추가할 때 자동으로 1씩 증가하며 직접 수정할 수 없는 데이터 형식은?",o:["숫자","일련번호","통화","Yes/No"],a:1,e:"일련번호 형식입니다. 삭제된 번호는 다시 쓰이지 않습니다."},
+ {q:"짧은 텍스트 형식의 최대 크기는?",o:["50자","128자","255자","64,000자"],a:2,e:"짧은 텍스트는 최대 255자입니다."},
+ {q:"입력 마스크 기호 중 숫자를 반드시 입력해야 하는 것은?",o:["9","#","0","L"],a:2,e:"0은 숫자 필수, 9와 #은 선택입니다. L은 문자 필수입니다."},
+ {q:"입력 마스크 000-0000;0;# 에서 두 번째 구역 0의 의미는?",o:["입력값만 저장","하이픈 같은 서식 문자도 함께 저장","자리 표시자를 0으로","숫자만 입력"],a:1,e:"0이면 서식 문자까지 저장, 1이거나 생략하면 입력값만 저장합니다."},
+ {q:"기본키에 대한 설명으로 옳지 않은 것은?",o:["여러 필드를 묶어 지정할 수 있다","지정하면 중복 불가능 인덱스가 설정된다","OLE 개체 형식 필드도 기본키로 지정할 수 있다","기본키 없이도 테이블을 저장할 수 있다"],a:2,e:"OLE 개체, 첨부 파일, 계산 형식은 기본키로 지정할 수 없습니다."},
+ {q:"인덱스에 대한 설명으로 옳은 것은?",o:["모든 필드에 설정할수록 좋다","검색·정렬은 빨라지고 데이터 추가·수정은 느려질 수 있다","인덱스는 데이터 입력 속도를 높인다","기본키에는 인덱스가 설정되지 않는다"],a:1,e:"인덱스는 검색·정렬용입니다. 갱신할 때는 인덱스도 고쳐야 해서 느려집니다."}
+],
+ch4:[
+ {q:"다대다(M:N) 관계를 Access에서 구현하는 방법은?",o:["두 테이블을 직접 연결","연결 테이블을 두어 일대다 관계 두 개로","기본키를 두 개 지정","하위 폼 사용"],a:1,e:"가운데 연결 테이블을 두어 일대다 관계 두 개로 만듭니다."},
+ {q:"'일' 쪽 레코드를 삭제하면 '다' 쪽 관련 레코드도 함께 삭제되게 하는 옵션은?",o:["항상 참조 무결성 유지","관련 필드 모두 업데이트","관련 레코드 모두 삭제","내부 조인"],a:2,e:"관련 레코드 모두 삭제입니다. 관련 필드 모두 업데이트는 값 변경을 따라 바꿉니다."},
+ {q:"두 테이블에서 조인 필드 값이 일치하는 레코드만 표시하는 조인은?",o:["내부 조인","왼쪽 외부 조인","오른쪽 외부 조인","크로스 조인"],a:0,e:"내부 조인(INNER JOIN)입니다. 외부 조인은 한쪽 테이블의 모든 레코드를 포함합니다."},
+ {q:"외부 데이터 '연결'에 대한 설명으로 옳은 것은?",o:["원본 데이터를 복사해 온다","연결 테이블을 삭제하면 원본도 삭제된다","원본이 바뀌면 연결 테이블에도 반영된다","엑셀 파일은 연결할 수 없다"],a:2,e:"연결은 원본을 그대로 두고 참조합니다. 연결 테이블을 지워도 원본은 남습니다."}
+],
+ch5:[
+ {q:"실행할 때 대화상자로 값을 입력받아 조건으로 쓰는 쿼리는?",o:["크로스탭 쿼리","매개 변수 쿼리","추가 쿼리","불일치 검색 쿼리"],a:1,e:"매개 변수 쿼리입니다. 조건에 [안내 문구]처럼 대괄호를 씁니다."},
+ {q:"크로스탭 쿼리에서 열 머리글로 지정할 수 있는 필드의 최대 개수는?",o:["1개","2개","3개","제한 없음"],a:0,e:"열 머리글 1개, 값 1개, 행 머리글은 최대 3개입니다."},
+ {q:"GROUP BY로 묶은 그룹에 조건을 지정할 때 쓰는 절은?",o:["WHERE","HAVING","ORDER BY","DISTINCT"],a:1,e:"HAVING입니다. WHERE는 그룹으로 묶기 전 레코드의 조건입니다."},
+ {q:"[사원] 테이블(급여 300, 350, 280, 320, 400)에서 SELECT COUNT(*) FROM 사원 WHERE 급여 >= 300; 의 결과는?",o:["2","3","4","5"],a:2,e:"300, 350, 320, 400으로 4개입니다."},
+ {q:"이름이 '김'으로 시작하는 레코드를 찾는 조건은?",o:["이름 = \"김*\"","이름 LIKE \"김*\"","이름 LIKE \"*김\"","이름 IN (\"김\")"],a:1,e:"와일드카드는 LIKE와 함께 씁니다. \"*김\"은 김으로 끝나는 값입니다."},
+ {q:"점수가 70 이상 80 이하인 레코드를 찾는 조건으로 옳은 것은?",o:["점수 IN (70, 80)","점수 BETWEEN 70 AND 80","점수 > 70 AND 점수 < 80","점수 LIKE \"7*\""],a:1,e:"BETWEEN a AND b는 a 이상 b 이하입니다."},
+ {q:"UPDATE 문에서 WHERE 절을 생략하면?",o:["오류가 발생한다","첫 번째 레코드만 수정된다","모든 레코드가 수정된다","아무 레코드도 수정되지 않는다"],a:2,e:"조건이 없으므로 테이블의 모든 레코드가 수정됩니다."},
+ {q:"DateDiff 함수에서 '분' 단위를 나타내는 문자는?",o:["m","n","mi","s"],a:1,e:"분은 n입니다. m은 월입니다."},
+ {q:"ORDER BY 절에서 정렬 방식을 생략했을 때의 정렬은?",o:["내림차순","오름차순","입력 순서","무작위"],a:1,e:"생략하면 오름차순(ASC)입니다."}
+],
+ch6:[
+ {q:"목록에서 값을 고를 수도 있고 직접 입력할 수도 있는 컨트롤은?",o:["목록 상자","콤보 상자","옵션 그룹","확인란"],a:1,e:"콤보 상자입니다. 목록 상자는 목록에서 고르기만 가능합니다."},
+ {q:"컨트롤 원본에 =[단가]*[수량] 처럼 식을 넣은 컨트롤은?",o:["바운드 컨트롤","언바운드 컨트롤","계산 컨트롤","하위 폼"],a:2,e:"= 로 시작하는 식을 원본으로 쓰면 계산 컨트롤입니다."},
+ {q:"폼 속성 중 '예'로 설정하면 기존 레코드는 보이지 않고 새 레코드 입력만 가능한 것은?",o:["추가 가능","편집 가능","데이터 입력","모달"],a:2,e:"데이터 입력 속성입니다."},
+ {q:"컨트롤의 값을 볼 수는 있지만 수정할 수 없게 하는 속성은?",o:["사용 가능 = 아니요","잠금 = 예","표시 = 아니요","탭 정지 = 아니요"],a:1,e:"잠금을 '예'로 하면 값은 보이지만 수정할 수 없습니다. 사용 가능을 '아니요'로 하면 포커스도 받지 못하고 흐리게 표시됩니다."},
+ {q:"기본 폼과 하위 폼을 연결할 때 지정하는 속성은?",o:["레코드 원본","기본 필드 연결과 하위 필드 연결","컨트롤 원본","탭 인덱스"],a:1,e:"기본 필드 연결과 하위 필드 연결로 두 폼을 연결합니다."}
+],
+ch7:[
+ {q:"보고서 마지막 페이지에 한 번만 인쇄되며 전체 합계를 넣기에 알맞은 구역은?",o:["페이지 바닥글","그룹 바닥글","보고서 바닥글","본문"],a:2,e:"보고서 바닥글입니다. 마지막 페이지의 페이지 바닥글 위에 인쇄됩니다."},
+ {q:"전체 5쪽 중 2쪽에서 =[Page] & \" / \" & [Pages] 의 결과는?",o:["2 / 5","5 / 2","2/5쪽","[Page] / [Pages]"],a:0,e:"[Page]는 현재 페이지, [Pages]는 전체 페이지 수입니다."},
+ {q:"보고서에서 바로 위 레코드와 값이 같으면 표시하지 않는 속성은?",o:["누적 합계","중복 내용 숨기기","같은 페이지에 표시","표시"],a:1,e:"중복 내용 숨기기 속성입니다."},
+ {q:"보고서에 대한 설명으로 옳지 않은 것은?",o:["그룹·정렬 기준을 10개 수준까지 지정할 수 있다","보고서에서 데이터를 직접 수정할 수 있다","레코드 원본으로 쿼리를 쓸 수 있다","누적 합계로 일련번호를 만들 수 있다"],a:1,e:"보고서는 출력용이라 데이터를 입력·수정할 수 없습니다."}
+],
+ch8:[
+ {q:"데이터베이스를 열 때 자동으로 실행되는 매크로의 이름은?",o:["AutoRun","AutoExec","Startup","Main"],a:1,e:"AutoExec입니다. Shift를 누른 채 열면 실행되지 않습니다."},
+ {q:"폼을 여는 매크로 함수는?",o:["OpenReport","OpenForm","GoToRecord","RunMacro"],a:1,e:"OpenForm입니다."},
+ {q:"보고서를 인쇄 미리 보기로 여는 VBA 코드는?",o:["DoCmd.OpenReport \"매출\", acViewPreview","DoCmd.OpenForm \"매출\"","DoCmd.RunSQL \"매출\"","Me.OpenReport \"매출\""],a:0,e:"DoCmd.OpenReport에 acViewPreview를 지정합니다. acViewNormal이면 바로 인쇄합니다."},
+ {q:"변경된 데이터가 저장되기 직전에 발생해 유효성 검사에 쓰이는 이벤트는?",o:["After Update","Before Update","On Load","On Click"],a:1,e:"Before Update(업데이트 전) 이벤트입니다."}
+]};
+
+const LS = {get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const done = LS.get("s3-done",{});
+const chapters=[...document.querySelectorAll("article.chapter")];
+const toc=document.getElementById("toc");
+
+// 확인문제 렌더링
+chapters.forEach(ch=>{
+  const qs=QUIZ[ch.id]; if(!qs) return;
+  const box=document.createElement("div"); box.className="quiz";
+  box.innerHTML=`<div class="sec-h"><h3>확인 문제</h3><div class="right"><span class="score" data-score></span><button class="reset" type="button">다시 풀기</button></div></div><p class="sub">보기를 누르면 바로 채점되고 해설이 나옵니다.</p>`;
+  qs.forEach((it,i)=>{
+    const d=document.createElement("div"); d.className="q";
+    d.innerHTML=`<p class="stem">${i+1}. ${it.q}</p><div class="opts">${it.o.map((t,j)=>`<button type="button" data-j="${j}"><span>${"①②③④"[j]}</span><span>${t}</span></button>`).join("")}</div><div class="exp" hidden></div>`;
+    d.querySelectorAll(".opts button").forEach(b=>b.addEventListener("click",()=>{
+      const j=+b.dataset.j; const all=d.querySelectorAll(".opts button");
+      all.forEach(x=>x.disabled=true); all[it.a].classList.add("right"); if(j!==it.a) b.classList.add("wrong");
+      d.dataset.res = j===it.a?"o":"x";
+      const ex=d.querySelector(".exp"); ex.hidden=false; ex.innerHTML=`<b>${j===it.a?"정답":"오답"}</b> · 정답 ${"①②③④"[it.a]} — ${it.e}`;
+      updScore(box,qs.length);
+    }));
+    box.appendChild(d);
+  });
+  box.querySelector(".reset").addEventListener("click",()=>{
+    box.querySelectorAll(".q").forEach(d=>{delete d.dataset.res;d.querySelector(".exp").hidden=true;d.querySelectorAll(".opts button").forEach(x=>{x.disabled=false;x.classList.remove("right","wrong")})});
+    updScore(box,qs.length);
+  });
+  ch.appendChild(box); updScore(box,qs.length);
+});
+function updScore(box,n){const r=[...box.querySelectorAll(".q")].filter(d=>d.dataset.res);const o=r.filter(d=>d.dataset.res==="o").length;box.querySelector("[data-score]").textContent=r.length?`${o} / ${n} 정답 (${r.length}문항 풀이)`:`${n}문항`;}
+
+// 학습 완료 체크
+document.querySelectorAll("section.sec").forEach(s=>{
+  const b=document.createElement("button"); b.type="button"; b.className="chk";
+  const set=v=>{b.setAttribute("aria-pressed",v?"true":"false");b.textContent=v?"✓ 학습 완료":"학습 완료 표시"};
+  set(!!done[s.id]);
+  b.addEventListener("click",()=>{done[s.id]=!done[s.id];set(done[s.id]);LS.set("s3-done",done);renderToc()});
+  s.querySelector(".sec-h .right").appendChild(b);
+});
+
+function renderToc(){
+  const cur=location.hash.replace("#","")||"ch1";
+  toc.innerHTML=chapters.map((c,i)=>{const secs=c.querySelectorAll("section.sec");const d=[...secs].filter(s=>done[s.id]).length;
+    return `<a href="#${c.id}" aria-current="${c.id===cur&&!q.value?"true":"false"}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${c.dataset.title}</span><span class="c">${d}/${secs.length}</span></a>`}).join("")
+   +`<p class="toc-note">중요도 별점은 기출 경향을 바탕으로 한 학습 우선순위입니다. 보라색 표시는 2027년 개정 관련 내용입니다. SQL 예시의 결과는 직접 계산해 확인한 값입니다.</p>`;
+  const all=document.querySelectorAll("section.sec").length;const d=Object.values(done).filter(Boolean).length;
+  document.getElementById("prog").textContent=`학습 완료 ${d} / ${all}`;
+}
+function show(id){
+  if(!document.getElementById(id)||!id.startsWith("ch")) id="ch1";
+  chapters.forEach(c=>{c.hidden=c.id!==id; c.querySelectorAll("section.sec").forEach(s=>s.hidden=false); const qz=c.querySelector(".quiz"); if(qz) qz.hidden=false});
+  document.getElementById("results").hidden=true;
+  renderToc();
+}
+const q=document.getElementById("q");
+q.addEventListener("input",()=>{
+  const t=q.value.trim().toLowerCase();
+  if(!t){show(location.hash.replace("#","")||"ch1");return}
+  let hits=0;
+  chapters.forEach(c=>{let any=false;
+    c.querySelectorAll("section.sec").forEach(s=>{const m=s.textContent.toLowerCase().includes(t);s.hidden=!m;if(m){any=true;hits++}});
+    const qz=c.querySelector(".quiz"); if(qz) qz.hidden=true;
+    c.hidden=!any;
+  });
+  const r=document.getElementById("results");
+  r.hidden=hits>0; r.innerHTML=`<p class="empty">'${q.value.replace(/[<>&]/g,"")}'에 해당하는 내용이 없습니다. 다른 낱말로 검색해 보세요.</p>`;
+  renderToc();
+});
+window.addEventListener("hashchange",()=>{q.value="";show(location.hash.replace("#",""));window.scrollTo({top:0})});
+show(location.hash.replace("#","")||"ch1");
+
+// ===== 음성 듣기 (Web Speech API) =====
+(function(){
+  const S=window.speechSynthesis; if(!S||!window.SpeechSynthesisUtterance) return;
+  const player=document.getElementById("player"); player.hidden=false;
+  document.body.style.paddingBottom="88px";
+  const $=id=>document.getElementById(id);
+  const vSel=$("pVoice"), rSel=$("pRate"), playB=$("pPlay"), now=$("pNow"), note=$("pNote");
+  const FEMALE=/sunhi|heami|yuna|sora|jimin|seoyeon|yujin|google\s*한국|female|여성/i;
+  const MALE=/injoon|hyunsu|bongjin|gookmin|\bmale\b/i;
+  let voices=[], queue=[], qi=0, state="idle", curSec=null;
+  const pref=LS.get("ch1-voice",{});
+  const pSel=$("pPitch");
+  if(pref.rate) rSel.value=pref.rate;
+  if(pref.pitch) pSel.value=pref.pitch;
+  pSel.addEventListener("change",()=>{pref.pitch=pSel.value;LS.set("ch1-voice",pref)});
+
+  function rank(v){let s=0; if(FEMALE.test(v.name)) s+=10; if(MALE.test(v.name)) s-=20; if(/natural|online|neural/i.test(v.name)) s+=5; if(v.localService===false) s+=1; return s;}
+  function loadVoices(){
+    voices=S.getVoices().filter(v=>/^ko/i.test(v.lang)).sort((a,b)=>rank(b)-rank(a));
+    vSel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name.replace(/Microsoft |Online |\(Natural\)| - Korean \(Korea\)|Korean/gi," ").replace(/\s+/g," ").trim()}${FEMALE.test(v.name)?" · 여성":""}</option>`).join("");
+    const saved=voices.findIndex(v=>v.name===pref.voice); vSel.value=String(saved>=0?saved:0);
+    if(!voices.length){note.hidden=false;note.textContent="이 기기에 한국어 음성이 없습니다. Windows는 설정 › 시간 및 언어 › 음성에서 한국어 음성을 추가하거나, Edge·Chrome 브라우저에서 열어 주세요.";}
+    else if(!voices.some(v=>FEMALE.test(v.name))){note.hidden=false;note.textContent="이 기기에서 여성 한국어 음성을 찾지 못해 기본 음성으로 읽습니다. Edge 브라우저에서는 부드러운 여성 음성(SunHi)을 쓸 수 있습니다.";}
+    else note.hidden=true;
+  }
+  loadVoices(); S.addEventListener?S.addEventListener("voiceschanged",loadVoices):(S.onvoiceschanged=loadVoices);
+  vSel.addEventListener("change",()=>{pref.voice=voices[+vSel.value]?.name;LS.set("ch1-voice",pref)});
+  rSel.addEventListener("change",()=>{pref.rate=rSel.value;LS.set("ch1-voice",pref)});
+
+  // 화면 글자를 읽기 좋은 문장으로 바꾸기
+  function speakable(t){
+    return t.replace(/[★☆✓]/g,"").replace(/C\+\+/g,"씨 플러스 플러스").replace(/\$/g,"").replace(/([A-Z]{1,3}\d+):([A-Z]{1,3}\d+)/g,"$1 부터 $2").replace(/>=/g," 이상 ").replace(/<=/g," 이하 ").replace(/<>/g," 같지 않음 ").replace(/=/g," ")
+      .replace(/\bWin\b/g,"윈도우 키").replace(/\bCtrl\b/g,"컨트롤").replace(/\bShift\b/g,"시프트").replace(/\bAlt\b/g,"알트").replace(/\bEsc\b/g,"이에스씨").replace(/\bPrtSc\b/g,"프린트 스크린").replace(/\bDelete\b/g,"딜리트").replace(/\bTab\b/g,"탭").replace(/\bEnter\b/g,"엔터")
+      .replace(/(\d+)\^-(\d+)/g,"$1의 마이너스 $2승").replace(/(\d+)\^(\d+)/g,"$1의 $2승")
+      .replace(/\s*\+\s*/g," 더하기 ").replace(/×/g," 곱하기 ").replace(/÷/g," 나누기 ")
+      .replace(/\s*→\s*/g,", 다음은 ").replace(/\s*⊃\s*/g,", 그 안에 ").replace(/\s*[>＞]\s*/g,", 그다음 ").replace(/\s*[<＜]\s*/g,", 그다음 ")
+      .replace(/[←]/g," 왼쪽 화살표").replace(/[→]/g," 오른쪽 화살표").replace(/·/g,", ").replace(/\s\/\s/g,", ").replace(/↑/g," 증가").replace(/−/g," 빼기 ")
+      .replace(/\s+/g," ").trim();
+  }
+  function textOf(sec){
+    const parts=[sec.querySelector("h3").textContent+"."];
+    [...sec.children].forEach(el=>{
+      if(el.classList.contains("sec-h")) return;
+      if(el.classList.contains("tbl")){
+        const heads=[...el.querySelectorAll("thead th")].map(th=>th.textContent.trim());
+        el.querySelectorAll("tbody tr").forEach(tr=>{
+          const cells=[...tr.children].map(td=>td.textContent.trim()).filter(Boolean);
+          parts.push(cells.join(", ")+".");
+        });
+        return;
+      }
+      if(el.querySelector&&el.querySelector("pre")){el=el.cloneNode(true);el.querySelectorAll("pre").forEach(p=>p.remove());}
+      if(el.tagName==="UL"||el.tagName==="OL"){el.querySelectorAll("li").forEach(li=>parts.push(li.textContent.trim().replace(/[.。]?$/,".")));return;}
+      parts.push(el.textContent.trim().replace(/[.。]?$/,"."));
+    });
+    return speakable(parts.join(" "));
+  }
+  function chunks(t){ // 긴 문장은 브라우저가 중간에 끊으므로 짧게 나눔
+    const out=[]; t.split(/(?<=[.?!다요])\s+/).forEach(s=>{
+      while(s.length>160){const cut=s.lastIndexOf(",",160);const k=cut>40?cut+1:160;out.push(s.slice(0,k));s=s.slice(k).trim();}
+      if(s) out.push(s);
+    }); return out;
+  }
+  function mark(sec){document.querySelectorAll("section.sec.reading").forEach(s=>s.classList.remove("reading")); if(sec){sec.classList.add("reading");}}
+  function setState(s){state=s; playB.textContent=s==="playing"?"❚❚ 일시정지":s==="paused"?"▶ 이어 듣기":"▶ 듣기";}
+
+  function playList(secs){
+    S.cancel(); queue=[]; qi=0;
+    secs.forEach(sec=>chunks(textOf(sec)).forEach(c=>queue.push({sec,text:c})));
+    if(!queue.length) return; next();
+  }
+  function next(){
+    if(qi>=queue.length){setState("idle");mark(null);now.textContent="다 들었습니다.";return}
+    const it=queue[qi]; const u=new SpeechSynthesisUtterance(it.text);
+    const v=voices[+vSel.value]; if(v){u.voice=v;u.lang=v.lang}else u.lang="ko-KR";
+    u.rate=+rSel.value; u.pitch=+pSel.value; // 기본 '약간 낮게'로 차분한 음색
+    if(it.sec!==curSec){curSec=it.sec;mark(it.sec);it.sec.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+      now.innerHTML=`<b>${it.sec.querySelector("h3").textContent}</b> 읽는 중`;}
+    u.onend=()=>{if(state==="playing"){qi++;next()}};
+    u.onerror=e=>{if(e.error!=="interrupted"&&e.error!=="canceled"&&state==="playing"){qi++;next()}};
+    setState("playing"); S.speak(u);
+  }
+  function stop(){setState("idle");S.cancel();mark(null);curSec=null;now.textContent="정지했습니다.";}
+
+  playB.addEventListener("click",()=>{
+    // 크롬의 Google 음성은 pause/resume이 불안정해서, 일시정지 시 현재 문장 위치를 기억했다가 그 문장부터 다시 읽음
+    if(state==="playing"){setState("paused");S.cancel();return}
+    if(state==="paused"){next();return}
+    const ch=chapters.find(c=>!c.hidden)||chapters[0];
+    playList([...ch.querySelectorAll("section.sec")].filter(s=>!s.hidden));
+  });
+  $("pStop").addEventListener("click",stop);
+  window.addEventListener("hashchange",stop);
+
+  document.querySelectorAll("section.sec").forEach(sec=>{
+    const b=document.createElement("button");b.type="button";b.className="listen";b.textContent="▷ 듣기";
+    b.setAttribute("aria-label",sec.querySelector("h3").textContent+" 듣기");
+    b.addEventListener("click",()=>playList([sec]));
+    sec.querySelector(".sec-h .right").prepend(b);
+  });
+  chapters.forEach(ch=>{
+    const b=document.createElement("button");b.type="button";b.className="listen";b.textContent="▷ 단원 전체 듣기";
+    b.addEventListener("click",()=>playList([...ch.querySelectorAll("section.sec")]));
+    ch.querySelector(".ch-head").appendChild(b);
+  });
+})();
+</script>
