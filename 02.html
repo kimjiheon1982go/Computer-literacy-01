@@ -1,0 +1,916 @@
+<title>컴활 1급 스프레드시트 일반</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: 교재 펼침면 — 왼쪽 단원 목차(고정), 오른쪽 본문 + 단원 끝 확인문제. 형광펜 = 핵심, 키캡 = 단축키 */
+:root{
+  --bg:#f5f7f8; --paper:#ffffff; --ink:#18232b; --muted:#5b6b75; --line:#dbe2e6;
+  --accent:#1d5a80; --accent-soft:#e3eef5;
+  --marker:#fff1a8; --trap:#b4234a; --trap-soft:#fbe9ee; --ok:#1f7a4d; --ok-soft:#e4f4ea;
+  --new:#6b3fa0; --new-soft:#efe7f8; --key:#eef1f3; --key-edge:#b9c4cb;
+  --f-display:"Nanum Myeongjo","Noto Serif KR",serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --s-1:.8125rem; --s0:1rem; --s1:1.125rem; --s2:1.375rem; --s3:1.875rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f161b; --paper:#151e24; --ink:#e3eaee; --muted:#93a3ad; --line:#26333b;
+  --accent:#7fb8dc; --accent-soft:#1b2d39;
+  --marker:#5a4f12; --trap:#f08aa5; --trap-soft:#3a1b25; --ok:#6fd19f; --ok-soft:#163327;
+  --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161b; --paper:#151e24; --ink:#e3eaee; --muted:#93a3ad; --line:#26333b;
+  --accent:#7fb8dc; --accent-soft:#1b2d39;
+  --marker:#5a4f12; --trap:#f08aa5; --trap-soft:#3a1b25; --ok:#6fd19f; --ok-soft:#163327;
+  --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.75;padding-inline:16px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;padding-block:28px 80px}
+header.top{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:16px}
+.top h1{font-family:var(--f-display);font-weight:800;font-size:var(--s3);line-height:1.2;margin:0;text-wrap:balance}
+.top .meta{font-size:var(--s-1);color:var(--muted);letter-spacing:.04em;margin:0 0 6px}
+.top .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input#q{font:inherit;font-size:var(--s-1);padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:240px;max-width:100%}
+input#q:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.prog{font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums}
+
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;display:flex;flex-direction:column;gap:2px}
+nav.toc a{display:grid;grid-template-columns:28px 1fr auto;gap:6px;align-items:baseline;padding:8px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:.9375rem;line-height:1.4}
+nav.toc a .n{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted)}
+nav.toc a .c{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+nav.toc a:hover{background:var(--accent-soft)}
+nav.toc a[aria-current="true"]{background:var(--accent);color:var(--paper)}
+nav.toc a[aria-current="true"] .n,nav.toc a[aria-current="true"] .c{color:var(--paper)}
+.toc-note{margin-top:14px;font-size:.75rem;color:var(--muted);line-height:1.6;padding:10px;border:1px dashed var(--line);border-radius:6px}
+
+main{min-width:0}
+.chapter{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:28px clamp(16px,4vw,40px) 36px}
+.ch-head{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px}
+.ch-head .no{font-family:var(--f-mono);color:var(--accent);font-size:var(--s1)}
+.ch-head h2{font-family:var(--f-display);font-weight:800;font-size:var(--s3);margin:0;line-height:1.25;text-wrap:balance}
+.ch-intro{color:var(--muted);margin:10px 0 0;max-width:68ch}
+
+section.sec{padding-block:22px;border-bottom:1px solid var(--line)}
+section.sec:last-of-type{border-bottom:0}
+.sec-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.sec-h h3{font-size:var(--s2);margin:0;line-height:1.35;text-wrap:balance}
+.sec-h .right{display:flex;gap:8px;align-items:center}
+.imp{font-size:.75rem;letter-spacing:.06em;color:var(--accent);white-space:nowrap}
+.chk{font:inherit;font-size:.75rem;padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--muted);cursor:pointer}
+.chk[aria-pressed="true"]{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.sec p,.sec li{max-width:70ch}
+.sec ul,.sec ol{padding-left:1.25em;margin:8px 0}
+.sec li{margin:3px 0}
+mark{background:linear-gradient(transparent 45%,var(--marker) 45%);color:inherit;padding:0 1px}
+kbd{font-family:var(--f-mono);font-size:.8125rem;background:var(--key);border:1px solid var(--key-edge);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
+code.f{font-family:var(--f-mono);font-size:.8125rem;background:var(--key);border-radius:4px;padding:1px 5px;white-space:nowrap}
+pre.code{font-family:var(--f-mono);font-size:.8125rem;line-height:1.6;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;margin:8px 0}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.9375rem;line-height:1.55}
+th,td{border-top:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+thead th{border-top:0;border-bottom:2px solid var(--ink);font-size:var(--s-1);letter-spacing:.03em;white-space:nowrap}
+td:first-child{font-weight:500;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:.875rem}
+.box{border-radius:6px;padding:12px 14px;margin:12px 0;font-size:.9375rem}
+.box b.t{display:block;font-size:.75rem;letter-spacing:.08em;margin-bottom:2px}
+.trap{background:var(--trap-soft)} .trap b.t{color:var(--trap)}
+.tip{background:var(--accent-soft)} .tip b.t{color:var(--accent)}
+.new{background:var(--new-soft)} .new b.t{color:var(--new)}
+.badge-new{font-size:.6875rem;letter-spacing:.06em;color:var(--new);border:1px solid var(--new);border-radius:4px;padding:0 6px;white-space:nowrap}
+
+.quiz{margin-top:28px;padding-top:20px;border-top:2px solid var(--ink)}
+.quiz h3{font-family:var(--f-display);font-size:var(--s2);margin:0 0 4px}
+.quiz .sub{color:var(--muted);font-size:var(--s-1);margin:0 0 12px}
+.q{padding-block:14px;border-bottom:1px dashed var(--line)}
+.q p.stem{margin:0 0 8px;font-weight:500}
+.opts{display:grid;gap:6px}
+.opts button{font:inherit;font-size:.9375rem;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer;display:grid;grid-template-columns:24px 1fr;gap:4px}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button:disabled{cursor:default}
+.opts button.right{background:var(--ok-soft);border-color:var(--ok)}
+.opts button.wrong{background:var(--trap-soft);border-color:var(--trap)}
+.exp{margin-top:8px;font-size:.9375rem;padding:10px 12px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 6px 6px 0}
+.score{font-variant-numeric:tabular-nums;font-size:var(--s-1);color:var(--muted)}
+.reset{font:inherit;font-size:var(--s-1);padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
+.hitfrom{font-size:.75rem;color:var(--accent);font-family:var(--f-mono)}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:1fr;gap:16px}
+  nav.toc{position:static;flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px}
+  nav.toc a{grid-template-columns:auto auto;white-space:nowrap}
+  nav.toc a .c{display:none}
+  .toc-note{display:none}
+  input#q{width:100%}
+  .top .tools{width:100%}
+}
+.listen{font:inherit;font-size:.75rem;padding:4px 10px;border:1px solid var(--accent);border-radius:99px;background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
+.listen:hover{background:var(--accent-soft)}
+.ch-head .listen{margin-left:auto}
+section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--accent-soft),16px 0 0 var(--accent-soft)}
+.player{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--paper);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.player .in{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.player .now{flex:1 1 220px;min-width:0;font-size:var(--s-1);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player .now b{color:var(--ink);font-weight:500}
+.player button{font:inherit;font-size:var(--s-1);padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer}
+.player button.main{background:var(--accent);border-color:var(--accent);color:var(--paper);min-width:76px}
+.player select{font:inherit;font-size:var(--s-1);padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);max-width:220px}
+.player label{font-size:.75rem;color:var(--muted);display:flex;gap:6px;align-items:center}
+.voice-note{font-size:.75rem;color:var(--trap);flex-basis:100%}
+@media (prefers-reduced-motion:no-preference){.opts button,nav.toc a{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div>
+    <p class="meta">컴퓨터활용능력 1급 필기 · 2과목 · 2027–2029 개정 기준 대비</p>
+    <h1>컴활 1급 스프레드시트 일반</h1>
+  </div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="함수·용어 검색 (예: VLOOKUP, 부분합)" aria-label="교재 내용 검색">
+    <span class="prog" id="prog"></span>
+  </div>
+</header>
+
+<nav class="toc" id="toc" aria-label="단원 목차"></nav>
+
+<main id="main">
+<!-- ===================== 1. 기본 ===================== -->
+<article class="chapter" id="ch1" data-title="스프레드시트 기본">
+<div class="ch-head"><span class="no">01</span><h2>스프레드시트 기본</h2></div>
+<p class="ch-intro">데이터 입력 규칙, 채우기 핸들, 워크시트 관리가 나옵니다. 실기를 해 봤다면 쉽게 풀리지만, 보기 문장을 살짝 비튼 문제가 많습니다.</p>
+<div class="box new"><b class="t">2027 개정</b>2027년부터 엑셀 버전과 활용 방식이 바뀐 내용이 반영됩니다. 세부 버전은 공식 기준표로 확인하세요. 이 교재는 현재 시험 버전(MS Office 2021)에서 바뀌지 않는 기본 기능 위주로 정리했습니다.</div>
+
+<section class="sec" id="t1-1"><div class="sec-h"><h3>파일 형식과 통합 문서</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>확장명</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">.xlsx</td><td>기본 통합 문서 (매크로 저장 불가)</td></tr>
+<tr><td class="num">.xlsm</td><td><mark>매크로 사용</mark> 통합 문서</td></tr>
+<tr><td class="num">.xlsb</td><td>바이너리 통합 문서. 열기·저장이 빠름</td></tr>
+<tr><td class="num">.xltx / .xltm</td><td>서식 파일 / 매크로 사용 서식 파일</td></tr>
+<tr><td class="num">.xlam</td><td>추가 기능</td></tr>
+<tr><td class="num">.csv</td><td>쉼표로 구분한 텍스트. 서식·수식·여러 시트는 저장 안 됨</td></tr>
+</tbody></table></div>
+<ul>
+<li>새 통합 문서의 기본 시트 수는 1개이고, 옵션에서 <b>1~255개</b>로 바꿀 수 있습니다.</li>
+<li>워크시트 크기: <mark>1,048,576행 × 16,384열(XFD)</mark></li>
+<li>시트 이름은 최대 <b>31자</b>이고, <span class="num">\ / ? * [ ] :</span> 는 쓸 수 없습니다. 같은 통합 문서 안에서 이름이 겹칠 수 없습니다.</li>
+<li>저장할 때 '일반 옵션'에서 <b>열기 암호</b>와 <b>쓰기 암호</b>를 따로 지정할 수 있습니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t1-2"><div class="sec-h"><h3>데이터 입력</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>숫자는 셀의 <b>오른쪽</b>, 문자는 <b>왼쪽</b>에 맞춰집니다. 숫자 앞에 작은따옴표(<span class="num">'</span>)를 붙이면 문자로 입력됩니다.</li>
+<li>날짜는 <mark>1900년 1월 1일을 1로 하는 일련번호</mark>로 저장되고, 시간은 하루를 1로 보는 소수로 저장됩니다. 예: 12:00 = 0.5</li>
+<li>분수는 앞에 0과 공백을 넣어 <span class="num">0 1/2</span>처럼 입력합니다. 그냥 1/2을 입력하면 날짜(1월 2일)가 됩니다.</li>
+<li>숫자가 열 너비보다 길면 <span class="num">####</span> 또는 지수 형식으로 표시되고, 문자는 오른쪽 셀이 비어 있으면 넘쳐서 보입니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>키</th><th>기능</th></tr></thead><tbody>
+<tr><td><kbd>Alt</kbd>+<kbd>Enter</kbd></td><td>셀 안에서 줄 바꾸기</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td><td>선택한 범위에 같은 값을 한 번에 입력</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>;</kbd></td><td>오늘 날짜 입력</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd></td><td>현재 시간 입력</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd> / <kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>위쪽 셀 / 왼쪽 셀 내용 복사</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td>빠른 채우기 (패턴을 인식해 나머지 자동 입력)</td></tr>
+<tr><td><kbd>F2</kbd></td><td>셀 편집 모드</td></tr>
+<tr><td><kbd>Shift</kbd>+<kbd>F2</kbd></td><td>메모(노트) 삽입·편집</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Home</kbd> / <kbd>Ctrl</kbd>+<kbd>End</kbd></td><td>A1 셀로 / 데이터가 있는 마지막 셀로 이동</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>Ctrl</kbd>+<kbd>PgUp</kbd></td><td>다음 시트 / 이전 시트</td></tr>
+<tr><td><kbd>Shift</kbd>+<kbd>F11</kbd></td><td>새 워크시트 삽입</td></tr>
+<tr><td><kbd>F4</kbd></td><td>참조 방식 전환, 또는 마지막 작업 반복</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="t1-3"><div class="sec-h"><h3>채우기 핸들</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>데이터</th><th>그냥 끌기</th><th><kbd>Ctrl</kbd>+끌기</th></tr></thead><tbody>
+<tr><td>숫자 하나 (예: 1)</td><td>같은 값 복사</td><td>1씩 증가</td></tr>
+<tr><td>숫자 두 개 선택 (예: 1, 3)</td><td>차이(2)만큼 증가</td><td>값 반복 복사</td></tr>
+<tr><td>문자 (예: 서울)</td><td>복사</td><td>복사</td></tr>
+<tr><td>문자+숫자 (예: A1반)</td><td><mark>마지막 숫자가 1씩 증가</mark></td><td>복사</td></tr>
+<tr><td>날짜</td><td>1일씩 증가</td><td>복사</td></tr>
+<tr><td>사용자 지정 목록 (예: 월, 화, 수)</td><td>목록 순서대로</td><td>복사</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>문자와 숫자가 섞이면 <b>마지막</b> 숫자만 증가합니다. '1팀2조'를 끌면 1팀3조, 1팀4조가 됩니다.</div>
+</section>
+
+<section class="sec" id="t1-4"><div class="sec-h"><h3>시트와 통합 문서 보호</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>시트 보호</b>: 셀 내용, 서식, 행·열 삽입 등을 수정하지 못하게 합니다. 셀 서식 › 보호 탭의 <mark>'잠금'이 해제된 셀만</mark> 보호 상태에서도 입력할 수 있습니다. '숨김'을 체크하면 수식이 수식 입력줄에 보이지 않습니다.</li>
+<li><b>통합 문서 보호</b>: <mark>시트의 구조</mark>(삽입, 삭제, 이름 바꾸기, 이동, 숨기기)를 바꾸지 못하게 합니다. 셀 내용은 수정할 수 있습니다.</li>
+<li>여러 시트를 그룹으로 선택하면 한 시트에 입력한 내용이 모든 시트에 같이 입력됩니다. 제목 표시줄에 '[그룹]'이 붙습니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 2. 서식 ===================== -->
+<article class="chapter" id="ch2" data-title="셀 서식" hidden>
+<div class="ch-head"><span class="no">02</span><h2>셀 서식과 조건부 서식</h2></div>
+<p class="ch-intro">사용자 지정 표시 형식의 결과를 묻는 문제가 거의 매회 나옵니다. 코드 기호의 의미를 정확히 외워야 합니다.</p>
+
+<section class="sec" id="t2-1"><div class="sec-h"><h3>사용자 지정 표시 형식</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>기호</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">0</td><td>자릿수. 값이 없는 자리도 <mark>0으로 채움</mark></td></tr>
+<tr><td class="num">#</td><td>자릿수. 값이 없는 자리는 <mark>표시하지 않음</mark></td></tr>
+<tr><td class="num">?</td><td>자릿수. 값이 없는 자리는 공백 (소수점 맞춤)</td></tr>
+<tr><td class="num">,</td><td>천 단위 구분 기호. 서식 <b>끝</b>에 붙이면 천 단위로 줄여 표시</td></tr>
+<tr><td class="num">@</td><td>입력한 문자를 그대로 표시</td></tr>
+<tr><td class="num">"문자"</td><td>큰따옴표 안의 문자를 함께 표시</td></tr>
+<tr><td class="num">[빨강] [파랑]</td><td>글꼴 색 지정</td></tr>
+<tr><td class="num">[&gt;=100]</td><td>조건 지정</td></tr>
+<tr><td class="num">;</td><td>구역 구분: <mark>양수;음수;0;텍스트</mark></td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>입력값</th><th>서식</th><th>결과</th></tr></thead><tbody>
+<tr><td class="num">1234.5</td><td class="num">#,##0</td><td class="num">1,235</td></tr>
+<tr><td class="num">1234.5</td><td class="num">0.00</td><td class="num">1234.50</td></tr>
+<tr><td class="num">0.5</td><td class="num">#.##</td><td class="num">.5</td></tr>
+<tr><td class="num">1234567</td><td class="num">#,##0,</td><td class="num">1,235</td></tr>
+<tr><td class="num">1234567</td><td class="num">#,##0,,"백만"</td><td class="num">1백만</td></tr>
+<tr><td class="num">-25</td><td class="num">0;(0)</td><td class="num">(25)</td></tr>
+<tr><td class="num">0</td><td class="num">#,##0;-#,##0;"없음"</td><td class="num">없음</td></tr>
+<tr><td class="num">컴활</td><td class="num">@"1급"</td><td class="num">컴활1급</td></tr>
+<tr><td class="num">25</td><td class="num">[&gt;=20]"합격";"불합격"</td><td class="num">합격</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>날짜·시간 코드</th><th>2026-10-02(금) 14:05 기준 결과</th></tr></thead><tbody>
+<tr><td class="num">yy / yyyy</td><td class="num">26 / 2026</td></tr>
+<tr><td class="num">m / mm / mmm / mmmm</td><td class="num">10 / 10 / Oct / October</td></tr>
+<tr><td class="num">d / dd</td><td class="num">2 / 02</td></tr>
+<tr><td class="num">ddd / dddd</td><td class="num">Fri / Friday</td></tr>
+<tr><td class="num">aaa / aaaa</td><td class="num">금 / 금요일</td></tr>
+<tr><td class="num">h:mm AM/PM</td><td class="num">2:05 PM</td></tr>
+<tr><td class="num">[h]:mm</td><td>24시간이 넘는 <b>경과 시간</b>을 그대로 표시 (예: 30:00)</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>m은 h나 s 바로 옆에 오면 '분'으로 해석됩니다. <span class="num">#</span>은 0을 표시하지 않으므로 0.5에 <span class="num">#.##</span>을 쓰면 '.5'가 됩니다.</div>
+</section>
+
+<section class="sec" id="t2-2"><div class="sec-h"><h3>조건부 서식</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>조건에 맞는 셀에만 서식을 적용합니다. 규칙 종류: 셀 강조 규칙, 상위/하위 규칙, 데이터 막대, 색조, 아이콘 집합, 수식으로 지정.</li>
+<li>수식으로 행 전체를 칠할 때는 <mark>열만 고정</mark>합니다. 예: 범위 A2:E20을 선택하고 <code class="f">=$E2&gt;=80</code></li>
+<li>수식은 반드시 <span class="num">=</span>으로 시작하고, 결과가 TRUE인 셀에 서식이 적용됩니다.</li>
+<li>규칙이 여러 개면 <b>위쪽 규칙이 우선</b>이고, 규칙 관리자에서 순서를 바꿀 수 있습니다. 'true일 경우 중지'를 켜면 아래 규칙을 적용하지 않습니다.</li>
+<li>값이 바뀌면 서식도 자동으로 다시 적용됩니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t2-3"><div class="sec-h"><h3>표 서식과 셀 스타일</h3><div class="right"><span class="imp">중요도 ★☆☆</span></div></div>
+<ul>
+<li><b>표(<kbd>Ctrl</kbd>+<kbd>T</kbd>)</b>로 만들면 머리글에 필터 단추가 생기고, 행을 추가하면 서식과 수식이 자동으로 확장됩니다. 수식에서 <code class="f">표1[판매량]</code> 같은 <b>구조적 참조</b>를 씁니다.</li>
+<li>표에서는 <b>부분합</b>을 쓸 수 없습니다. '범위로 변환'한 뒤 사용합니다.</li>
+<li><b>셀 스타일</b>: 글꼴, 테두리, 채우기, 표시 형식을 묶어 이름을 붙여 둔 서식입니다.</li>
+<li><b>서식 복사</b>: 홈 탭의 서식 복사 단추를 한 번 누르면 한 곳에, 두 번 누르면 여러 곳에 계속 붙일 수 있습니다. <kbd>Esc</kbd>로 끝냅니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 3. 수식 ===================== -->
+<article class="chapter" id="ch3" data-title="수식과 참조" hidden>
+<div class="ch-head"><span class="no">03</span><h2>수식과 참조</h2></div>
+<p class="ch-intro">참조 방식, 이름 정의, 오류값은 함수 문제를 풀기 위한 바탕입니다.</p>
+
+<section class="sec" id="t3-1"><div class="sec-h"><h3>셀 참조</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>방식</th><th>예</th><th>복사하면</th></tr></thead><tbody>
+<tr><td>상대 참조</td><td class="num">A1</td><td>행·열 모두 바뀜</td></tr>
+<tr><td>절대 참조</td><td class="num">$A$1</td><td>바뀌지 않음</td></tr>
+<tr><td>혼합 참조</td><td class="num">$A1 / A$1</td><td>열 고정 / 행 고정</td></tr>
+</tbody></table></div>
+<p><kbd>F4</kbd>를 누를 때마다 <span class="num">A1 → $A$1 → A$1 → $A1 → A1</span> 순서로 바뀝니다.</p>
+<ul>
+<li>다른 시트: <code class="f">Sheet2!A1</code> · 시트 이름에 공백이 있으면 <code class="f">'1월 매출'!A1</code></li>
+<li>다른 통합 문서: <code class="f">[매출.xlsx]Sheet1!A1</code></li>
+<li><b>3차원 참조</b>: 여러 시트의 같은 셀. <code class="f">=SUM(Sheet1:Sheet3!B2)</code>. SUM, AVERAGE, COUNT, MAX, MIN 같은 함수에서 쓸 수 있고 배열 수식에는 쓸 수 없습니다.</li>
+<li><b>순환 참조</b>: 수식이 자기 자신의 셀을 참조하면 경고가 나옵니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t3-2"><div class="sec-h"><h3>이름 정의</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li>첫 글자는 <b>문자, 밑줄(_), 역슬래시(\)</b>만 가능합니다. 숫자로 시작할 수 없습니다.</li>
+<li><mark>공백을 쓸 수 없고</mark>, A1이나 R1C1처럼 <b>셀 주소 형태</b>도 쓸 수 없습니다.</li>
+<li>대소문자를 구분하지 않으며 최대 255자입니다.</li>
+<li>이름은 기본적으로 <b>절대 참조</b>로 정의되고, 같은 범위(통합 문서 또는 시트) 안에서는 같은 이름을 두 번 쓸 수 없습니다.</li>
+<li>이름 상자에 직접 입력하거나 <kbd>Ctrl</kbd>+<kbd>F3</kbd>(이름 관리자)로 정의·수정·삭제합니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t3-3"><div class="sec-h"><h3>연산자와 오류값</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<p>연산자 우선순위: 참조 연산자(<span class="num">: , 공백</span>) → 음수(<span class="num">-</span>) → <span class="num">%</span> → <span class="num">^</span> → <span class="num">* /</span> → <span class="num">+ -</span> → <span class="num">&amp;</span>(텍스트 연결) → 비교 연산자(<span class="num">= &lt; &gt; &lt;= &gt;= &lt;&gt;</span>)</p>
+<p>참조 연산자: 콜론(:)은 <b>범위</b>, 쉼표(,)는 <b>여러 범위를 합침</b>, 공백은 두 범위가 <b>겹치는 부분</b>(교집합)입니다.</p>
+<div class="tbl"><table><thead><tr><th>오류값</th><th>원인</th></tr></thead><tbody>
+<tr><td class="num">#DIV/0!</td><td>0으로 나눔</td></tr>
+<tr><td class="num">#N/A</td><td>찾는 값이 없음 (VLOOKUP, MATCH 등)</td></tr>
+<tr><td class="num">#NAME?</td><td>함수 이름이나 정의된 이름을 잘못 입력</td></tr>
+<tr><td class="num">#NULL!</td><td>공백(교집합)으로 지정한 두 범위가 겹치지 않음</td></tr>
+<tr><td class="num">#NUM!</td><td>숫자가 잘못됨 (음수의 제곱근, 너무 큰 수)</td></tr>
+<tr><td class="num">#REF!</td><td>참조한 셀이 삭제되어 참조가 잘못됨</td></tr>
+<tr><td class="num">#VALUE!</td><td>숫자가 필요한 곳에 문자 등 잘못된 형식의 값 사용</td></tr>
+<tr><td class="num">#SPILL!</td><td>동적 배열 결과가 들어갈 자리에 이미 값이 있음</td></tr>
+<tr><td class="num">####</td><td>열 너비가 좁아 숫자를 다 표시하지 못함 (오류값은 아님)</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="t3-4"><div class="sec-h"><h3>배열 수식</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li>여러 값을 한 번에 계산하는 수식입니다. 예전 방식은 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Enter</kbd>로 입력하고, 수식 앞뒤에 <span class="num">{ }</span>가 자동으로 붙습니다. 중괄호를 직접 입력하면 안 됩니다.</li>
+<li>배열 상수: 열은 쉼표(,), 행은 세미콜론(;)으로 구분합니다. <code class="f">={1,2,3;4,5,6}</code>은 2행 3열입니다.</li>
+<li>조건별 합계: <code class="f">=SUM((A2:A10="영업")*(B2:B10))</code> · 조건별 개수: <code class="f">=SUM((A2:A10="영업")*1)</code></li>
+<li>배열 수식 범위의 일부 셀만 수정하거나 삭제할 수 없습니다.</li>
+<li><b>동적 배열</b>(오피스 2021 이상): 결과가 옆 셀로 자동으로 펼쳐집니다(스필). FILTER, SORT, UNIQUE, SEQUENCE 함수가 여기에 속합니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 4. 함수 ===================== -->
+<article class="chapter" id="ch4" data-title="함수" hidden>
+<div class="ch-head"><span class="no">04</span><h2>함수</h2></div>
+<p class="ch-intro">2과목에서 가장 많이 나오는 단원입니다. 함수의 인수 순서와 결과값을 정확히 기억하세요. 예시의 결과는 직접 계산해 확인한 값입니다.</p>
+
+<section class="sec" id="t4-1"><div class="sec-h"><h3>수학 함수</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>함수</th><th>뜻</th><th>예 → 결과</th></tr></thead><tbody>
+<tr><td class="num">SUMIF(범위,조건,합계범위)</td><td>조건에 맞는 값의 합계</td><td class="num">=SUMIF(A:A,"영업",C:C)</td></tr>
+<tr><td class="num">SUMIFS(합계범위,범위1,조건1,…)</td><td>여러 조건의 합계. <mark>합계 범위가 맨 앞</mark></td><td class="num">=SUMIFS(C:C,A:A,"영업",B:B,"&gt;=30")</td></tr>
+<tr><td class="num">ROUND(수,자릿수)</td><td>반올림</td><td class="num">ROUND(1234.567,1) → 1234.6</td></tr>
+<tr><td class="num">ROUND(수,음수)</td><td>정수 부분에서 반올림</td><td class="num">ROUND(1234.567,-2) → 1200</td></tr>
+<tr><td class="num">ROUNDUP / ROUNDDOWN</td><td>올림 / 내림</td><td class="num">ROUNDUP(3.21,1) → 3.3</td></tr>
+<tr><td class="num">INT(수)</td><td>그 수보다 크지 않은 정수 (내림)</td><td class="num">INT(-3.7) → -4</td></tr>
+<tr><td class="num">TRUNC(수,자릿수)</td><td>지정 자릿수 아래를 버림</td><td class="num">TRUNC(-3.7) → -3</td></tr>
+<tr><td class="num">MOD(수,나눌 수)</td><td>나머지</td><td class="num">MOD(17,5) → 2</td></tr>
+<tr><td class="num">QUOTIENT(수,나눌 수)</td><td>몫(정수)</td><td class="num">QUOTIENT(17,5) → 3</td></tr>
+<tr><td class="num">ABS / SQRT / POWER</td><td>절댓값 / 제곱근 / 거듭제곱</td><td class="num">POWER(2,10) → 1024</td></tr>
+<tr><td class="num">SUMPRODUCT(배열1,배열2)</td><td>같은 위치끼리 곱한 값의 합</td><td class="num">{1,2,3},{4,5,6} → 32</td></tr>
+<tr><td class="num">RAND / RANDBETWEEN(a,b)</td><td>0 이상 1 미만 난수 / a~b 사이 정수 난수</td><td class="num">RANDBETWEEN(1,6)</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">함정</b>INT와 TRUNC는 양수에서는 결과가 같지만 음수에서 다릅니다. INT(-3.7)은 -4, TRUNC(-3.7)은 -3입니다.</div>
+</section>
+
+<section class="sec" id="t4-2"><div class="sec-h"><h3>통계 함수</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>함수</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">COUNT</td><td><mark>숫자</mark>가 든 셀의 개수</td></tr>
+<tr><td class="num">COUNTA</td><td><mark>비어 있지 않은</mark> 셀의 개수</td></tr>
+<tr><td class="num">COUNTBLANK</td><td>빈 셀의 개수</td></tr>
+<tr><td class="num">COUNTIF(범위,조건) / COUNTIFS</td><td>조건에 맞는 셀의 개수</td></tr>
+<tr><td class="num">AVERAGEIF / AVERAGEIFS</td><td>조건에 맞는 값의 평균. AVERAGEIFS는 평균 범위가 맨 앞</td></tr>
+<tr><td class="num">LARGE(범위,k) / SMALL(범위,k)</td><td>k번째로 큰 값 / 작은 값</td></tr>
+<tr><td class="num">RANK.EQ(수,범위,옵션)</td><td>순위. 옵션 0 또는 생략이면 내림차순(큰 값이 1위), 1이면 오름차순</td></tr>
+<tr><td class="num">MEDIAN / MODE.SNGL</td><td>중간값 / 가장 자주 나오는 값</td></tr>
+<tr><td class="num">STDEV.S / VAR.S</td><td>표본 표준편차 / 표본 분산</td></tr>
+<tr><td class="num">MAXA / MINA</td><td>논리값과 텍스트까지 포함해 최대·최소</td></tr>
+</tbody></table></div>
+<p>조건 쓰는 법: <code class="f">"&gt;=80"</code>, <code class="f">"&lt;&gt;"&amp;D1</code>(D1 값과 다름), <code class="f">"김*"</code>(김으로 시작), <code class="f">"??"</code>(두 글자)</p>
+<p>예: A1:A5에 <span class="num">10, 20, "가", (빈 셀), 30</span>이 있으면 COUNT는 <b>3</b>, COUNTA는 <b>4</b>, COUNTBLANK는 <b>1</b>입니다.</p>
+</section>
+
+<section class="sec" id="t4-3"><div class="sec-h"><h3>텍스트 함수</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>함수</th><th>예 → 결과</th></tr></thead><tbody>
+<tr><td class="num">LEFT / RIGHT / MID</td><td class="num">MID("컴퓨터활용능력",4,2) → 활용</td></tr>
+<tr><td class="num">LEN</td><td class="num">LEN("Excel 2021") → 10 (공백 포함)</td></tr>
+<tr><td class="num">FIND(찾을 문자,문자열,시작)</td><td class="num">FIND("e","Excel") → 4 (<b>대소문자 구분</b>, 와일드카드 불가)</td></tr>
+<tr><td class="num">SEARCH</td><td class="num">SEARCH("e","Excel") → 1 (대소문자 구분 안 함, 와일드카드 가능)</td></tr>
+<tr><td class="num">REPLACE(문자열,시작,개수,새 문자)</td><td class="num">REPLACE("010-1234-5678",5,4,"****") → 010-****-5678</td></tr>
+<tr><td class="num">SUBSTITUTE(문자열,찾을 문자,바꿀 문자)</td><td class="num">SUBSTITUTE("2026.10.02",".","-") → 2026-10-02</td></tr>
+<tr><td class="num">TRIM</td><td>단어 사이 공백 하나만 남기고 앞뒤 공백 제거</td></tr>
+<tr><td class="num">UPPER / LOWER / PROPER</td><td class="num">PROPER("seoul city") → Seoul City</td></tr>
+<tr><td class="num">REPT(문자,횟수)</td><td class="num">REPT("★",3) → ★★★</td></tr>
+<tr><td class="num">TEXT(값,서식)</td><td class="num">TEXT(1234.5,"#,##0") → 1,235 (결과는 문자)</td></tr>
+<tr><td class="num">VALUE</td><td class="num">VALUE("123") → 123 (문자를 숫자로)</td></tr>
+<tr><td class="num">CONCAT / TEXTJOIN</td><td class="num">TEXTJOIN("-",TRUE,"A","","B") → A-B</td></tr>
+<tr><td class="num">FIXED(수,자릿수)</td><td class="num">FIXED(1234.567,1) → 1,234.6 (문자)</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="t4-4"><div class="sec-h"><h3>날짜·시간 함수</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>함수</th><th>뜻 / 예</th></tr></thead><tbody>
+<tr><td class="num">TODAY() / NOW()</td><td>오늘 날짜 / 현재 날짜와 시간</td></tr>
+<tr><td class="num">DATE(년,월,일)</td><td class="num">DATE(2026,10,2) → 2026-10-02</td></tr>
+<tr><td class="num">YEAR / MONTH / DAY</td><td>날짜에서 연·월·일 추출</td></tr>
+<tr><td class="num">HOUR / MINUTE / SECOND / TIME</td><td>시간에서 시·분·초 추출 / 시간 만들기</td></tr>
+<tr><td class="num">WEEKDAY(날짜,유형)</td><td>요일 번호. 유형 1(생략): <mark>일요일=1 ~ 토요일=7</mark>. 유형 2: 월요일=1 ~ 일요일=7. 유형 3: 월요일=0</td></tr>
+<tr><td class="num">DAYS(끝 날짜,시작 날짜)</td><td>두 날짜 사이 일수. <b>끝 날짜가 먼저</b></td></tr>
+<tr><td class="num">EDATE(날짜,개월)</td><td class="num">EDATE("2026-01-31",1) → 2026-02-28</td></tr>
+<tr><td class="num">EOMONTH(날짜,개월)</td><td class="num">EOMONTH("2026-10-02",0) → 2026-10-31 (그 달 마지막 날)</td></tr>
+<tr><td class="num">WORKDAY(시작,일수,휴일)</td><td>주말·휴일을 뺀 작업일 기준 날짜</td></tr>
+<tr><td class="num">NETWORKDAYS(시작,끝,휴일)</td><td>두 날짜 사이 작업일 수 (주말 제외)</td></tr>
+</tbody></table></div>
+<p>예: 2026년 10월 2일은 금요일이므로 <code class="f">=WEEKDAY(DATE(2026,10,2))</code>는 <b>6</b>, <code class="f">=WEEKDAY(DATE(2026,10,2),2)</code>는 <b>5</b>입니다.</p>
+</section>
+
+<section class="sec" id="t4-5"><div class="sec-h"><h3>논리·정보 함수</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>함수</th><th>뜻 / 예</th></tr></thead><tbody>
+<tr><td class="num">IF(조건,참,거짓)</td><td class="num">=IF(B2&gt;=60,"합격","불합격")</td></tr>
+<tr><td class="num">IFS(조건1,값1,조건2,값2,…)</td><td class="num">=IFS(B2&gt;=90,"A",B2&gt;=80,"B",TRUE,"C")</td></tr>
+<tr><td class="num">AND / OR / NOT</td><td>모두 참 / 하나라도 참 / 반대</td></tr>
+<tr><td class="num">IFERROR(수식,오류일 때 값)</td><td class="num">=IFERROR(VLOOKUP(…),"없음")</td></tr>
+<tr><td class="num">SWITCH(식,값1,결과1,…,기본값)</td><td class="num">=SWITCH(A2,1,"남",2,"여","확인")</td></tr>
+<tr><td class="num">ISBLANK / ISNUMBER / ISTEXT / ISERROR</td><td>빈 셀 / 숫자 / 문자 / 오류인지 TRUE·FALSE로</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="t4-6"><div class="sec-h"><h3>찾기·참조 함수</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>함수</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">VLOOKUP(찾을 값,범위,열 번호,방법)</td><td>범위의 <b>첫 열</b>에서 값을 찾아 같은 행의 지정 열 값. 방법 <mark>FALSE(0)=정확히 일치</mark>, TRUE(1)=근삿값(첫 열 오름차순 정렬 필요)</td></tr>
+<tr><td class="num">HLOOKUP(찾을 값,범위,행 번호,방법)</td><td>범위의 <b>첫 행</b>에서 찾아 아래 지정 행의 값</td></tr>
+<tr><td class="num">INDEX(범위,행,열)</td><td>범위에서 행·열이 만나는 셀의 값</td></tr>
+<tr><td class="num">MATCH(찾을 값,범위,방법)</td><td>범위에서 몇 번째에 있는지 위치. 방법 <b>0</b>=정확히, <b>1</b>=작거나 같은 값 중 최댓값(오름차순), <b>-1</b>=크거나 같은 값 중 최솟값(내림차순)</td></tr>
+<tr><td class="num">CHOOSE(번호,값1,값2,…)</td><td class="num">CHOOSE(2,"월","화","수") → 화</td></tr>
+<tr><td class="num">XLOOKUP(찾을 값,찾을 범위,반환 범위,없을 때)</td><td>정확히 일치가 기본. 왼쪽 열 값도 찾을 수 있음</td></tr>
+<tr><td class="num">OFFSET(기준,행,열,높이,너비)</td><td>기준 셀에서 떨어진 위치의 셀·범위</td></tr>
+<tr><td class="num">ROW / COLUMN / ROWS / COLUMNS</td><td>행 번호 / 열 번호 / 행 개수 / 열 개수</td></tr>
+</tbody></table></div>
+<p>자주 나오는 조합: <code class="f">=INDEX(C2:C10, MATCH("김철수", A2:A10, 0))</code> → A열에서 김철수를 찾아 같은 행의 C열 값</p>
+<p>근삿값 활용: 점수표 <span class="num">{0,"F";60,"D";70,"C";80,"B";90,"A"}</span>에서 <code class="f">VLOOKUP(85, 점수표, 2, TRUE)</code> → <b>B</b> (85 이하 중 가장 큰 80의 행)</p>
+</section>
+
+<section class="sec" id="t4-7"><div class="sec-h"><h3>데이터베이스 함수와 재무 함수</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<p>데이터베이스 함수는 형식이 모두 같습니다: <code class="f">=D함수(데이터베이스 범위, 필드, 조건 범위)</code></p>
+<ul>
+<li>데이터베이스 범위에는 <b>필드명(머리글)을 포함</b>합니다.</li>
+<li>필드는 열 이름("판매량"), 열 번호(3), 머리글 셀 주소(C1)로 지정할 수 있습니다.</li>
+<li>조건 범위도 필드명과 조건을 함께 지정합니다. 같은 행은 AND, 다른 행은 OR입니다.</li>
+<li>DSUM, DAVERAGE, DMAX, DMIN, <b>DCOUNT(숫자 셀 개수)</b>, <b>DCOUNTA(비어 있지 않은 셀 개수)</b>, DGET(조건에 맞는 값 하나).</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>재무 함수</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">PMT(이율,기간,현재가치)</td><td>대출금의 정기 상환액</td></tr>
+<tr><td class="num">FV(이율,기간,정기 납입액)</td><td>적금의 만기 금액(미래 가치)</td></tr>
+<tr><td class="num">PV(이율,기간,정기 지급액)</td><td>현재 가치</td></tr>
+<tr><td class="num">NPV(할인율,값1,…)</td><td>순 현재 가치</td></tr>
+</tbody></table></div>
+<p>월 단위로 계산할 때는 연이율을 12로 나누고 기간은 개월 수로 맞춥니다. 내가 내는 돈은 음수로 표시됩니다.</p>
+</section>
+</article>
+
+<!-- ===================== 5. 차트 ===================== -->
+<article class="chapter" id="ch5" data-title="차트" hidden>
+<div class="ch-head"><span class="no">05</span><h2>차트</h2></div>
+<p class="ch-intro">차트 종류별 특징과 추세선을 넣을 수 없는 차트가 자주 나옵니다.</p>
+
+<section class="sec" id="t5-1"><div class="sec-h"><h3>차트 만들기와 구성 요소</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><kbd>F11</kbd>: 기본 차트를 <mark>별도의 차트 시트</mark>에 만듭니다. <kbd>Alt</kbd>+<kbd>F1</kbd>: <mark>현재 시트</mark>에 기본 차트를 만듭니다.</li>
+<li>원본 데이터를 바꾸면 차트에 <b>자동으로 반영</b>됩니다.</li>
+<li>숨긴 행·열의 데이터는 기본적으로 차트에 표시되지 않습니다. '숨겨진 셀/빈 셀' 설정에서 바꿀 수 있습니다.</li>
+<li>구성 요소: 차트 영역, 그림 영역, 차트 제목, 축(가로 항목 축, 세로 값 축), 축 제목, 범례, 데이터 계열, 데이터 레이블, 눈금선, 데이터 표.</li>
+<li>값 차이가 큰 계열은 <b>보조 세로 축</b>을 지정합니다. 막대와 꺾은선을 섞으면 <b>콤보 차트</b>입니다.</li>
+<li>차트 서식 파일(.crtx)로 저장해 다시 쓸 수 있습니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t5-2"><div class="sec-h"><h3>차트 종류</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>종류</th><th>특징</th></tr></thead><tbody>
+<tr><td>세로·가로 막대형</td><td>항목 간 값 비교</td></tr>
+<tr><td>꺾은선형</td><td>시간에 따른 변화 추세</td></tr>
+<tr><td>원형</td><td>전체에 대한 비율. <mark>데이터 계열 하나만</mark> 표시</td></tr>
+<tr><td>도넛형</td><td>비율 표시. 계열 여러 개 표시 가능</td></tr>
+<tr><td>분산형 (XY)</td><td>두 값의 관계. 가로·세로 축이 모두 값 축. 과학·공학 데이터</td></tr>
+<tr><td>거품형</td><td>분산형에 세 번째 값을 거품 크기로 표시</td></tr>
+<tr><td>영역형</td><td>시간에 따른 변화의 크기를 면적으로 강조</td></tr>
+<tr><td>방사형</td><td>여러 항목의 균형을 중심에서 뻗은 축으로 비교</td></tr>
+<tr><td>주식형</td><td>고가·저가·종가 등 주가 변동. 데이터 순서가 정해져 있음</td></tr>
+<tr><td>표면형</td><td>두 데이터 집합의 최적 조합을 지형처럼 표시</td></tr>
+<tr><td>트리맵 / 선버스트</td><td>계층 구조 데이터의 비율 / 계층을 동심원으로</td></tr>
+<tr><td>히스토그램 / 상자 수염</td><td>데이터 분포 / 사분위수와 이상값</td></tr>
+<tr><td>폭포</td><td>값이 더해지고 빠지는 누적 과정</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="t5-3"><div class="sec-h"><h3>추세선과 오차 막대</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li><b>추세선</b>: 데이터의 경향을 선으로 표시하고 앞으로의 값을 예측합니다. 종류: 지수, 선형, 로그, 다항식, 거듭제곱, 이동 평균.</li>
+<li>추세선을 넣을 수 <mark>없는</mark> 차트: <b>3차원, 누적형, 원형, 도넛형, 방사형, 표면형</b></li>
+<li>한 계열에 추세선을 여러 개 넣을 수 있습니다.</li>
+<li><b>오차 막대</b>: 데이터의 오차 범위를 표시합니다. 3차원 차트에는 넣을 수 없습니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 6. 데이터 관리·분석 ===================== -->
+<article class="chapter" id="ch6" data-title="데이터 관리·분석" hidden>
+<div class="ch-head"><span class="no">06</span><h2>데이터 관리와 분석</h2></div>
+<p class="ch-intro">정렬 순서, 고급 필터 조건, 부분합, 피벗 테이블, 가상 분석이 나옵니다. 실기와 겹치는 부분이 많습니다.</p>
+
+<section class="sec" id="t6-1"><div class="sec-h"><h3>정렬</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>정렬 기준은 최대 <b>64개</b>까지 지정할 수 있습니다.</li>
+<li>오름차순 순서: <mark>숫자 → 문자 → 논리값(FALSE → TRUE) → 오류값 → 빈 셀</mark>. 문자는 특수 문자 → 영문 → 한글 순입니다.</li>
+<li><b>빈 셀은 오름차순이든 내림차순이든 항상 마지막</b>에 놓입니다.</li>
+<li>기본은 위쪽에서 아래쪽(행 정렬)이고, 옵션에서 왼쪽에서 오른쪽(열 정렬)으로 바꿀 수 있습니다. 대소문자 구분도 옵션입니다.</li>
+<li>셀 색, 글꼴 색, 조건부 서식 아이콘을 기준으로도 정렬할 수 있습니다.</li>
+<li>사용자 지정 목록(예: 부장, 차장, 과장)의 순서로 정렬할 수 있습니다.</li>
+<li>숨겨진 행·열은 정렬에서 제외됩니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t6-2"><div class="sec-h"><h3>자동 필터와 고급 필터</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li><b>자동 필터</b>: 열마다 조건을 지정합니다. 서로 다른 열의 조건은 <b>AND</b>로 결합됩니다. 결과는 원래 위치에만 표시됩니다.</li>
+<li>필터로 숨긴 행은 인쇄되지 않고, 복사하면 보이는 셀만 복사됩니다.</li>
+<li><b>고급 필터</b>: 조건을 워크시트에 따로 입력합니다. 결과를 <mark>다른 위치에 복사</mark>할 수 있고, '동일한 레코드는 하나만'으로 중복을 없앨 수 있습니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th colspan="2">조건 범위 작성법</th></tr></thead><tbody>
+<tr><td>같은 행</td><td>AND (그리고)</td></tr>
+<tr><td>다른 행</td><td>OR (또는)</td></tr>
+<tr><td>수식 조건</td><td>조건 범위의 필드명을 <mark>원본에 없는 이름으로 쓰거나 비워 둠</mark>. 예: 필드명 '평균이상', 조건 <code class="f">=C2&gt;AVERAGE($C$2:$C$20)</code></td></tr>
+</tbody></table></div>
+<div class="box tip"><b class="t">예시</b>
+<div class="tbl"><table><thead><tr><th>부서</th><th>판매량</th></tr></thead><tbody>
+<tr><td>영업</td><td class="num">&gt;=100</td></tr>
+<tr><td>기획</td><td></td></tr>
+</tbody></table></div>
+→ (부서가 영업이면서 판매량 100 이상) <b>또는</b> (부서가 기획)</div>
+</section>
+
+<section class="sec" id="t6-3"><div class="sec-h"><h3>부분합과 데이터 통합</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li><b>부분합</b>은 그룹별 합계·평균·개수 등을 구합니다. <mark>그룹 기준 필드로 먼저 정렬</mark>해야 제대로 묶입니다.</li>
+<li>부분합을 여러 번 겹쳐 쓰려면 '새로운 값으로 대치'를 <b>해제</b>합니다.</li>
+<li>'그룹 사이에서 페이지 나누기', '데이터 아래에 요약 표시'를 선택할 수 있고, <b>모두 제거</b>로 원래 상태로 돌아갑니다.</li>
+<li>왼쪽에 생기는 윤곽 기호(1, 2, 3)로 요약 수준을 바꿔 봅니다.</li>
+<li><b>데이터 통합</b>은 여러 범위(다른 시트 포함)의 데이터를 하나로 모아 합계, 평균, 개수 등으로 계산합니다. '원본 데이터에 연결'을 선택하면 원본이 바뀔 때 결과가 따라 바뀝니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t6-4"><div class="sec-h"><h3>피벗 테이블</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>많은 데이터를 행, 열, 값, 필터 영역에 배치해 요약하는 대화형 표입니다.</li>
+<li>원본 데이터가 바뀌어도 자동으로 반영되지 않습니다. <mark>[새로 고침]</mark>을 해야 합니다.</li>
+<li>값 영역의 계산은 합계가 기본이고, 개수·평균·최댓값 등으로 바꿀 수 있습니다. '값 표시 형식'으로 비율(%)도 표시합니다.</li>
+<li>날짜·숫자 필드는 <b>그룹화</b>할 수 있습니다(월, 분기, 10단위 등).</li>
+<li><b>피벗 차트</b>를 만들면 피벗 테이블도 함께 만들어지고, 피벗 테이블을 지우면 피벗 차트는 일반 차트가 됩니다.</li>
+<li><b>슬라이서</b>와 <b>시간 표시 막대</b>로 필터를 단추처럼 씁니다.</li>
+<li>외부 데이터(Access, 텍스트 파일 등)를 원본으로 쓸 수 있습니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t6-5"><div class="sec-h"><h3>가상 분석</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>도구</th><th>특징</th></tr></thead><tbody>
+<tr><td>목표값 찾기</td><td>수식 결과를 원하는 값으로 만들려면 <mark>입력값 하나</mark>를 얼마로 바꿔야 하는지 계산. 수식 셀, 찾는 값, 값을 바꿀 셀을 지정</td></tr>
+<tr><td>시나리오 관리자</td><td>여러 입력값 조합(시나리오)을 저장하고 결과를 비교. 변경 셀은 최대 <b>32개</b>. 요약 보고서와 피벗 테이블 보고서 작성</td></tr>
+<tr><td>데이터 표</td><td>입력값 한두 개가 바뀔 때 결과를 표로 한 번에 계산. 결과는 <code class="f">{=TABLE(…)}</code> 형태로, <b>일부 셀만 수정할 수 없음</b></td></tr>
+<tr><td>해 찾기</td><td>여러 변수와 제약 조건 아래에서 최적의 값(최대·최소·특정값)을 찾음. 추가 기능으로 설치</td></tr>
+<tr><td>예측 시트</td><td>시간 데이터로 앞으로의 추세를 예측해 차트로 표시</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="t6-6"><div class="sec-h"><h3>데이터 도구</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>데이터 유효성 검사</b>: 입력할 수 있는 값(정수, 목록, 날짜, 텍스트 길이, 사용자 지정 수식)을 제한합니다. 목록은 쉼표로 구분해 입력합니다. 오류 메시지 스타일: <mark>중지</mark>(입력 불가), <mark>경고</mark>, <mark>정보</mark>(입력은 가능).</li>
+<li>이미 입력된 값에는 적용되지 않으며, '잘못된 데이터'에 동그라미를 쳐서 확인할 수 있습니다.</li>
+<li><b>텍스트 나누기</b>: 한 셀의 내용을 구분 기호(쉼표, 탭, 공백)나 너비로 여러 열에 나눕니다.</li>
+<li><b>중복된 항목 제거</b>: 선택한 열 기준으로 중복 행을 지웁니다.</li>
+<li><b>외부 데이터 가져오기</b>: 텍스트·CSV, 웹, Access 데이터베이스 등을 파워 쿼리로 가져오고 새로 고칠 수 있습니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 7. 매크로 ===================== -->
+<article class="chapter" id="ch7" data-title="매크로와 VBA" hidden>
+<div class="ch-head"><span class="no">07</span><h2>매크로와 VBA</h2></div>
+<p class="ch-intro">매크로 기록 대화상자 설정과 간단한 VBA 코드 해석이 나옵니다.</p>
+
+<section class="sec" id="t7-1"><div class="sec-h"><h3>매크로 기록</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>매크로는 반복 작업을 기록해 한 번에 실행하는 기능으로, VBA 코드로 저장됩니다.</li>
+<li><b>이름</b>: 첫 글자는 문자여야 하고, <mark>공백과 대부분의 특수 문자는 쓸 수 없습니다</mark>(밑줄 _은 가능). 셀 주소와 같은 이름도 안 됩니다.</li>
+<li><b>바로 가기 키</b>: <kbd>Ctrl</kbd>+영문자. 대문자로 지정하면 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+영문자가 됩니다. 숫자·특수 문자는 지정할 수 없습니다. 엑셀 기본 단축키와 겹치면 <b>매크로가 우선</b>합니다.</li>
+<li><b>저장 위치</b>: 현재 통합 문서, 새 통합 문서, <mark>개인용 매크로 통합 문서(PERSONAL.XLSB)</mark>. 개인용은 엑셀을 실행할 때마다 모든 문서에서 쓸 수 있습니다.</li>
+<li>매크로가 있는 파일은 <b>.xlsm</b>으로 저장해야 합니다.</li>
+<li>'상대 참조로 기록'을 켜면 셀 위치를 현재 셀 기준으로 기록합니다.</li>
+<li>매크로를 단추, 도형, 그림에 연결해 클릭으로 실행할 수 있습니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>키</th><th>기능</th></tr></thead><tbody>
+<tr><td><kbd>Alt</kbd>+<kbd>F8</kbd></td><td>매크로 대화상자 (실행, 편집, 삭제, 옵션)</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>F11</kbd></td><td>VBA 편집기 열기</td></tr>
+<tr><td><kbd>F5</kbd></td><td>VBA 편집기에서 매크로 실행</td></tr>
+<tr><td><kbd>F8</kbd></td><td>한 줄씩 실행 (단계별 디버깅)</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="t7-2"><div class="sec-h"><h3>VBA 기본 문법</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>구문</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">Sub 이름() … End Sub</td><td>프로시저의 시작과 끝</td></tr>
+<tr><td class="num">' 주석</td><td>작은따옴표 뒤는 실행하지 않는 설명</td></tr>
+<tr><td class="num">Range("A1").Value = 10</td><td>A1 셀에 10 입력 (개체.속성 = 값)</td></tr>
+<tr><td class="num">Cells(2, 3)</td><td>2행 3열, 즉 C2 셀</td></tr>
+<tr><td class="num">Range("A1").Select</td><td>A1 선택 (개체.메서드)</td></tr>
+<tr><td class="num">ActiveCell.Offset(1, 0)</td><td>현재 셀에서 한 행 아래 셀</td></tr>
+<tr><td class="num">Worksheets("Sheet2").Activate</td><td>Sheet2 활성화</td></tr>
+<tr><td class="num">MsgBox "완료"</td><td>메시지 창 표시</td></tr>
+<tr><td class="num">x = InputBox("이름?")</td><td>입력 창으로 값 받기</td></tr>
+<tr><td class="num">Dim i As Integer</td><td>변수 선언</td></tr>
+</tbody></table></div>
+<div class="box tip"><b class="t">반복과 조건</b>
+<pre class="code">Sub 합계()
+    Dim i As Integer, s As Integer
+    For i = 1 To 10 Step 2
+        s = s + i
+    Next i
+    If s &gt;= 20 Then
+        MsgBox "결과: " &amp; s
+    Else
+        MsgBox "작음"
+    End If
+End Sub</pre>
+i가 1, 3, 5, 7, 9일 때 더하므로 s = <b>25</b>. 25 ≥ 20이므로 "결과: 25"가 표시됩니다.</div>
+<ul>
+<li>반복문: <span class="num">For … Next</span>, <span class="num">For Each … Next</span>(컬렉션 각각), <span class="num">Do While … Loop</span>(조건이 참인 동안), <span class="num">Do Until … Loop</span>(조건이 참이 될 때까지).</li>
+<li><span class="num">With 개체 … End With</span>: 같은 개체의 속성을 여러 개 지정할 때 개체 이름을 반복하지 않습니다.</li>
+<li><span class="num">Select Case</span>: 값에 따라 여러 갈래로 나눕니다.</li>
+</ul>
+</section>
+</article>
+
+<!-- ===================== 8. 인쇄·보기 ===================== -->
+<article class="chapter" id="ch8" data-title="인쇄와 화면" hidden>
+<div class="ch-head"><span class="no">08</span><h2>인쇄와 화면 보기</h2></div>
+<p class="ch-intro">페이지 설정 대화상자의 탭별 기능과 틀 고정·창 나누기의 차이가 나옵니다.</p>
+
+<section class="sec" id="t8-1"><div class="sec-h"><h3>페이지 설정</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>탭</th><th>주요 기능</th></tr></thead><tbody>
+<tr><td>페이지</td><td>용지 방향, 확대/축소 배율(<b>10~400%</b>), 자동 맞춤(용지 너비·높이), 용지 크기, 인쇄 품질, 시작 페이지 번호</td></tr>
+<tr><td>여백</td><td>위·아래·왼쪽·오른쪽 여백, 머리글·바닥글 여백, 페이지 가운데 맞춤(가로·세로)</td></tr>
+<tr><td>머리글/바닥글</td><td>홀수·짝수 페이지 다르게, 첫 페이지 다르게, 문서에 맞게 배율 조정</td></tr>
+<tr><td>시트</td><td>인쇄 영역, <mark>인쇄 제목(반복할 행·열)</mark>, 눈금선, 흑백으로, 간단하게 인쇄, 행/열 머리글, 메모 인쇄 위치, 셀 오류 표시 방법, 페이지 순서</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>머리글/바닥글 코드</th><th>뜻</th></tr></thead><tbody>
+<tr><td class="num">&amp;[페이지 번호]</td><td>현재 페이지 번호</td></tr>
+<tr><td class="num">&amp;[전체 페이지 수]</td><td>전체 페이지 수</td></tr>
+<tr><td class="num">&amp;[날짜] / &amp;[시간]</td><td>인쇄하는 날짜 / 시간</td></tr>
+<tr><td class="num">&amp;[파일] / &amp;[경로]&amp;[파일]</td><td>파일 이름 / 경로 포함 파일 이름</td></tr>
+<tr><td class="num">&amp;[탭]</td><td>시트 이름</td></tr>
+</tbody></table></div>
+<ul>
+<li>'간단하게 인쇄'는 테두리, 도형, 차트 같은 그래픽 요소를 빼고 데이터만 인쇄합니다.</li>
+<li>눈금선은 기본적으로 인쇄되지 않습니다. 시트 탭에서 체크해야 인쇄됩니다.</li>
+<li>페이지 설정의 시트 탭은 인쇄 미리 보기에서 열면 일부 항목(인쇄 영역, 반복할 행·열)이 비활성화됩니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="t8-2"><div class="sec-h"><h3>페이지 나누기와 화면 보기</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>페이지 나누기 미리 보기</b>: 파란 실선(직접 삽입)과 파란 점선(자동)으로 페이지 경계를 보여주고, 끌어서 조정할 수 있습니다. 인쇄 영역 밖은 회색으로 표시됩니다.</li>
+<li><b>페이지 레이아웃 보기</b>: 실제 인쇄 모양대로 보며 머리글·바닥글을 바로 편집합니다.</li>
+<li>화면 확대/축소(10~400%)는 <mark>인쇄에 영향을 주지 않습니다.</mark></li>
+<li><b>틀 고정</b>: 선택한 셀의 <b>위쪽 행과 왼쪽 열</b>이 스크롤해도 고정됩니다. 인쇄에는 반영되지 않습니다.</li>
+<li><b>창 나누기</b>: 화면을 최대 4개 영역으로 나눠 떨어진 부분을 함께 봅니다. 나눈 경계선을 끌어 위치를 바꿀 수 있습니다.</li>
+<li><b>새 창</b>: 같은 통합 문서를 창 두 개로 엽니다. '모두 정렬'로 나란히 배치합니다.</li>
+<li><b>숨기기</b>: 행·열·시트·창을 숨깁니다. 모든 시트를 숨길 수는 없습니다.</li>
+</ul>
+</section>
+</article>
+
+<div class="chapter" id="results" hidden></div>
+</main>
+</div>
+
+<div class="player" id="player" hidden>
+  <div class="in">
+    <button type="button" class="main" id="pPlay">▶ 듣기</button>
+    <button type="button" id="pStop">■ 정지</button>
+    <span class="now" id="pNow">절마다 있는 '듣기'를 누르거나, ▶로 현재 단원을 처음부터 들을 수 있습니다.</span>
+    <label for="pVoice">음성 <select id="pVoice"></select></label>
+    <label for="pRate">속도 <select id="pRate"><option value="0.8">0.8배</option><option value="0.9">0.9배</option><option value="1" selected>1.0배</option><option value="1.15">1.15배</option><option value="1.3">1.3배</option></select></label>
+    <label for="pPitch">음높이 <select id="pPitch"><option value="0.75">낮게</option><option value="0.85" selected>약간 낮게</option><option value="1">보통</option><option value="1.1">약간 높게</option></select></label>
+    <span class="voice-note" id="pNote" hidden></span>
+  </div>
+</div>
+
+<script>
+const QUIZ = {
+ch1:[
+ {q:"매크로가 포함된 통합 문서를 저장할 때 사용하는 확장명은?",o:[".xlsx",".xlsm",".xltx",".csv"],a:1,e:".xlsm은 매크로 사용 통합 문서입니다. .xlsx에는 매크로를 저장할 수 없습니다."},
+ {q:"셀에 1/2을 분수로 입력하는 방법으로 옳은 것은?",o:["1/2","'1/2","0 1/2","=1/2"],a:2,e:"0과 공백을 먼저 입력해야 분수가 됩니다. 1/2만 입력하면 1월 2일 날짜가 됩니다."},
+ {q:"셀에 'A1반'을 입력하고 채우기 핸들을 아래로 끌었을 때 두 번째 셀의 값은?",o:["A1반","A2반","B1반","B2반"],a:1,e:"문자와 숫자가 섞이면 마지막 숫자가 1씩 증가합니다."},
+ {q:"선택한 여러 셀에 같은 데이터를 한 번에 입력하는 키는?",o:["Alt+Enter","Shift+Enter","Ctrl+Enter","Ctrl+D"],a:2,e:"Ctrl+Enter입니다. Alt+Enter는 셀 안 줄 바꿈입니다."},
+ {q:"통합 문서 보호에 대한 설명으로 옳은 것은?",o:["셀 내용을 수정할 수 없게 한다","시트의 삽입·삭제·이름 바꾸기를 막는다","차트를 수정할 수 없게 한다","수식을 숨긴다"],a:1,e:"통합 문서 보호는 시트의 구조를 보호합니다. 셀 내용 보호는 시트 보호입니다."}
+],
+ch2:[
+ {q:"셀 값 1234567에 사용자 지정 서식 #,##0, 을 적용한 결과는?",o:["1,234,567","1,235","1,234","1235K"],a:1,e:"서식 끝의 쉼표는 천 단위로 줄여 표시하고 반올림합니다. 1234.567 → 1,235"},
+ {q:"셀 값 0.5에 서식 #.## 을 적용한 결과는?",o:["0.5","0.50",".5",".50"],a:2,e:"#은 값이 없는 자리를 표시하지 않아 정수 부분 0이 사라집니다."},
+ {q:"날짜 2026-10-02에 서식 aaaa 를 적용한 결과는?",o:["Fri","Friday","금","금요일"],a:3,e:"aaa는 '금', aaaa는 '금요일'입니다. ddd·dddd는 영문 요일입니다."},
+ {q:"사용자 지정 서식의 구역 순서로 옳은 것은?",o:["음수;양수;0;텍스트","양수;음수;0;텍스트","양수;0;음수;텍스트","텍스트;양수;음수;0"],a:1,e:"양수;음수;0;텍스트 순서입니다."},
+ {q:"A2:E20에 조건부 서식으로 E열 값이 80 이상인 행 전체를 칠하려 할 때 수식은?",o:["=E2>=80","=$E$2>=80","=$E2>=80","=E$2>=80"],a:2,e:"열만 고정해야 각 행이 자기 행의 E열 값을 봅니다."}
+],
+ch3:[
+ {q:"F4 키를 눌러 참조를 바꿀 때 A1 다음에 나오는 형태는?",o:["A$1","$A1","$A$1","A1"],a:2,e:"A1 → $A$1 → A$1 → $A1 → A1 순서입니다."},
+ {q:"이름 정의에 사용할 수 있는 이름은?",o:["1분기","매출 합계","A1","_매출"],a:3,e:"숫자로 시작할 수 없고, 공백과 셀 주소 형태는 쓸 수 없습니다. 밑줄로 시작하는 것은 가능합니다."},
+ {q:"참조한 셀이 삭제되어 수식의 참조가 잘못되었을 때 나오는 오류는?",o:["#N/A","#REF!","#NAME?","#NULL!"],a:1,e:"#REF!입니다. #NAME?은 함수 이름 오류, #NULL!은 겹치지 않는 교집합입니다."},
+ {q:"다음 중 연산 우선순위가 가장 높은 것은?",o:["&","^","*","="],a:1,e:"^(거듭제곱) → * / → + - → & → 비교 연산자 순입니다."},
+ {q:"배열 상수 {1,2,3;4,5,6}의 크기는?",o:["3행 2열","2행 3열","6행 1열","1행 6열"],a:1,e:"쉼표는 열, 세미콜론은 행을 구분하므로 2행 3열입니다."}
+],
+ch4:[
+ {q:"=ROUND(1234.567,-2) 의 결과는?",o:["1234.57","1235","1200","1300"],a:2,e:"자릿수가 -2이면 십의 자리에서 반올림해 백의 자리까지 남깁니다."},
+ {q:"=INT(-3.7) 의 결과는?",o:["-3","-4","3","-3.7"],a:1,e:"INT는 그 수보다 크지 않은 정수이므로 -4입니다. TRUNC(-3.7)은 -3입니다."},
+ {q:"=MID(\"컴퓨터활용능력\",4,2) 의 결과는?",o:["컴퓨","터활","활용","용능"],a:2,e:"4번째 글자부터 2글자이므로 '활용'입니다."},
+ {q:"=FIND(\"e\",\"Excel\") 의 결과는?",o:["1","2","4","#VALUE!"],a:2,e:"FIND는 대소문자를 구분하므로 소문자 e의 위치 4를 반환합니다. SEARCH였다면 1입니다."},
+ {q:"=WEEKDAY(DATE(2026,10,2)) 의 결과는? (2026년 10월 2일은 금요일)",o:["5","6","7","4"],a:1,e:"유형을 생략하면 일요일=1이므로 금요일은 6입니다."},
+ {q:"A1:A5에 10, 20, \"가\", (빈 셀), 30이 있을 때 =COUNTA(A1:A5) 의 결과는?",o:["3","4","5","1"],a:1,e:"COUNTA는 비어 있지 않은 셀을 세므로 4입니다. COUNT는 숫자만 세어 3입니다."},
+ {q:"SUMIFS 함수의 첫 번째 인수는?",o:["조건 범위","조건","합계 범위","데이터베이스"],a:2,e:"SUMIFS(합계범위, 조건범위1, 조건1, …). SUMIF는 합계 범위가 맨 뒤입니다."},
+ {q:"MATCH 함수에서 정확히 일치하는 값을 찾을 때 세 번째 인수는?",o:["1","0","-1","TRUE"],a:1,e:"0은 정확히 일치, 1은 작거나 같은 값(오름차순), -1은 크거나 같은 값(내림차순)입니다."},
+ {q:"=CHOOSE(3,\"사과\",\"배\",\"감\",\"귤\") 의 결과는?",o:["사과","배","감","귤"],a:2,e:"세 번째 값인 '감'입니다."},
+ {q:"DCOUNT 함수에 대한 설명으로 옳은 것은?",o:["조건에 맞는 비어 있지 않은 셀의 개수","조건에 맞는 숫자 셀의 개수","조건에 맞는 값의 합계","데이터베이스 범위에 필드명을 포함하지 않는다"],a:1,e:"DCOUNT는 숫자 셀, DCOUNTA는 비어 있지 않은 셀을 셉니다. 데이터베이스 범위에는 필드명을 포함합니다."}
+],
+ch5:[
+ {q:"현재 시트에 기본 차트를 바로 만드는 키는?",o:["F11","Alt+F1","Ctrl+F1","Shift+F11"],a:1,e:"Alt+F1은 현재 시트에, F11은 별도 차트 시트에 만듭니다."},
+ {q:"추세선을 추가할 수 있는 차트는?",o:["원형","3차원 세로 막대형","2차원 꺾은선형","방사형"],a:2,e:"3차원, 누적형, 원형, 도넛형, 방사형, 표면형에는 추세선을 넣을 수 없습니다."},
+ {q:"데이터 계열을 하나만 표시할 수 있는 차트는?",o:["도넛형","원형","영역형","방사형"],a:1,e:"원형은 계열 하나만 표시합니다. 도넛형은 여러 계열을 표시할 수 있습니다."},
+ {q:"가로 축과 세로 축이 모두 값 축이며 두 값의 관계를 나타내는 차트는?",o:["꺾은선형","분산형","막대형","영역형"],a:1,e:"분산형(XY)입니다. 세 번째 값을 거품 크기로 더하면 거품형입니다."}
+],
+ch6:[
+ {q:"오름차순 정렬 순서로 옳은 것은?",o:["문자 → 숫자 → 논리값 → 빈 셀","숫자 → 문자 → 논리값 → 오류값 → 빈 셀","숫자 → 논리값 → 문자 → 빈 셀","빈 셀 → 숫자 → 문자 → 논리값"],a:1,e:"숫자, 문자, 논리값, 오류값 순이고 빈 셀은 항상 마지막입니다."},
+ {q:"고급 필터 조건 범위에서 조건을 서로 다른 행에 입력하면?",o:["AND 조건","OR 조건","NOT 조건","오류"],a:1,e:"같은 행은 AND, 다른 행은 OR입니다."},
+ {q:"부분합을 실행하기 전에 반드시 해야 하는 작업은?",o:["필터 적용","그룹 기준 필드로 정렬","피벗 테이블 생성","이름 정의"],a:1,e:"그룹 기준으로 먼저 정렬해야 같은 항목끼리 묶여 계산됩니다."},
+ {q:"피벗 테이블에 대한 설명으로 옳지 않은 것은?",o:["원본 데이터가 바뀌면 자동으로 다시 계산된다","값 영역의 기본 계산은 합계이다","날짜 필드를 월·분기로 그룹화할 수 있다","슬라이서로 필터링할 수 있다"],a:0,e:"원본이 바뀌면 [새로 고침]을 해야 반영됩니다."},
+ {q:"수식의 결과를 원하는 값으로 만들기 위해 입력값 하나를 역으로 계산하는 기능은?",o:["시나리오 관리자","데이터 표","목표값 찾기","데이터 통합"],a:2,e:"목표값 찾기입니다. 시나리오는 여러 입력값 조합을 비교합니다."},
+ {q:"시나리오 관리자에서 하나의 시나리오에 지정할 수 있는 변경 셀의 최대 개수는?",o:["16개","32개","64개","255개"],a:1,e:"최대 32개입니다. 정렬 기준은 최대 64개입니다."}
+],
+ch7:[
+ {q:"매크로 이름으로 사용할 수 있는 것은?",o:["1월정리","월 정리","월_정리","A1"],a:2,e:"숫자로 시작하거나 공백, 셀 주소 형태는 쓸 수 없습니다. 밑줄은 가능합니다."},
+ {q:"모든 통합 문서에서 매크로를 쓰려면 어디에 저장해야 하는가?",o:["현재 통합 문서","새 통합 문서","개인용 매크로 통합 문서","서식 파일"],a:2,e:"개인용 매크로 통합 문서(PERSONAL.XLSB)는 엑셀을 실행할 때마다 열립니다."},
+ {q:"VBA 편집기를 여는 키는?",o:["Alt+F8","Alt+F11","Ctrl+F11","F5"],a:1,e:"Alt+F11입니다. Alt+F8은 매크로 대화상자입니다."},
+ {q:"다음 코드 실행 후 s의 값은?  For i = 1 To 10 Step 3 : s = s + i : Next i",o:["15","22","12","55"],a:1,e:"i = 1, 4, 7, 10이므로 1+4+7+10 = 22입니다."},
+ {q:"VBA에서 Cells(3, 2)가 가리키는 셀은?",o:["C2","B3","C3","B2"],a:1,e:"Cells(행, 열)이므로 3행 2열, 즉 B3입니다."}
+],
+ch8:[
+ {q:"모든 페이지에 제목 행을 반복 인쇄하려면 페이지 설정의 어느 탭을 써야 하는가?",o:["페이지","여백","머리글/바닥글","시트"],a:3,e:"시트 탭의 '인쇄 제목 › 반복할 행'에서 지정합니다."},
+ {q:"페이지 설정에서 지정할 수 있는 확대/축소 배율의 범위는?",o:["10~200%","10~400%","25~400%","50~500%"],a:1,e:"10%에서 400%까지입니다."},
+ {q:"머리글에 시트 이름을 표시하는 코드는?",o:["&[파일]","&[탭]","&[경로]","&[페이지 번호]"],a:1,e:"&[탭]은 시트 이름, &[파일]은 파일 이름입니다."},
+ {q:"틀 고정에 대한 설명으로 옳은 것은?",o:["인쇄할 때도 고정된 행이 반복된다","선택한 셀의 위쪽 행과 왼쪽 열이 고정된다","화면을 최대 4개로 나눈다","시트를 보호한다"],a:1,e:"틀 고정은 인쇄에 반영되지 않습니다. 화면을 4개로 나누는 것은 창 나누기입니다."}
+]};
+
+const LS = {get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const done = LS.get("s2-done",{});
+const chapters=[...document.querySelectorAll("article.chapter")];
+const toc=document.getElementById("toc");
+
+// 확인문제 렌더링
+chapters.forEach(ch=>{
+  const qs=QUIZ[ch.id]; if(!qs) return;
+  const box=document.createElement("div"); box.className="quiz";
+  box.innerHTML=`<div class="sec-h"><h3>확인 문제</h3><div class="right"><span class="score" data-score></span><button class="reset" type="button">다시 풀기</button></div></div><p class="sub">보기를 누르면 바로 채점되고 해설이 나옵니다.</p>`;
+  qs.forEach((it,i)=>{
+    const d=document.createElement("div"); d.className="q";
+    d.innerHTML=`<p class="stem">${i+1}. ${it.q}</p><div class="opts">${it.o.map((t,j)=>`<button type="button" data-j="${j}"><span>${"①②③④"[j]}</span><span>${t}</span></button>`).join("")}</div><div class="exp" hidden></div>`;
+    d.querySelectorAll(".opts button").forEach(b=>b.addEventListener("click",()=>{
+      const j=+b.dataset.j; const all=d.querySelectorAll(".opts button");
+      all.forEach(x=>x.disabled=true); all[it.a].classList.add("right"); if(j!==it.a) b.classList.add("wrong");
+      d.dataset.res = j===it.a?"o":"x";
+      const ex=d.querySelector(".exp"); ex.hidden=false; ex.innerHTML=`<b>${j===it.a?"정답":"오답"}</b> · 정답 ${"①②③④"[it.a]} — ${it.e}`;
+      updScore(box,qs.length);
+    }));
+    box.appendChild(d);
+  });
+  box.querySelector(".reset").addEventListener("click",()=>{
+    box.querySelectorAll(".q").forEach(d=>{delete d.dataset.res;d.querySelector(".exp").hidden=true;d.querySelectorAll(".opts button").forEach(x=>{x.disabled=false;x.classList.remove("right","wrong")})});
+    updScore(box,qs.length);
+  });
+  ch.appendChild(box); updScore(box,qs.length);
+});
+function updScore(box,n){const r=[...box.querySelectorAll(".q")].filter(d=>d.dataset.res);const o=r.filter(d=>d.dataset.res==="o").length;box.querySelector("[data-score]").textContent=r.length?`${o} / ${n} 정답 (${r.length}문항 풀이)`:`${n}문항`;}
+
+// 학습 완료 체크
+document.querySelectorAll("section.sec").forEach(s=>{
+  const b=document.createElement("button"); b.type="button"; b.className="chk";
+  const set=v=>{b.setAttribute("aria-pressed",v?"true":"false");b.textContent=v?"✓ 학습 완료":"학습 완료 표시"};
+  set(!!done[s.id]);
+  b.addEventListener("click",()=>{done[s.id]=!done[s.id];set(done[s.id]);LS.set("s2-done",done);renderToc()});
+  s.querySelector(".sec-h .right").appendChild(b);
+});
+
+function renderToc(){
+  const cur=location.hash.replace("#","")||"ch1";
+  toc.innerHTML=chapters.map((c,i)=>{const secs=c.querySelectorAll("section.sec");const d=[...secs].filter(s=>done[s.id]).length;
+    return `<a href="#${c.id}" aria-current="${c.id===cur&&!q.value?"true":"false"}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${c.dataset.title}</span><span class="c">${d}/${secs.length}</span></a>`}).join("")
+   +`<p class="toc-note">중요도 별점은 기출 경향을 바탕으로 한 학습 우선순위입니다. 보라색 표시는 2027년 개정 관련 내용입니다. 함수 예시의 결과는 직접 계산해 확인한 값입니다.</p>`;
+  const all=document.querySelectorAll("section.sec").length;const d=Object.values(done).filter(Boolean).length;
+  document.getElementById("prog").textContent=`학습 완료 ${d} / ${all}`;
+}
+function show(id){
+  if(!document.getElementById(id)||!id.startsWith("ch")) id="ch1";
+  chapters.forEach(c=>{c.hidden=c.id!==id; c.querySelectorAll("section.sec").forEach(s=>s.hidden=false); const qz=c.querySelector(".quiz"); if(qz) qz.hidden=false});
+  document.getElementById("results").hidden=true;
+  renderToc();
+}
+const q=document.getElementById("q");
+q.addEventListener("input",()=>{
+  const t=q.value.trim().toLowerCase();
+  if(!t){show(location.hash.replace("#","")||"ch1");return}
+  let hits=0;
+  chapters.forEach(c=>{let any=false;
+    c.querySelectorAll("section.sec").forEach(s=>{const m=s.textContent.toLowerCase().includes(t);s.hidden=!m;if(m){any=true;hits++}});
+    const qz=c.querySelector(".quiz"); if(qz) qz.hidden=true;
+    c.hidden=!any;
+  });
+  const r=document.getElementById("results");
+  r.hidden=hits>0; r.innerHTML=`<p class="empty">'${q.value.replace(/[<>&]/g,"")}'에 해당하는 내용이 없습니다. 다른 낱말로 검색해 보세요.</p>`;
+  renderToc();
+});
+window.addEventListener("hashchange",()=>{q.value="";show(location.hash.replace("#",""));window.scrollTo({top:0})});
+show(location.hash.replace("#","")||"ch1");
+
+// ===== 음성 듣기 (Web Speech API) =====
+(function(){
+  const S=window.speechSynthesis; if(!S||!window.SpeechSynthesisUtterance) return;
+  const player=document.getElementById("player"); player.hidden=false;
+  document.body.style.paddingBottom="88px";
+  const $=id=>document.getElementById(id);
+  const vSel=$("pVoice"), rSel=$("pRate"), playB=$("pPlay"), now=$("pNow"), note=$("pNote");
+  const FEMALE=/sunhi|heami|yuna|sora|jimin|seoyeon|yujin|google\s*한국|female|여성/i;
+  const MALE=/injoon|hyunsu|bongjin|gookmin|\bmale\b/i;
+  let voices=[], queue=[], qi=0, state="idle", curSec=null;
+  const pref=LS.get("ch1-voice",{});
+  const pSel=$("pPitch");
+  if(pref.rate) rSel.value=pref.rate;
+  if(pref.pitch) pSel.value=pref.pitch;
+  pSel.addEventListener("change",()=>{pref.pitch=pSel.value;LS.set("ch1-voice",pref)});
+
+  function rank(v){let s=0; if(FEMALE.test(v.name)) s+=10; if(MALE.test(v.name)) s-=20; if(/natural|online|neural/i.test(v.name)) s+=5; if(v.localService===false) s+=1; return s;}
+  function loadVoices(){
+    voices=S.getVoices().filter(v=>/^ko/i.test(v.lang)).sort((a,b)=>rank(b)-rank(a));
+    vSel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name.replace(/Microsoft |Online |\(Natural\)| - Korean \(Korea\)|Korean/gi," ").replace(/\s+/g," ").trim()}${FEMALE.test(v.name)?" · 여성":""}</option>`).join("");
+    const saved=voices.findIndex(v=>v.name===pref.voice); vSel.value=String(saved>=0?saved:0);
+    if(!voices.length){note.hidden=false;note.textContent="이 기기에 한국어 음성이 없습니다. Windows는 설정 › 시간 및 언어 › 음성에서 한국어 음성을 추가하거나, Edge·Chrome 브라우저에서 열어 주세요.";}
+    else if(!voices.some(v=>FEMALE.test(v.name))){note.hidden=false;note.textContent="이 기기에서 여성 한국어 음성을 찾지 못해 기본 음성으로 읽습니다. Edge 브라우저에서는 부드러운 여성 음성(SunHi)을 쓸 수 있습니다.";}
+    else note.hidden=true;
+  }
+  loadVoices(); S.addEventListener?S.addEventListener("voiceschanged",loadVoices):(S.onvoiceschanged=loadVoices);
+  vSel.addEventListener("change",()=>{pref.voice=voices[+vSel.value]?.name;LS.set("ch1-voice",pref)});
+  rSel.addEventListener("change",()=>{pref.rate=rSel.value;LS.set("ch1-voice",pref)});
+
+  // 화면 글자를 읽기 좋은 문장으로 바꾸기
+  function speakable(t){
+    return t.replace(/[★☆✓]/g,"").replace(/C\+\+/g,"씨 플러스 플러스").replace(/\$/g,"").replace(/([A-Z]{1,3}\d+):([A-Z]{1,3}\d+)/g,"$1 부터 $2").replace(/>=/g," 이상 ").replace(/<=/g," 이하 ").replace(/<>/g," 같지 않음 ").replace(/=/g," ")
+      .replace(/\bWin\b/g,"윈도우 키").replace(/\bCtrl\b/g,"컨트롤").replace(/\bShift\b/g,"시프트").replace(/\bAlt\b/g,"알트").replace(/\bEsc\b/g,"이에스씨").replace(/\bPrtSc\b/g,"프린트 스크린").replace(/\bDelete\b/g,"딜리트").replace(/\bTab\b/g,"탭").replace(/\bEnter\b/g,"엔터")
+      .replace(/(\d+)\^-(\d+)/g,"$1의 마이너스 $2승").replace(/(\d+)\^(\d+)/g,"$1의 $2승")
+      .replace(/\s*\+\s*/g," 더하기 ").replace(/×/g," 곱하기 ").replace(/÷/g," 나누기 ")
+      .replace(/\s*→\s*/g,", 다음은 ").replace(/\s*⊃\s*/g,", 그 안에 ").replace(/\s*[>＞]\s*/g,", 그다음 ").replace(/\s*[<＜]\s*/g,", 그다음 ")
+      .replace(/[←]/g," 왼쪽 화살표").replace(/[→]/g," 오른쪽 화살표").replace(/·/g,", ").replace(/\s\/\s/g,", ").replace(/↑/g," 증가").replace(/−/g," 빼기 ")
+      .replace(/\s+/g," ").trim();
+  }
+  function textOf(sec){
+    const parts=[sec.querySelector("h3").textContent+"."];
+    [...sec.children].forEach(el=>{
+      if(el.classList.contains("sec-h")) return;
+      if(el.classList.contains("tbl")){
+        const heads=[...el.querySelectorAll("thead th")].map(th=>th.textContent.trim());
+        el.querySelectorAll("tbody tr").forEach(tr=>{
+          const cells=[...tr.children].map(td=>td.textContent.trim()).filter(Boolean);
+          parts.push(cells.join(", ")+".");
+        });
+        return;
+      }
+      if(el.querySelector&&el.querySelector("pre")){el=el.cloneNode(true);el.querySelectorAll("pre").forEach(p=>p.remove());}
+      if(el.tagName==="UL"||el.tagName==="OL"){el.querySelectorAll("li").forEach(li=>parts.push(li.textContent.trim().replace(/[.。]?$/,".")));return;}
+      parts.push(el.textContent.trim().replace(/[.。]?$/,"."));
+    });
+    return speakable(parts.join(" "));
+  }
+  function chunks(t){ // 긴 문장은 브라우저가 중간에 끊으므로 짧게 나눔
+    const out=[]; t.split(/(?<=[.?!다요])\s+/).forEach(s=>{
+      while(s.length>160){const cut=s.lastIndexOf(",",160);const k=cut>40?cut+1:160;out.push(s.slice(0,k));s=s.slice(k).trim();}
+      if(s) out.push(s);
+    }); return out;
+  }
+  function mark(sec){document.querySelectorAll("section.sec.reading").forEach(s=>s.classList.remove("reading")); if(sec){sec.classList.add("reading");}}
+  function setState(s){state=s; playB.textContent=s==="playing"?"❚❚ 일시정지":s==="paused"?"▶ 이어 듣기":"▶ 듣기";}
+
+  function playList(secs){
+    S.cancel(); queue=[]; qi=0;
+    secs.forEach(sec=>chunks(textOf(sec)).forEach(c=>queue.push({sec,text:c})));
+    if(!queue.length) return; next();
+  }
+  function next(){
+    if(qi>=queue.length){setState("idle");mark(null);now.textContent="다 들었습니다.";return}
+    const it=queue[qi]; const u=new SpeechSynthesisUtterance(it.text);
+    const v=voices[+vSel.value]; if(v){u.voice=v;u.lang=v.lang}else u.lang="ko-KR";
+    u.rate=+rSel.value; u.pitch=+pSel.value; // 기본 '약간 낮게'로 차분한 음색
+    if(it.sec!==curSec){curSec=it.sec;mark(it.sec);it.sec.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+      now.innerHTML=`<b>${it.sec.querySelector("h3").textContent}</b> 읽는 중`;}
+    u.onend=()=>{if(state==="playing"){qi++;next()}};
+    u.onerror=e=>{if(e.error!=="interrupted"&&e.error!=="canceled"&&state==="playing"){qi++;next()}};
+    setState("playing"); S.speak(u);
+  }
+  function stop(){setState("idle");S.cancel();mark(null);curSec=null;now.textContent="정지했습니다.";}
+
+  playB.addEventListener("click",()=>{
+    // 크롬의 Google 음성은 pause/resume이 불안정해서, 일시정지 시 현재 문장 위치를 기억했다가 그 문장부터 다시 읽음
+    if(state==="playing"){setState("paused");S.cancel();return}
+    if(state==="paused"){next();return}
+    const ch=chapters.find(c=>!c.hidden)||chapters[0];
+    playList([...ch.querySelectorAll("section.sec")].filter(s=>!s.hidden));
+  });
+  $("pStop").addEventListener("click",stop);
+  window.addEventListener("hashchange",stop);
+
+  document.querySelectorAll("section.sec").forEach(sec=>{
+    const b=document.createElement("button");b.type="button";b.className="listen";b.textContent="▷ 듣기";
+    b.setAttribute("aria-label",sec.querySelector("h3").textContent+" 듣기");
+    b.addEventListener("click",()=>playList([sec]));
+    sec.querySelector(".sec-h .right").prepend(b);
+  });
+  chapters.forEach(ch=>{
+    const b=document.createElement("button");b.type="button";b.className="listen";b.textContent="▷ 단원 전체 듣기";
+    b.addEventListener("click",()=>playList([...ch.querySelectorAll("section.sec")]));
+    ch.querySelector(".ch-head").appendChild(b);
+  });
+})();
+</script>
