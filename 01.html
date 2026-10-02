@@ -1,4 +1,8 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>컴활 1급 컴퓨터 일반</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +31,10 @@
   --new:#c3a2ee; --new-soft:#2a2038; --key:#1f2a31; --key-edge:#3a4952; color-scheme:dark}
 
 *{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+.home{font-size:var(--s-1);color:var(--accent);text-decoration:none;display:inline-block;margin-bottom:6px}
+.home:hover{text-decoration:underline}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.75;padding-inline:16px}
 .wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;padding-block:28px 80px}
 header.top{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:16px}
@@ -120,10 +128,14 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 .voice-note{font-size:.75rem;color:var(--trap);flex-basis:100%}
 @media (prefers-reduced-motion:no-preference){.opts button,nav.toc a{transition:background .15s,border-color .15s}}
 </style>
+</head>
+<body>
+
 
 <div class="wrap">
 <header class="top">
   <div>
+    <a class="home" href="./">← 전체 목차</a>
     <p class="meta">컴퓨터활용능력 1급 필기 · 1과목 · 2027–2029 개정 기준 대비</p>
     <h1>컴활 1급 컴퓨터 일반</h1>
   </div>
@@ -723,6 +735,7 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
     <span class="now" id="pNow">절마다 있는 '듣기'를 누르거나, ▶로 현재 단원을 처음부터 들을 수 있습니다.</span>
     <label for="pVoice">음성 <select id="pVoice"></select></label>
     <label for="pRate">속도 <select id="pRate"><option value="0.8">0.8배</option><option value="0.9">0.9배</option><option value="1" selected>1.0배</option><option value="1.15">1.15배</option><option value="1.3">1.3배</option></select></label>
+    <label for="pPitch">음높이 <select id="pPitch"><option value="0.75">낮게</option><option value="0.85" selected>약간 낮게</option><option value="1">보통</option><option value="1.1">약간 높게</option></select></label>
     <span class="voice-note" id="pNote" hidden></span>
   </div>
 </div>
@@ -861,7 +874,10 @@ show(location.hash.replace("#","")||"ch1");
   const MALE=/injoon|hyunsu|bongjin|gookmin|\bmale\b/i;
   let voices=[], queue=[], qi=0, state="idle", curSec=null;
   const pref=LS.get("ch1-voice",{});
+  const pSel=$("pPitch");
   if(pref.rate) rSel.value=pref.rate;
+  if(pref.pitch) pSel.value=pref.pitch;
+  pSel.addEventListener("change",()=>{pref.pitch=pSel.value;LS.set("ch1-voice",pref)});
 
   function rank(v){let s=0; if(FEMALE.test(v.name)) s+=10; if(MALE.test(v.name)) s-=20; if(/natural|online|neural/i.test(v.name)) s+=5; if(v.localService===false) s+=1; return s;}
   function loadVoices(){
@@ -921,7 +937,7 @@ show(location.hash.replace("#","")||"ch1");
     if(qi>=queue.length){setState("idle");mark(null);now.textContent="다 들었습니다.";return}
     const it=queue[qi]; const u=new SpeechSynthesisUtterance(it.text);
     const v=voices[+vSel.value]; if(v){u.voice=v;u.lang=v.lang}else u.lang="ko-KR";
-    u.rate=+rSel.value; u.pitch=1.05; // 약간 높은 음높이로 부드럽게
+    u.rate=+rSel.value; u.pitch=+pSel.value; // 기본 '약간 낮게'로 차분한 음색
     if(it.sec!==curSec){curSec=it.sec;mark(it.sec);it.sec.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
       now.innerHTML=`<b>${it.sec.querySelector("h3").textContent}</b> 읽는 중`;}
     u.onend=()=>{if(state==="playing"){qi++;next()}};
@@ -954,4 +970,5 @@ show(location.hash.replace("#","")||"ch1");
 })();
 </script>
 
-</body></html>
+</body>
+</html>
