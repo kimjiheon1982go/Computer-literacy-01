@@ -138,7 +138,7 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <header class="top">
   <div>
     <a class="home" href="./">← 전체 목차</a>
-    <p class="meta">컴퓨터활용능력 1급 필기 · 3과목 · 2027–2029 개정 기준 대비</p>
+    <p class="meta">컴퓨터활용능력 1급 필기 · 3과목 · 2027–2029 출제기준 반영</p>
     <h1>컴활 1급 데이터베이스 일반</h1>
   </div>
   <div class="tools">
@@ -154,7 +154,7 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <article class="chapter" id="ch1" data-title="데이터베이스 개념">
 <div class="ch-head"><span class="no">01</span><h2>데이터베이스 개념</h2></div>
 <p class="ch-intro">데이터베이스 정의, DBMS 기능, 스키마, SQL 언어 분류가 나옵니다. 1급에서만 보는 과목이라 생소하지만 범위가 일정해 기출 반복 효과가 큽니다.</p>
-<div class="box new"><b class="t">2027 개정</b>2027년부터 오피스 버전과 활용 방식의 변화가 반영됩니다. 세부 내용은 공식 기준표로 확인하세요. 이 교재는 현재 시험 버전(Access 2021)에서도 바뀌지 않는 기본 개념과 기능 위주로 정리했습니다.</div>
+<div class="box new"><b class="t">2027 출제기준</b>2027–2029 기준에서도 프로그램은 <b>MS Office 2021(Access 2021)</b> 그대로입니다. 이 교재는 2026년 6월 발표된 출제기준의 세세항목과 대조해 정리했습니다.</div>
 
 <section class="sec" id="u1-1"><div class="sec-h"><h3>데이터베이스의 정의와 특징</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
 <div class="tbl"><table><thead><tr><th>정의</th><th>뜻</th></tr></thead><tbody>
@@ -207,6 +207,23 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <li><b>응용 프로그래머</b>: 호스트 언어에 DML을 넣어 프로그램을 만듭니다. <b>일반 사용자</b>: 질의어로 데이터를 조회합니다.</li>
 <li><b>트랜잭션</b>: 하나의 논리적 작업 단위. 원자성(전부 실행 또는 전부 취소), 일관성, 독립성(격리성), 지속성(영속성)을 가집니다.</li>
 </ul>
+</section>
+
+<section class="sec" id="u1-5"><div class="sec-h"><h3>데이터베이스 구성 요소, 종류, 구축 절차</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>구성 요소</th><th>뜻</th></tr></thead><tbody>
+<tr><td>개체 (Entity)</td><td>저장할 가치가 있는 대상. 학생, 상품처럼 테이블이 되는 것</td></tr>
+<tr><td>속성 (Attribute)</td><td>개체를 설명하는 가장 작은 논리적 단위. 이름, 가격</td></tr>
+<tr><td>관계 (Relationship)</td><td>개체와 개체 사이의 연관성. 학생이 강좌를 '수강'</td></tr>
+</tbody></table></div>
+<p>데이터베이스 시스템은 <b>데이터베이스, DBMS, 데이터베이스 언어, 사용자(DBA 등), 하드웨어</b>로 구성됩니다.</p>
+<div class="tbl"><table><thead><tr><th>종류</th><th>특징</th></tr></thead><tbody>
+<tr><td>관계형</td><td>2차원 표(테이블)로 표현. Access, Oracle, MySQL, SQL Server</td></tr>
+<tr><td>계층형</td><td>트리 구조(부모-자식). 일대다 관계만 표현</td></tr>
+<tr><td>네트워크형</td><td>그래프 구조. 다대다 관계 표현 가능하지만 구조가 복잡</td></tr>
+<tr><td>객체 지향형</td><td>데이터와 동작을 객체로 묶어 저장. 멀티미디어 데이터에 적합</td></tr>
+<tr><td>NoSQL</td><td>정해진 표 구조 없이 대용량·비정형 데이터 처리 (빅데이터, 웹 서비스)</td></tr>
+</tbody></table></div>
+<p>구축 절차: <mark>요구 조건 분석 → 개념적 설계 → 논리적 설계 → 물리적 설계 → 구현 → 운영·유지 보수</mark>. 설계 단계의 자세한 내용은 2단원에 있습니다.</p>
 </section>
 </article>
 
@@ -356,6 +373,38 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <li><b>인덱스</b>는 검색과 정렬을 빠르게 하지만, 데이터를 추가·수정할 때는 인덱스도 갱신해야 해서 느려집니다. 자주 검색·정렬하는 필드에만 설정합니다.</li>
 </ul>
 </section>
+
+<section class="sec" id="u3-6"><div class="sec-h"><h3>데이터베이스 파일 관리와 인쇄</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>새 데이터베이스</b>: 빈 데이터베이스나 서식 파일(템플릿)로 만듭니다. 만들 때 파일 이름과 위치를 먼저 정합니다.</li>
+<li><b>데이터베이스 압축 및 복구</b>: 삭제한 개체·레코드가 차지하던 공간을 정리해 <mark>파일 크기를 줄이고</mark> 손상된 파일을 복구합니다. 닫을 때 자동으로 압축하도록 설정할 수 있습니다.</li>
+<li><b>암호 설정</b>: 데이터베이스를 <mark>단독 사용 모드</mark>로 열어야 암호를 지정·해제할 수 있습니다.</li>
+<li><b>백업</b>: 파일 › 다른 이름으로 저장 › 데이터베이스 백업.</li>
+<li><b>데이터베이스 분할</b>: 테이블(백 엔드)과 쿼리·폼·보고서(프런트 엔드)를 나눠 여러 사용자가 함께 씁니다.</li>
+<li><b>ACCDE 파일 만들기</b>: VBA 코드를 컴파일해 숨기고 폼·보고서·모듈의 디자인 변경을 막습니다.</li>
+</ul>
+<ul>
+<li>테이블·쿼리의 데이터시트, 폼, 보고서를 모두 인쇄할 수 있습니다. 출력용으로는 보고서를 씁니다.</li>
+<li><b>인쇄 미리 보기</b>에서 용지 크기, 방향, 여백, 확대/축소를 조정하고 PDF·엑셀 등으로 바로 내보낼 수 있습니다.</li>
+<li><b>페이지 설정</b>: 인쇄 옵션 탭(여백, <b>데이터만 인쇄</b>), 페이지 탭(용지 방향, 크기, 프린터), 열 탭(열 개수, 행·열 간격, <b>열 레이아웃</b> '행 우선/열 우선').</li>
+</ul>
+</section>
+<section class="sec" id="u3-7"><div class="sec-h"><h3>데이터 입력, 찾기·바꾸기, 정렬·필터</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>키</th><th>기능 (데이터시트)</th></tr></thead><tbody>
+<tr><td><kbd>Ctrl</kbd>+<kbd>;</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd></td><td>오늘 날짜 / 현재 시간 입력</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>'</kbd></td><td>이전 레코드의 같은 필드 값을 복사</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>+</kbd> / <kbd>Ctrl</kbd>+<kbd>-</kbd></td><td>새 레코드로 이동 / 현재 레코드 삭제</td></tr>
+<tr><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td><td>현재 레코드 저장</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>입력 취소</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>찾기</b> <kbd>Ctrl</kbd>+<kbd>F</kbd> / <b>바꾸기</b> <kbd>Ctrl</kbd>+<kbd>H</kbd>: 찾는 위치(현재 필드/현재 문서), 일치(필드의 일부분/필드 전체/필드의 처음), 검색 방향(위쪽/아래쪽/모두), 대/소문자 구분을 설정합니다.</li>
+<li><b>정렬</b>: 데이터시트에서 필드 머리글로 오름차순·내림차순 정렬합니다. 여러 필드를 정렬하면 <b>왼쪽 필드</b>가 먼저 기준이 됩니다.</li>
+<li><b>필터</b>: 선택 영역 필터(선택한 값과 같은/다른 레코드), 폼 필터(빈 폼에 조건 입력), 고급 필터/정렬.</li>
+<li><b>요약</b>: 데이터시트의 [요약] 행에서 합계, 평균, 개수, 최대, 최소를 표시합니다.</li>
+<li><b>데이터 수집</b>: 엑셀, 텍스트, ODBC 데이터베이스, SharePoint 목록 등 외부 원본의 데이터를 가져오기·연결로 모아 들입니다. 교재에 따라 설명 범위가 다를 수 있습니다.</li>
+</ul>
+</section>
 </article>
 
 <!-- ===================== 4. 관계 ===================== -->
@@ -486,6 +535,17 @@ ORDER BY 필드 [ASC | DESC];</pre>
 </tbody></table></div>
 <p>날짜 단위: <span class="num">yyyy</span>(년), <span class="num">q</span>(분기), <span class="num">m</span>(월), <span class="num">d</span>(일), <span class="num">ww</span>(주), <span class="num">h</span>(시), <span class="num">n</span>(분), <span class="num">s</span>(초). 분은 m이 아니라 <mark>n</mark>입니다.</p>
 </section>
+
+<section class="sec" id="u5-6"><div class="sec-h"><h3>계산 쿼리와 별칭(alias)</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li>쿼리 디자인의 필드 행에 <code class="f">금액: [단가]*[수량]</code>처럼 입력하면 <mark>콜론 앞이 새 필드 이름</mark>이 되는 계산 필드가 생깁니다.</li>
+<li>같은 내용을 SQL로 쓰면 <code class="f">SELECT 상품명, 단가*수량 AS 금액 FROM 주문;</code>입니다. <b>AS 뒤가 별칭</b>입니다.</li>
+<li>테이블에도 별칭을 붙일 수 있습니다: <code class="f">SELECT s.이름 FROM 사원 AS s;</code></li>
+<li>문자 연결은 <span class="num">&amp;</span>를 씁니다: <code class="f">성명: [성] &amp; [이름]</code></li>
+<li>계산 필드에 이름을 붙이지 않으면 Access가 'Expr1' 같은 이름을 자동으로 붙입니다.</li>
+<li>요약 쿼리에서 집계 결과에 별칭을 붙이면 결과 표의 열 이름이 바뀝니다: <code class="f">SELECT 부서, AVG(급여) AS 평균급여 FROM 사원 GROUP BY 부서;</code></li>
+</ul>
+</section>
 </article>
 
 <!-- ===================== 6. 폼 ===================== -->
@@ -548,6 +608,15 @@ ORDER BY 필드 [ASC | DESC];</pre>
 <li>하위 폼은 여러 단계로 중첩할 수 있습니다(최대 7수준).</li>
 </ul>
 </section>
+
+<section class="sec" id="u6-5"><div class="sec-h"><h3>폼의 조건부 서식, 차트, 가져오기·내보내기</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>조건부 서식</b>: 텍스트 상자, 콤보 상자 같은 컨트롤에 적용합니다. 기준은 <b>필드 값</b>, <b>식</b>(예: <code class="f">[재고]&lt;10</code>), <b>포커스가 있는 필드</b>입니다. 데이터 막대도 표시할 수 있습니다.</li>
+<li><b>차트</b>: 폼이나 보고서에 차트 컨트롤을 넣고, 데이터 원본(테이블·쿼리)과 축·값 필드를 지정합니다.</li>
+<li><b>폼 가져오기</b>: [외부 데이터 › 새 데이터 원본 › 데이터베이스에서 › Access]로 다른 데이터베이스의 폼을 가져옵니다.</li>
+<li><b>폼 내보내기</b>: 폼을 PDF, 엑셀, 텍스트 등으로 내보내거나 다른 Access 데이터베이스로 복사합니다. 엑셀로 내보내면 폼의 <b>데이터</b>가 내보내집니다.</li>
+</ul>
+</section>
 </article>
 
 <!-- ===================== 7. 보고서 ===================== -->
@@ -596,6 +665,16 @@ ORDER BY 필드 [ASC | DESC];</pre>
 <li>보고서의 레코드 원본도 테이블, 쿼리, SQL 문을 쓸 수 있습니다.</li>
 </ul>
 </section>
+
+<section class="sec" id="u7-4"><div class="sec-h"><h3>우편 엽서 보고서와 보고서 서식</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<ul>
+<li><b>우편 엽서 마법사</b>: 엽서 크기와 종류를 고르고 받는 사람·보내는 사람 정보를 배치해 우편 엽서 보고서를 만듭니다.</li>
+<li><b>레이블 마법사</b>: 레이블 제조업체와 제품 번호(크기), 글꼴, 표시할 필드, 정렬 기준을 차례로 지정합니다. 사용자 지정 크기도 만들 수 있습니다.</li>
+<li><b>조건부 서식</b>: 보고서 컨트롤에도 폼과 같은 방식으로 적용합니다. 예: 판매량이 목표보다 작으면 빨간색.</li>
+<li><b>날짜 정보</b>: <code class="f">=Date()</code>(오늘 날짜), <code class="f">=Now()</code>(날짜와 시간), <code class="f">=Format(Date(),"yyyy년 mm월 dd일")</code>. [날짜 및 시간] 명령으로 넣으면 보고서 머리글에 추가됩니다.</li>
+<li><b>페이지 레이아웃</b>: [페이지 설정] 탭에서 용지 크기, 방향, 여백, 열을 지정합니다. 디자인 보기에서 보고서 너비가 용지 너비에서 여백을 뺀 값보다 크면 빈 페이지가 생깁니다.</li>
+</ul>
+</section>
 </article>
 
 <!-- ===================== 8. 매크로 ===================== -->
@@ -642,6 +721,21 @@ ORDER BY 필드 [ASC | DESC];</pre>
 <tr><td>On Dbl Click (두 번 클릭 시)</td><td>두 번 클릭할 때</td></tr>
 </tbody></table></div>
 </section>
+
+<section class="sec" id="u8-3"><div class="sec-h"><h3>오브젝트 프로그래밍 개념</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>개념</th><th>뜻 / 예</th></tr></thead><tbody>
+<tr><td>개체 (Object)</td><td>폼, 보고서, 컨트롤처럼 다룰 수 있는 대상</td></tr>
+<tr><td>속성 (Property)</td><td>개체의 특성. <code class="f">Me.txt이름.Visible = False</code> (형식: 개체.속성 = 값)</td></tr>
+<tr><td>메서드 (Method)</td><td>개체가 하는 동작. <code class="f">Me.Requery</code>, <code class="f">DoCmd.OpenForm</code> (형식: 개체.메서드)</td></tr>
+<tr><td>이벤트 (Event)</td><td>클릭, 열기, 값 변경처럼 개체에 일어나는 일. 이벤트가 일어나면 연결된 프로시저 실행</td></tr>
+<tr><td>컬렉션 (Collection)</td><td>같은 종류 개체의 모음. Forms, Reports, Controls</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>Me</b>: 코드가 들어 있는 현재 폼이나 보고서를 가리킵니다.</li>
+<li><b>Requery</b>: 레코드 원본을 다시 조회해 최신 데이터를 표시합니다. <b>Refresh</b>: 현재 레코드의 변경 내용만 새로 고칩니다.</li>
+<li>이벤트 프로시저는 속성 시트의 [이벤트] 탭에서 [이벤트 프로시저]를 고르고 작성합니다. 이름은 <code class="f">Private Sub cmd조회_Click()</code>처럼 '컨트롤이름_이벤트이름' 형식입니다.</li>
+</ul>
+</section>
 </article>
 
 <div class="chapter" id="results" hidden></div>
@@ -667,7 +761,8 @@ ch1:[
  {q:"DBMS의 필수 기능 중 무결성 유지, 보안, 병행 수행 제어를 담당하는 기능은?",o:["정의 기능","조작 기능","제어 기능","관리 기능"],a:2,e:"제어 기능입니다. 정의는 구조, 조작은 검색·갱신입니다."},
  {q:"조직 전체의 관점에서 데이터베이스의 논리적 구조를 정의한 것은?",o:["외부 스키마","개념 스키마","내부 스키마","서브 스키마"],a:1,e:"개념 스키마는 전체 논리 구조이며 하나만 존재합니다. 서브 스키마는 외부 스키마의 다른 이름입니다."},
  {q:"다음 중 DDL(데이터 정의어)에 해당하는 명령은?",o:["SELECT","UPDATE","ALTER","GRANT"],a:2,e:"DDL은 CREATE, ALTER, DROP입니다. SELECT·UPDATE는 DML, GRANT는 DCL입니다."},
- {q:"트랜잭션의 연산이 전부 실행되거나 전부 취소되어야 한다는 성질은?",o:["원자성","일관성","독립성","지속성"],a:0,e:"원자성(Atomicity)입니다."}
+ {q:"트랜잭션의 연산이 전부 실행되거나 전부 취소되어야 한다는 성질은?",o:["원자성","일관성","독립성","지속성"],a:0,e:"원자성(Atomicity)입니다."},
+ {q:"트리 구조로 데이터를 표현하며 일대다 관계만 나타낼 수 있는 데이터베이스는?",o:["관계형", "계층형", "네트워크형", "객체 지향형"],a:1,e:"계층형은 부모-자식 트리 구조입니다. 네트워크형은 그래프 구조입니다."}
 ],
 ch2:[
  {q:"릴레이션에서 속성(열)의 개수를 뜻하는 용어는?",o:["카디널리티","차수","도메인","튜플"],a:1,e:"차수(Degree)는 속성 수, 카디널리티는 튜플(행) 수입니다."},
@@ -683,7 +778,9 @@ ch3:[
  {q:"입력 마스크 기호 중 숫자를 반드시 입력해야 하는 것은?",o:["9","#","0","L"],a:2,e:"0은 숫자 필수, 9와 #은 선택입니다. L은 문자 필수입니다."},
  {q:"입력 마스크 000-0000;0;# 에서 두 번째 구역 0의 의미는?",o:["입력값만 저장","하이픈 같은 서식 문자도 함께 저장","자리 표시자를 0으로","숫자만 입력"],a:1,e:"0이면 서식 문자까지 저장, 1이거나 생략하면 입력값만 저장합니다."},
  {q:"기본키에 대한 설명으로 옳지 않은 것은?",o:["여러 필드를 묶어 지정할 수 있다","지정하면 중복 불가능 인덱스가 설정된다","OLE 개체 형식 필드도 기본키로 지정할 수 있다","기본키 없이도 테이블을 저장할 수 있다"],a:2,e:"OLE 개체, 첨부 파일, 계산 형식은 기본키로 지정할 수 없습니다."},
- {q:"인덱스에 대한 설명으로 옳은 것은?",o:["모든 필드에 설정할수록 좋다","검색·정렬은 빨라지고 데이터 추가·수정은 느려질 수 있다","인덱스는 데이터 입력 속도를 높인다","기본키에는 인덱스가 설정되지 않는다"],a:1,e:"인덱스는 검색·정렬용입니다. 갱신할 때는 인덱스도 고쳐야 해서 느려집니다."}
+ {q:"인덱스에 대한 설명으로 옳은 것은?",o:["모든 필드에 설정할수록 좋다","검색·정렬은 빨라지고 데이터 추가·수정은 느려질 수 있다","인덱스는 데이터 입력 속도를 높인다","기본키에는 인덱스가 설정되지 않는다"],a:1,e:"인덱스는 검색·정렬용입니다. 갱신할 때는 인덱스도 고쳐야 해서 느려집니다."},
+ {q:"Access 데이터베이스에 암호를 설정하려면 어떤 모드로 열어야 하는가?",o:["읽기 전용", "단독 사용", "공유", "디자인"],a:1,e:"단독 사용 모드로 열어야 암호를 설정·해제할 수 있습니다."},
+ {q:"삭제된 개체가 차지하던 공간을 정리해 파일 크기를 줄이는 기능은?",o:["데이터베이스 분할", "데이터베이스 압축 및 복구", "ACCDE 만들기", "백업"],a:1,e:"데이터베이스 압축 및 복구입니다."}
 ],
 ch4:[
  {q:"다대다(M:N) 관계를 Access에서 구현하는 방법은?",o:["두 테이블을 직접 연결","연결 테이블을 두어 일대다 관계 두 개로","기본키를 두 개 지정","하위 폼 사용"],a:1,e:"가운데 연결 테이블을 두어 일대다 관계 두 개로 만듭니다."},
@@ -700,7 +797,8 @@ ch5:[
  {q:"점수가 70 이상 80 이하인 레코드를 찾는 조건으로 옳은 것은?",o:["점수 IN (70, 80)","점수 BETWEEN 70 AND 80","점수 > 70 AND 점수 < 80","점수 LIKE \"7*\""],a:1,e:"BETWEEN a AND b는 a 이상 b 이하입니다."},
  {q:"UPDATE 문에서 WHERE 절을 생략하면?",o:["오류가 발생한다","첫 번째 레코드만 수정된다","모든 레코드가 수정된다","아무 레코드도 수정되지 않는다"],a:2,e:"조건이 없으므로 테이블의 모든 레코드가 수정됩니다."},
  {q:"DateDiff 함수에서 '분' 단위를 나타내는 문자는?",o:["m","n","mi","s"],a:1,e:"분은 n입니다. m은 월입니다."},
- {q:"ORDER BY 절에서 정렬 방식을 생략했을 때의 정렬은?",o:["내림차순","오름차순","입력 순서","무작위"],a:1,e:"생략하면 오름차순(ASC)입니다."}
+ {q:"ORDER BY 절에서 정렬 방식을 생략했을 때의 정렬은?",o:["내림차순","오름차순","입력 순서","무작위"],a:1,e:"생략하면 오름차순(ASC)입니다."},
+ {q:"쿼리 디자인의 필드 행에 '금액: [단가]*[수량]'을 입력했을 때 '금액'의 역할은?",o:["조건", "정렬 기준", "계산 필드의 이름", "테이블 이름"],a:2,e:"콜론 앞은 새로 만든 계산 필드의 이름(별칭)입니다."}
 ],
 ch6:[
  {q:"목록에서 값을 고를 수도 있고 직접 입력할 수도 있는 컨트롤은?",o:["목록 상자","콤보 상자","옵션 그룹","확인란"],a:1,e:"콤보 상자입니다. 목록 상자는 목록에서 고르기만 가능합니다."},
@@ -719,7 +817,8 @@ ch8:[
  {q:"데이터베이스를 열 때 자동으로 실행되는 매크로의 이름은?",o:["AutoRun","AutoExec","Startup","Main"],a:1,e:"AutoExec입니다. Shift를 누른 채 열면 실행되지 않습니다."},
  {q:"폼을 여는 매크로 함수는?",o:["OpenReport","OpenForm","GoToRecord","RunMacro"],a:1,e:"OpenForm입니다."},
  {q:"보고서를 인쇄 미리 보기로 여는 VBA 코드는?",o:["DoCmd.OpenReport \"매출\", acViewPreview","DoCmd.OpenForm \"매출\"","DoCmd.RunSQL \"매출\"","Me.OpenReport \"매출\""],a:0,e:"DoCmd.OpenReport에 acViewPreview를 지정합니다. acViewNormal이면 바로 인쇄합니다."},
- {q:"변경된 데이터가 저장되기 직전에 발생해 유효성 검사에 쓰이는 이벤트는?",o:["After Update","Before Update","On Load","On Click"],a:1,e:"Before Update(업데이트 전) 이벤트입니다."}
+ {q:"변경된 데이터가 저장되기 직전에 발생해 유효성 검사에 쓰이는 이벤트는?",o:["After Update","Before Update","On Load","On Click"],a:1,e:"Before Update(업데이트 전) 이벤트입니다."},
+ {q:"폼의 레코드 원본을 다시 조회해 최신 데이터를 표시하는 메서드는?",o:["Refresh", "Requery", "Repaint", "Recalc"],a:1,e:"Requery는 원본을 다시 조회합니다. Refresh는 현재 레코드 변경 내용만 새로 고칩니다."}
 ]};
 
 const LS = {get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
