@@ -136,7 +136,7 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <header class="top">
   <div>
     <a class="home" href="./">← 전체 목차</a>
-    <p class="meta">컴퓨터활용능력 1급 필기 · 1과목 · 2027–2029 개정 기준 대비</p>
+    <p class="meta">컴퓨터활용능력 1급 필기 · 1과목 · 2027–2029 출제기준 반영</p>
     <h1>컴활 1급 컴퓨터 일반</h1>
   </div>
   <div class="tools">
@@ -152,7 +152,7 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <!-- ===================== 1. 운영체제 ===================== -->
 <article class="chapter" id="ch1" data-title="운영체제">
 <div class="ch-head"><span class="no">01</span><h2>운영체제 (Windows 11)</h2></div>
-<p class="ch-intro">2027년부터 필기 기준 운영체제가 Windows 11로 바뀝니다. 바로 가기 키, 파일 탐색기, 휴지통, 바로 가기 아이콘은 매회 출제되는 영역입니다.</p>
+<p class="ch-intro">2027년부터 필기 기준 운영체제가 Windows 11로 바뀝니다(엑셀·액세스는 MS Office 2021 유지). 바로 가기 키, 파일 탐색기, 휴지통, 바로 가기 아이콘은 매회 출제되는 영역입니다.</p>
 
 <section class="sec" id="s1-1"><div class="sec-h"><h3>운영체제의 개념과 Windows 11 특징</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
 <p>운영체제(OS)는 하드웨어와 사용자 사이에서 자원을 관리하고 인터페이스를 제공하는 시스템 소프트웨어입니다. 부팅 시 주기억장치(RAM)에 상주합니다.</p>
@@ -241,6 +241,24 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <li>작업 관리자: 응답 없는 프로그램 <b>작업 끝내기</b>, CPU·메모리·디스크·네트워크 사용량(성능) 확인, <b>시작 앱</b> 사용/사용 안 함, 사용자별 사용 현황을 봅니다.</li>
 </ul>
 </section>
+
+<section class="sec" id="s1-6"><div class="sec-h"><h3>Windows 보조프로그램과 폴더 옵션</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>보조프로그램</th><th>특징</th></tr></thead><tbody>
+<tr><td>메모장</td><td>서식 없는 텍스트(.txt) 편집. 그림·표는 넣을 수 없음. Windows 11에서는 탭으로 여러 문서를 엶</td></tr>
+<tr><td>그림판</td><td>간단한 비트맵 그림 편집. 기본 저장 형식 <mark>PNG</mark>, JPG·BMP·GIF·TIFF로도 저장</td></tr>
+<tr><td>캡처 도구</td><td>사각형, 창, 전체 화면, 자유형 캡처와 화면 녹화. <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td></tr>
+<tr><td>계산기</td><td>표준, 공학용, 그래프, 프로그래머용(진법 변환), 날짜 계산, 단위 변환</td></tr>
+<tr><td>원격 데스크톱 연결</td><td>네트워크로 다른 컴퓨터에 접속해 그 화면을 보며 조작</td></tr>
+<tr><td>스티커 메모</td><td>바탕 화면에 메모를 붙여 둠</td></tr>
+<tr><td>터미널 / 명령 프롬프트</td><td>명령어를 입력해 작업 (ipconfig, ping 등)</td></tr>
+</tbody></table></div>
+<p><b>폴더 옵션</b>(파일 탐색기 옵션)은 파일 탐색기의 <b>… › 옵션</b>에서 엽니다.</p>
+<div class="tbl"><table><thead><tr><th>탭</th><th>설정</th></tr></thead><tbody>
+<tr><td>일반</td><td>파일 탐색기를 열 때 시작 위치(홈/내 PC), 폴더를 같은 창·새 창에서 열기, <mark>한 번 클릭으로 열기 / 두 번 클릭으로 열기</mark>, 최근 파일·자주 쓰는 폴더 표시, 파일 탐색기 기록 지우기</td></tr>
+<tr><td>보기</td><td><mark>숨김 파일 및 폴더 표시</mark>, 알려진 파일 형식의 확장명 숨기기, 보호된 운영 체제 파일 숨기기, 현재 보기를 모든 폴더에 적용</td></tr>
+<tr><td>검색</td><td>파일 이름·내용 검색 방식, 압축 파일(ZIP 등) 포함 여부</td></tr>
+</tbody></table></div>
+</section>
 </article>
 
 <!-- ===================== 2. 시스템 설정 ===================== -->
@@ -257,6 +275,7 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <tr><td>앱</td><td>설치된 앱(제거·수정), 기본 앱, 시작 프로그램</td></tr>
 <tr><td>계정</td><td>사용자 정보, 로그인 옵션(PIN, Windows Hello), 가족 및 기타 사용자</td></tr>
 <tr><td>시간 및 언어</td><td>날짜 및 시간, 언어 및 지역, 입력</td></tr>
+<tr><td>게임</td><td>게임 모드, Xbox Game Bar(<kbd>Win</kbd>+<kbd>G</kbd>), 게임 화면 캡처</td></tr>
 <tr><td>접근성</td><td>텍스트 크기, 돋보기, 고대비 테마, 내레이터, 자막, 고정 키·필터 키</td></tr>
 <tr><td>개인 정보 및 보안</td><td>Windows 보안, 위치·카메라·마이크 앱 권한</td></tr>
 <tr><td>Windows 업데이트</td><td>업데이트 확인, 일시 중지, 업데이트 기록</td></tr>
@@ -437,13 +456,60 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <tr><td>장치 인식 안 됨</td><td>장치 관리자에서 드라이버 업데이트·재설치</td></tr>
 </tbody></table></div>
 </section>
+
+<section class="sec" id="s3-8"><div class="sec-h"><h3>컴퓨터의 기능</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>5대 기능</th><th>뜻</th><th>담당 장치</th></tr></thead><tbody>
+<tr><td>입력</td><td>데이터와 명령을 받아들임</td><td>키보드, 마우스, 스캐너</td></tr>
+<tr><td>기억</td><td>데이터와 프로그램을 저장</td><td>주기억 장치, 보조 기억 장치</td></tr>
+<tr><td>연산</td><td>산술·논리 연산</td><td>연산 장치</td></tr>
+<tr><td>제어</td><td>명령을 해석해 각 장치에 지시</td><td>제어 장치</td></tr>
+<tr><td>출력</td><td>처리 결과를 내보냄</td><td>모니터, 프린터, 스피커</td></tr>
+</tbody></table></div>
+<p>연산 장치와 제어 장치를 합친 것이 <b>CPU</b>입니다. 컴퓨터의 특징은 신속성, 정확성, 대용량성, 범용성, 호환성, 자동성(프로그램 내장 방식)입니다.</p>
+</section>
+<section class="sec" id="s3-9"><div class="sec-h"><h3>운영체제 종류와 유틸리티 프로그램</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>운영체제</th><th>특징</th></tr></thead><tbody>
+<tr><td>Windows</td><td>마이크로소프트의 GUI 운영체제. PC에서 가장 널리 사용</td></tr>
+<tr><td>macOS</td><td>애플 맥 컴퓨터용. 유닉스 기반</td></tr>
+<tr><td>UNIX</td><td>대부분 <mark>C 언어</mark>로 작성. 다중 사용자·다중 작업, 이식성이 높아 서버에 사용</td></tr>
+<tr><td>Linux</td><td>유닉스 계열의 <mark>오픈 소스</mark> 운영체제. 서버, 임베디드 기기에 사용</td></tr>
+<tr><td>Android</td><td>리눅스 기반 모바일 운영체제. 구글 개발, 오픈 소스</td></tr>
+<tr><td>iOS</td><td>애플 아이폰용 모바일 운영체제</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>유틸리티</th><th>예와 특징</th></tr></thead><tbody>
+<tr><td>압축 프로그램</td><td>ZIP, 7Z 등. 용량을 줄여 전송·보관. 분할 압축, 암호 설정, 자동 압축 풀림(EXE) 파일 생성</td></tr>
+<tr><td>백신 프로그램</td><td>악성 코드 검사·치료, 실시간 감시</td></tr>
+<tr><td>이미지 뷰어</td><td>그림 파일 보기, 간단한 편집·형식 변환</td></tr>
+<tr><td>동영상 플레이어</td><td>코덱을 이용해 동영상·음악 재생</td></tr>
+<tr><td>파일 전송(FTP 클라이언트)</td><td>서버와 파일을 주고받음</td></tr>
+<tr><td>시스템 도구</td><td>디스크 정리, 조각 모음, 백업 (Windows 내장)</td></tr>
+</tbody></table></div>
+<p>Windows에서 ZIP 파일은 별도 프로그램 없이 파일 탐색기에서 압축하고 풀 수 있습니다.</p>
+</section>
+<section class="sec" id="s3-10"><div class="sec-h"><h3>PC 업그레이드와 응급처치</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
+<div class="tbl"><table><thead><tr><th>업그레이드</th><th>확인할 점</th></tr></thead><tbody>
+<tr><td>RAM 증설</td><td>메인보드가 지원하는 <b>규격과 최대 용량</b>. DDR4와 DDR5처럼 규격이 다르면 서로 호환되지 않음</td></tr>
+<tr><td>HDD → SSD 교체</td><td>연결 방식(SATA, M.2 NVMe) 지원 여부. 체감 속도 향상이 가장 큼</td></tr>
+<tr><td>그래픽 카드</td><td>슬롯(PCIe), 케이스 공간, <b>파워 서플라이 용량</b></td></tr>
+<tr><td>CPU</td><td>메인보드 소켓과 칩셋 호환</td></tr>
+<tr><td>펌웨어</td><td>바이오스(UEFI) 업데이트로 새 장치 지원·오류 수정. 업데이트 중 전원이 꺼지면 부팅 불가 위험</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>증상</th><th>점검</th></tr></thead><tbody>
+<tr><td>전원이 안 켜짐</td><td>전원 케이블, 멀티탭, 파워 서플라이</td></tr>
+<tr><td>비프음만 나고 화면 없음</td><td>RAM·그래픽 카드 접촉 불량 (다시 장착)</td></tr>
+<tr><td>부팅 장치를 찾지 못함</td><td>바이오스의 부팅 순서, 디스크 연결</td></tr>
+<tr><td>블루 스크린</td><td>최근 설치한 드라이버·프로그램 제거, 안전 모드, 메모리 진단</td></tr>
+<tr><td>소음·발열</td><td>쿨러 먼지 청소, 통풍</td></tr>
+</tbody></table></div>
+<p>하드웨어를 만지기 전에는 전원을 끄고 케이블을 뽑은 뒤, 정전기를 없애고 작업합니다.</p>
+</section>
 </article>
 
 <!-- ===================== 4. 멀티미디어 ===================== -->
 <article class="chapter" id="ch4" data-title="멀티미디어" hidden>
 <div class="ch-head"><span class="no">04</span><h2>멀티미디어</h2></div>
 <p class="ch-intro">이미지 파일 형식과 그래픽 용어가 꾸준히 나옵니다. 편집 디자인 실무에서 쓰는 개념이 많아 익숙하게 보실 수 있는 단원입니다.</p>
-<div class="box new"><b class="t">2027 개정</b>공개 보도에 따르면 이 단원의 오래된 내용 일부가 삭제됩니다. 어떤 항목인지 세부 목록은 확인하지 못했습니다. 아래에서 오래된 기술로 보이는 항목은 '삭제 가능' 표시를 달았으니, 공식 출제기준표가 나오면 대조하세요.</div>
+<div class="box new"><b class="t">2027 출제기준</b>멀티미디어는 독립 항목이 아니라 '디지털 정보 활용 › 최신 정보통신기술 활용 › 멀티미디어 관련 용어'로 출제됩니다. 이 단원은 용어 뜻을 구별하는 데 집중하세요.</div>
 
 <section class="sec" id="s4-1"><div class="sec-h"><h3>멀티미디어의 특징</h3><div class="right"><span class="imp">중요도 ★★☆</span></div></div>
 <ul>
@@ -488,7 +554,7 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <div class="tbl"><table><thead><tr><th>형식</th><th>특징</th></tr></thead><tbody>
 <tr><td>WAV</td><td>실제 소리를 디지털로 저장. 무압축이라 음질 좋고 용량 큼</td></tr>
 <tr><td>MP3</td><td>MPEG 오디오 계층 3. 사람이 잘 듣지 못하는 부분을 제거한 손실 압축</td></tr>
-<tr><td>MIDI <span class="badge-new">삭제 가능</span></td><td>전자 악기 간 <mark>연주 정보</mark>를 저장. 용량이 매우 작고, 사람 음성은 저장 못함</td></tr>
+<tr><td>MIDI</td><td>전자 악기 간 <mark>연주 정보</mark>를 저장. 용량이 매우 작고, 사람 음성은 저장 못함</td></tr>
 <tr><td>FLAC</td><td>무손실 압축 오디오</td></tr>
 </tbody></table></div>
 <p>디지털 변환 과정: <b>표본화(샘플링)</b> → <b>양자화</b> → <b>부호화</b>. 샘플링 주파수(Hz)와 양자화 비트 수가 클수록 원음에 가깝고 용량이 커집니다.</p>
@@ -500,8 +566,8 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <tr><td>MPEG-1</td><td>CD 수준 동영상</td></tr>
 <tr><td>MPEG-2</td><td>DVD, 디지털 방송(HDTV)</td></tr>
 <tr><td>MPEG-4</td><td>저대역 통신, 모바일·인터넷 동영상</td></tr>
-<tr><td>MPEG-7 <span class="badge-new">삭제 가능</span></td><td>멀티미디어 데이터 검색을 위한 정보(메타데이터) 표준</td></tr>
-<tr><td>MPEG-21 <span class="badge-new">삭제 가능</span></td><td>콘텐츠 생성부터 소비까지 전 과정을 통합하는 표준</td></tr>
+<tr><td>MPEG-7</td><td>멀티미디어 데이터 검색을 위한 정보(메타데이터) 표준</td></tr>
+<tr><td>MPEG-21</td><td>콘텐츠 생성부터 소비까지 전 과정을 통합하는 표준</td></tr>
 <tr><td>H.264 / H.265</td><td>고압축 동영상 코덱. H.265(HEVC)는 4K 이상에 사용</td></tr>
 </tbody></table></div>
 <ul>
@@ -602,6 +668,48 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <tr><td>5G</td><td>초고속·초저지연·초연결 이동 통신</td></tr>
 </tbody></table></div>
 </section>
+
+<section class="sec" id="s5-6"><div class="sec-h"><h3>웹 브라우저 사용과 설정</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li><b>시크릿 모드 / InPrivate 창</b>: 방문 기록, 쿠키, 임시 파일, 입력한 양식 데이터를 창을 닫을 때 지웁니다. <mark>내려받은 파일과 추가한 즐겨찾기는 남습니다.</mark></li>
+<li><b>인터넷 사용 기록 삭제</b>: 방문 기록, 다운로드 기록, 쿠키, 캐시된 이미지·파일, 저장된 암호를 골라서 지웁니다.</li>
+<li><b>팝업 차단</b>: 원치 않는 새 창이 뜨지 않게 합니다. 사이트별로 허용할 수 있습니다.</li>
+<li><b>즐겨찾기(북마크)</b>: 자주 가는 사이트 주소를 저장합니다. 다른 브라우저에서 가져오거나 HTML 파일로 내보낼 수 있습니다.</li>
+<li><b>확장 프로그램</b>: 브라우저에 기능을 더합니다(광고 차단, 번역 등).</li>
+<li>그 밖에 시작 페이지, 기본 검색 엔진, 다운로드 위치, 자동 완성, 암호 저장, 기본 브라우저 지정을 설정합니다.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>브라우저 단축키</th><th>기능</th></tr></thead><tbody>
+<tr><td><kbd>Ctrl</kbd>+<kbd>T</kbd> / <kbd>Ctrl</kbd>+<kbd>W</kbd></td><td>새 탭 / 현재 탭 닫기</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td>닫은 탭 다시 열기</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd></td><td>시크릿 창 (Chrome) / InPrivate 창 (Edge)</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>현재 페이지를 즐겨찾기에 추가</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>H</kbd> / <kbd>Ctrl</kbd>+<kbd>J</kbd></td><td>방문 기록 / 다운로드 목록</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td>주소 표시줄 선택</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>F5</kbd> / <kbd>F11</kbd></td><td>뒤로 / 새로 고침 / 전체 화면</td></tr>
+</tbody></table></div>
+</section>
+<section class="sec" id="s5-7"><div class="sec-h"><h3>모바일 기기와 ICT 융합 용어</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>모바일 용어</th><th>뜻</th></tr></thead><tbody>
+<tr><td>핫스팟</td><td>무선 인터넷을 쓸 수 있는 장소, 또는 스마트폰을 무선 공유기처럼 쓰는 기능</td></tr>
+<tr><td>위치 기반 서비스 (LBS)</td><td>GPS 등으로 사용자 위치를 파악해 지도·주변 정보 제공</td></tr>
+<tr><td>센서</td><td>가속도(움직임), 자이로(회전·기울기), 근접(통화 중 화면 끄기), 조도(밝기)</td></tr>
+<tr><td>생체 인증</td><td>지문, 얼굴, 홍채로 본인 확인</td></tr>
+<tr><td>스크린 미러링</td><td>스마트폰 화면을 TV나 PC에 무선으로 그대로 표시</td></tr>
+<tr><td>OTA</td><td>무선으로 운영체제·펌웨어 업데이트</td></tr>
+<tr><td>루팅 / 탈옥</td><td>안드로이드 / iOS의 관리자 권한을 얻는 것. 보안 위험이 커짐</td></tr>
+<tr><td>웨어러블</td><td>스마트워치처럼 몸에 착용하는 기기</td></tr>
+<tr><td>앱 스토어</td><td>모바일 앱을 내려받는 장터 (Google Play, App Store)</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>ICT 융합 용어</th><th>뜻</th></tr></thead><tbody>
+<tr><td>핀테크</td><td>금융(Finance)과 기술(Technology)의 결합. 모바일 결제, 간편 송금</td></tr>
+<tr><td>스마트 팩토리</td><td>IoT·AI로 생산 과정을 자동화·지능화한 공장</td></tr>
+<tr><td>스마트 시티</td><td>ICT로 교통·에너지·안전 등 도시 문제를 해결</td></tr>
+<tr><td>자율 주행</td><td>센서와 AI로 운전자 없이 주행</td></tr>
+<tr><td>디지털 헬스케어</td><td>ICT를 활용한 건강 관리·원격 진료</td></tr>
+<tr><td>에듀테크</td><td>교육과 기술의 결합. 온라인 학습, AI 맞춤 학습</td></tr>
+<tr><td>O2O</td><td>온라인과 오프라인 연결 (배달 앱, 택시 호출)</td></tr>
+</tbody></table></div>
+</section>
 </article>
 
 <!-- ===================== 6. 정보보안 ===================== -->
@@ -676,12 +784,36 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <li><b>저작권</b>은 창작과 동시에 생기며 등록이 필요 없고, 원칙적으로 저작자 사후 70년까지 보호됩니다.</li>
 </ul>
 </section>
+
+<section class="sec" id="s6-5"><div class="sec-h"><h3>정보 윤리, 저작권, 개인정보 보호</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<ul>
+<li><b>정보 윤리</b>: 타인을 존중하는 온라인 예절(네티켓), 허위 정보·악성 댓글·사이버 괴롭힘 금지, 출처 밝히기, 타인의 정보와 저작물 존중.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th>저작권</th><th>내용</th></tr></thead><tbody>
+<tr><td>저작인격권</td><td>공표권, 성명표시권, 동일성유지권. <mark>양도할 수 없음</mark></td></tr>
+<tr><td>저작재산권</td><td>복제권, 공연권, 공중송신권, 전시권, 배포권, 대여권, 2차적저작물작성권. 양도 가능</td></tr>
+<tr><td>보호 기간</td><td>원칙적으로 저작자 생존 기간과 <mark>사후 70년</mark></td></tr>
+<tr><td>허용되는 이용</td><td>개인적 이용을 위한 복제, 정당한 범위 안의 인용(출처 표시), 수업 목적 이용 등</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>CCL 표시</th><th>뜻</th></tr></thead><tbody>
+<tr><td>BY</td><td>저작자 표시</td></tr>
+<tr><td>NC</td><td>비영리 (상업적 이용 금지)</td></tr>
+<tr><td>ND</td><td>변경 금지</td></tr>
+<tr><td>SA</td><td>동일 조건 변경 허락 (2차 저작물에 같은 조건 적용)</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>개인정보</b>: 살아 있는 개인을 알아볼 수 있는 정보(이름, 주민등록번호, 영상 등). 다른 정보와 쉽게 결합해 알아볼 수 있는 정보도 포함합니다.</li>
+<li>개인정보 처리 원칙: 목적에 필요한 <b>최소한만 수집</b>, 동의 받기, <b>목적 외 이용 금지</b>, 안전하게 관리, 목적을 이루면 파기.</li>
+<li><b>가명정보</b>: 추가 정보 없이는 특정 개인을 알아볼 수 없게 처리한 정보. 통계·연구 목적으로 쓸 수 있습니다.</li>
+<li><b>AI 윤리</b>: 공정성(차별 금지), 투명성·설명 가능성, 책임성, 안전성, 개인정보 보호. AI가 만든 결과물임을 밝히고, 딥페이크 같은 악용을 막는 것이 포함됩니다.</li>
+</ul>
+</section>
 </article>
 
 <!-- ===================== 7. AI 기초 ===================== -->
 <article class="chapter" id="ch7" data-title="AI 기초" hidden>
 <div class="ch-head"><span class="no">07</span><h2>AI 기초 <span class="badge-new">2027 신설</span></h2></div>
-<p class="ch-intro">2027년부터 1과목에 추가되는 영역입니다. 공개 보도에서 확인된 범위는 '생성형 AI의 개념과 활용'이며, 아래 내용은 그 범위에서 나올 만한 기본 개념을 정리한 것입니다. 공식 세부 기준이 나오면 대조해 보세요.</p>
+<p class="ch-intro">2027년부터 1과목에 추가되는 영역입니다. 출제기준의 세세항목은 AI의 이해, 원리와 학습 개념, 데이터와 기계학습, 활용 사례, 한계와 유의사항이며, AI 윤리는 정보 보안 단원에 들어 있습니다.</p>
 
 <section class="sec" id="s7-1"><div class="sec-h"><h3>인공지능, 머신러닝, 딥러닝</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
 <p>포함 관계: <mark>인공지능(AI) ⊃ 머신러닝 ⊃ 딥러닝</mark></p>
@@ -722,6 +854,25 @@ section.sec.reading{background:var(--accent-soft);box-shadow:-16px 0 0 var(--acc
 <li><b>딥페이크</b>: 생성 기술을 악용한 가짜 영상·음성에 주의합니다.</li>
 </ul>
 </section>
+
+<section class="sec" id="s7-4"><div class="sec-h"><h3>데이터와 기계학습, 활용 사례, 한계</h3><div class="right"><span class="imp">중요도 ★★★</span></div></div>
+<div class="tbl"><table><thead><tr><th>용어</th><th>뜻</th></tr></thead><tbody>
+<tr><td>학습 데이터</td><td>모델이 패턴을 배우는 데 쓰는 데이터</td></tr>
+<tr><td>검증·테스트 데이터</td><td>학습에 쓰지 않은 데이터로 성능을 확인</td></tr>
+<tr><td>레이블링</td><td>데이터에 정답을 붙이는 작업 (지도 학습에 필요)</td></tr>
+<tr><td>과적합</td><td>학습 데이터에만 지나치게 맞춰져 <mark>새로운 데이터에서 성능이 떨어지는</mark> 현상</td></tr>
+<tr><td>데이터 편향</td><td>데이터가 한쪽으로 치우쳐 결과도 치우치는 현상</td></tr>
+</tbody></table></div>
+<p>좋은 AI를 만들려면 데이터의 <b>양과 품질</b>이 모두 중요합니다. 잘못된 데이터를 학습하면 잘못된 결과가 나옵니다.</p>
+<div class="tbl"><table><thead><tr><th>활용 사례</th><th>예</th></tr></thead><tbody>
+<tr><td>추천 시스템</td><td>쇼핑몰 상품 추천, 영상·음악 추천</td></tr>
+<tr><td>자연어 처리</td><td>챗봇 상담, 번역, 문서 요약, 음성 비서</td></tr>
+<tr><td>이미지 인식</td><td>얼굴 인식, 의료 영상 판독 보조, 불량품 검사</td></tr>
+<tr><td>예측·탐지</td><td>수요 예측, 금융 이상 거래 탐지, 스팸 필터</td></tr>
+<tr><td>자율 주행</td><td>주변 사물 인식과 주행 판단</td></tr>
+</tbody></table></div>
+<div class="box trap"><b class="t">AI의 한계</b>사실이 아닌 내용을 만드는 할루시네이션 · 학습 시점 이후의 최신 정보 부족 · 판단 근거를 설명하기 어려움(블랙박스) · 데이터 편향 · 저작권과 개인정보 문제. 따라서 결과를 사람이 확인하고 책임 있게 사용해야 합니다.</div>
+</section>
 </article>
 
 <div class="chapter" id="results" hidden></div>
@@ -747,7 +898,8 @@ ch1:[
  {q:"휴지통에 대한 설명으로 옳지 않은 것은?",o:["휴지통 크기는 드라이브마다 따로 설정할 수 있다","USB 메모리에서 삭제한 파일은 휴지통에 들어가지 않는다","휴지통 안의 파일은 더블클릭으로 바로 실행할 수 있다","Shift+Delete로 삭제한 파일은 휴지통을 거치지 않는다"],a:2,e:"휴지통 안의 파일은 실행이나 편집이 안 되고, 복원한 뒤에 사용할 수 있습니다."},
  {q:"같은 드라이브 안에서 파일을 마우스로 끌어 놓았을 때의 결과는?",o:["복사","이동","바로 가기 생성","아무 일도 일어나지 않음"],a:1,e:"같은 드라이브는 이동, 다른 드라이브는 복사입니다. Ctrl을 누르면 항상 복사됩니다."},
  {q:"바로 가기 아이콘에 대한 설명으로 옳은 것은?",o:["확장명은 .exe이다","바로 가기를 삭제하면 원본도 삭제된다","원본 하나에 바로 가기를 여러 개 만들 수 있다","폴더에는 바로 가기를 만들 수 없다"],a:2,e:"바로 가기의 확장명은 .lnk이고, 지워도 원본은 남습니다. 폴더·드라이브·프린터에도 만들 수 있습니다."},
- {q:"파일 하나의 최대 크기가 4GB로 제한되는 파일 시스템은?",o:["NTFS","exFAT","FAT32","ReFS"],a:2,e:"FAT32는 파일 하나가 4GB를 넘을 수 없습니다. 큰 파일은 NTFS나 exFAT를 씁니다."}
+ {q:"파일 하나의 최대 크기가 4GB로 제한되는 파일 시스템은?",o:["NTFS","exFAT","FAT32","ReFS"],a:2,e:"FAT32는 파일 하나가 4GB를 넘을 수 없습니다. 큰 파일은 NTFS나 exFAT를 씁니다."},
+ {q:"파일 탐색기에서 숨김 파일을 보이게 하는 설정이 있는 폴더 옵션 탭은?",o:["일반", "보기", "검색", "공유"],a:1,e:"보기 탭에서 '숨김 파일, 폴더 및 드라이브 표시'를 선택합니다."}
 ],
 ch2:[
  {q:"인쇄 스풀(SPOOL)에 대한 설명으로 옳은 것은?",o:["인쇄 속도를 빠르게 한다","인쇄 데이터를 디스크에 임시 저장해 CPU가 다른 작업을 할 수 있게 한다","프린터 메모리를 늘려 준다","네트워크 프린터에서만 사용한다"],a:1,e:"스풀은 시스템 전체 효율을 높이지만 인쇄 속도 자체를 빠르게 하지는 않습니다."},
@@ -762,7 +914,9 @@ ch3:[
  {q:"SRAM에 대한 설명으로 옳은 것은?",o:["주기적인 재충전이 필요하다","콘덴서로 구성된다","DRAM보다 느리고 저렴하다","캐시 메모리에 주로 사용된다"],a:3,e:"SRAM은 플립플롭으로 구성되어 재충전이 필요 없고, 빠르고 비싸서 캐시에 씁니다."},
  {q:"오류를 검출할 뿐 아니라 정정까지 할 수 있는 코드는?",o:["패리티 비트","해밍 코드","ASCII 코드","BCD 코드"],a:1,e:"패리티 비트는 검출만, 해밍 코드는 검출과 정정을 합니다."},
  {q:"무료로 사용할 수 있지만 기능이나 사용 기간에 제한이 있는 소프트웨어는?",o:["프리웨어","셰어웨어","번들","패치"],a:1,e:"셰어웨어 설명입니다. 프리웨어는 제한 없이 무료로 씁니다."},
- {q:"'드라이브 조각 모음 및 최적화'를 실행했을 때의 효과로 옳은 것은?",o:["디스크 여유 공간이 늘어난다","파일 접근 속도가 향상된다","바이러스가 제거된다","손상된 섹터가 물리적으로 수리된다"],a:1,e:"조각 모음은 속도 향상용입니다. 공간 확보는 디스크 정리입니다."}
+ {q:"'드라이브 조각 모음 및 최적화'를 실행했을 때의 효과로 옳은 것은?",o:["디스크 여유 공간이 늘어난다","파일 접근 속도가 향상된다","바이러스가 제거된다","손상된 섹터가 물리적으로 수리된다"],a:1,e:"조각 모음은 속도 향상용입니다. 공간 확보는 디스크 정리입니다."},
+ {q:"유닉스(UNIX)에 대한 설명으로 옳은 것은?",o:["단일 사용자 전용이다", "대부분 C 언어로 작성되어 이식성이 높다", "애플의 모바일 운영체제이다", "소스가 공개되지 않은 PC 전용 운영체제이다"],a:1,e:"유닉스는 C 언어로 작성되어 이식성이 높고 다중 사용자·다중 작업을 지원합니다."},
+ {q:"RAM을 증설할 때 가장 먼저 확인할 것은?",o:["모니터 해상도", "메인보드가 지원하는 메모리 규격과 최대 용량", "하드디스크 회전 속도", "운영체제 테마"],a:1,e:"DDR4·DDR5처럼 규격이 다르면 호환되지 않으므로 메인보드 지원 규격을 확인합니다."}
 ],
 ch4:[
  {q:"비트맵 이미지에 대한 설명으로 옳지 않은 것은?",o:["픽셀로 구성된다","확대하면 계단 현상이 생길 수 있다","사실적인 사진 표현에 적합하다","확대·축소해도 화질이 전혀 변하지 않는다"],a:3,e:"확대해도 화질이 그대로인 것은 벡터 방식입니다."},
@@ -777,20 +931,24 @@ ch5:[
  {q:"전자 메일을 보낼 때 사용하는 프로토콜은?",o:["POP3","IMAP","SMTP","FTP"],a:2,e:"SMTP는 송신, POP3와 IMAP은 수신용입니다."},
  {q:"HTTPS의 기본 포트 번호는?",o:["21","80","110","443"],a:3,e:"HTTP 80, HTTPS 443, FTP 21, POP3 110입니다."},
  {q:"모든 단말을 서로 연결해 신뢰성이 가장 높은 네트워크 형태는?",o:["성형","버스형","링형","망형"],a:3,e:"망형(Mesh)은 회선 수가 n(n−1)/2로 많지만 신뢰성이 가장 높습니다."},
- {q:"인터넷 서버의 소프트웨어를 빌려 쓰는 클라우드 서비스 유형은?",o:["IaaS","PaaS","SaaS","DaaS"],a:2,e:"SaaS는 소프트웨어, PaaS는 개발 플랫폼, IaaS는 서버·저장소 같은 인프라를 제공합니다."}
+ {q:"인터넷 서버의 소프트웨어를 빌려 쓰는 클라우드 서비스 유형은?",o:["IaaS","PaaS","SaaS","DaaS"],a:2,e:"SaaS는 소프트웨어, PaaS는 개발 플랫폼, IaaS는 서버·저장소 같은 인프라를 제공합니다."},
+ {q:"브라우저의 시크릿(InPrivate) 모드를 닫은 뒤에도 남는 것은?",o:["방문 기록", "쿠키", "내려받은 파일", "입력한 양식 데이터"],a:2,e:"방문 기록·쿠키·임시 파일은 지워지지만 내려받은 파일과 즐겨찾기는 남습니다."}
 ],
 ch6:[
  {q:"정상적인 주소를 입력해도 DNS나 hosts 파일 조작으로 가짜 사이트에 접속되게 하는 공격은?",o:["피싱","파밍","스미싱","스니핑"],a:1,e:"파밍 설명입니다. 피싱은 가짜 링크로 유인하고, 스미싱은 문자 메시지를 이용합니다."},
  {q:"유용한 프로그램으로 위장하며 자기 복제를 하지 않는 악성 코드는?",o:["웜","바이러스","트로이 목마","랜섬웨어"],a:2,e:"트로이 목마는 자기 복제를 하지 않습니다. 바이러스와 웜은 자기 복제를 합니다."},
  {q:"데이터를 전달 도중에 몰래 엿보는 '가로채기'가 침해하는 보안 요건은?",o:["기밀성","무결성","가용성","부인 방지"],a:0,e:"가로채기는 기밀성, 가로막기는 가용성, 수정·위조는 무결성을 침해합니다."},
  {q:"비대칭키(공개키) 암호화에 대한 설명으로 옳은 것은?",o:["암호화와 복호화에 같은 키를 쓴다","대표 알고리즘은 DES이다","대칭키 방식보다 처리 속도가 빠르다","공개키로 암호화하고 개인키로 복호화한다"],a:3,e:"비대칭키는 RSA가 대표적이며 대칭키보다 느립니다. DES는 대칭키입니다."},
- {q:"방화벽에 대한 설명으로 옳지 않은 것은?",o:["외부의 불법 접근을 막는다","허용 규칙에 따라 패킷을 걸러 낸다","내부에서 일어나는 해킹까지 완벽히 막는다","로그를 남겨 접근 기록을 추적할 수 있다"],a:2,e:"방화벽은 내부에서 일어나는 공격은 막지 못합니다."}
+ {q:"방화벽에 대한 설명으로 옳지 않은 것은?",o:["외부의 불법 접근을 막는다","허용 규칙에 따라 패킷을 걸러 낸다","내부에서 일어나는 해킹까지 완벽히 막는다","로그를 남겨 접근 기록을 추적할 수 있다"],a:2,e:"방화벽은 내부에서 일어나는 공격은 막지 못합니다."},
+ {q:"저작인격권에 해당하지 않는 것은?",o:["공표권", "성명표시권", "동일성유지권", "복제권"],a:3,e:"복제권은 저작재산권입니다. 저작인격권은 양도할 수 없습니다."},
+ {q:"CCL 표시 중 '상업적 이용 금지'를 뜻하는 것은?",o:["BY", "NC", "ND", "SA"],a:1,e:"NC(Noncommercial)는 비영리, ND는 변경 금지입니다."}
 ],
 ch7:[
  {q:"인공지능, 머신러닝, 딥러닝의 관계로 옳은 것은?",o:["딥러닝 ⊃ 머신러닝 ⊃ 인공지능","인공지능 ⊃ 머신러닝 ⊃ 딥러닝","머신러닝 ⊃ 인공지능 ⊃ 딥러닝","세 개념은 서로 무관하다"],a:1,e:"딥러닝은 머신러닝의 한 방법이고, 머신러닝은 인공지능의 한 분야입니다."},
  {q:"생성형 AI가 사실이 아닌 내용을 그럴듯하게 만들어 내는 현상은?",o:["오버피팅","할루시네이션","딥페이크","파인 튜닝"],a:1,e:"할루시네이션(환각) 설명입니다. 그래서 결과를 원 자료와 대조해야 합니다."},
  {q:"정답(레이블)이 있는 데이터로 학습하는 방식은?",o:["지도 학습","비지도 학습","강화 학습","전이 학습"],a:0,e:"지도 학습은 정답이 있는 데이터로, 비지도 학습은 정답 없이 구조를 찾습니다."},
- {q:"생성형 AI를 업무에 활용할 때의 태도로 적절하지 않은 것은?",o:["결과물의 사실 여부를 확인한다","회사 기밀과 개인 정보를 프롬프트에 넣지 않는다","생성물은 저작권 문제가 전혀 없으므로 그대로 배포한다","원하는 형식과 조건을 프롬프트에 구체적으로 적는다"],a:2,e:"생성물도 저작권 문제가 생길 수 있어 이용 조건을 확인해야 합니다."}
+ {q:"생성형 AI를 업무에 활용할 때의 태도로 적절하지 않은 것은?",o:["결과물의 사실 여부를 확인한다","회사 기밀과 개인 정보를 프롬프트에 넣지 않는다","생성물은 저작권 문제가 전혀 없으므로 그대로 배포한다","원하는 형식과 조건을 프롬프트에 구체적으로 적는다"],a:2,e:"생성물도 저작권 문제가 생길 수 있어 이용 조건을 확인해야 합니다."},
+ {q:"학습 데이터에만 지나치게 맞춰져 새로운 데이터에서 성능이 떨어지는 현상은?",o:["과적합", "할루시네이션", "강화 학습", "레이블링"],a:0,e:"과적합(오버피팅)입니다."}
 ]};
 
 const LS = {get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -836,7 +994,7 @@ function renderToc(){
   const cur=location.hash.replace("#","")||"ch1";
   toc.innerHTML=chapters.map((c,i)=>{const secs=c.querySelectorAll("section.sec");const d=[...secs].filter(s=>done[s.id]).length;
     return `<a href="#${c.id}" aria-current="${c.id===cur&&!q.value?"true":"false"}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${c.dataset.title}</span><span class="c">${d}/${secs.length}</span></a>`}).join("")
-   +`<p class="toc-note">중요도 별점은 기출 경향을 바탕으로 한 학습 우선순위입니다. 보라색 표시는 2027년 개정 관련 내용입니다.</p>`;
+   +`<p class="toc-note">2027–2029 출제기준(2026. 6 발표)과 대조해 정리했습니다. 중요도 별점은 기출 경향을 바탕으로 한 학습 우선순위입니다.</p>`;
   const all=document.querySelectorAll("section.sec").length;const d=Object.values(done).filter(Boolean).length;
   document.getElementById("prog").textContent=`학습 완료 ${d} / ${all}`;
 }
